@@ -5,6 +5,7 @@ import Home from "./components/Home";
 import About from "./components/About";
 import Status from "./components/Status";
 import { BrowserRouter as Router, Route, Link } from "react-router-dom";
+import "semantic-ui-css/semantic.min.css";
 
 const Routes = () => {
   return (
