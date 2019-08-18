@@ -6,7 +6,7 @@ const Home = () => {
     <div>
       <header className="home-header">
         <h1>
-          Graduation Project skeleton
+          Scot Phamy Talent
         </h1>
       </header>
     </div>
