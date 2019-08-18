@@ -2,7 +2,8 @@
 
 1. Create a fork of this project
 2. Clone your fork into your local machine.
-3. Add an `upstream` remote pointing to the main CYF repo (to be able to pull updates from your team members)
+3. In your Terminal 'git remote add upstream url_of_your_project', and then check if you add with the command 'git remote -v'  
+ an `upstream` remote pointing to the main CYF repo (to be able to pull updates from your team members)
 
 After cloning the project, we will create the local database that the project will use.
 
