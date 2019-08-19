@@ -80,7 +80,7 @@ CREATE TYPE opportunity_type AS ENUM (
 
 CREATE TABLE opportunities (
   opportunity_id SERIAL PRIMARY KEY,
-  TYPE opportuniy_type,
+  TYPE opportunity_type,
   description VARCHAR(200) NOT NULL,
   city VARCHAR(200) NOT NULL,
   status_opp BOOLEAN,
