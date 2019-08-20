@@ -4,7 +4,8 @@ import "./index.css";
 import Home from "./components/Home";
 import About from "./components/About";
 import Status from "./components/Status";
-import { BrowserRouter as Router, Route, Link } from "react-router-dom";
+import NewOpportunityForm from "./components/NewOpportunityForm";
+import { BrowserRouter as Router, Route, Link, Switch } from "react-router-dom";
 import "semantic-ui-css/semantic.min.css";
 
 const Routes = () => {
@@ -27,12 +28,20 @@ const Routes = () => {
               Status
             </Link>
           </li>
+          <li>
+            <Link className="nav-link" to="/create-opportunity">
+              Create Opportunity
+            </Link>
+          </li>
         </ul>
 
         <div>
-          <Route path="/" exact component={Home} />
-          <Route path="/about/" component={About} />
-          <Route path="/status/" component={Status} />
+          <Switch>
+            <Route path="/" exact component={Home} />
+            <Route path="/about/" component={About} />
+            <Route path="/status/" component={Status} />
+            <Route Path="/create-opportunity" component={NewOpportunityForm} />
+          </Switch>
         </div>
       </div>
     </Router>
