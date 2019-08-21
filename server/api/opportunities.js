@@ -35,7 +35,7 @@ router.post("/", (req, res) => {
       res.send({ success: true });
     })
     .catch((err) => {
-      res.status(500).send({ success: false });
+      res.sendStatus(500).send({ success: false });
       console.log(err);
     });
 });
