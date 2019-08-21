@@ -6,7 +6,7 @@ const newOpportunity = require("../services/database/opportunities");
  * The route here will be: /cities/ (remember the prefix users is defined in api/index.js)
  */
 
-router.post("/", (req, res) => {
+router.post("/newOpportunity", (req, res) => {
   const name = req.body.name;
   const description = req.body.description;
   const contactPerson = req.body.contactPerson;

@@ -155,6 +155,7 @@ class NewOpportunityForm extends Component {
                   <Form.Field
                     control={Input}
                     label="Telephone"
+                    type="number"
                     placeholder="Telephone"
                     iconPosition="left"
                     name="telephone"
@@ -170,6 +171,7 @@ class NewOpportunityForm extends Component {
                     placeholder="e-Mail"
                     iconPosition="left"
                     name="email"
+                    type="email"
                     required
                     onChange={this.handleChange}
                   >
@@ -233,14 +235,16 @@ class NewOpportunityForm extends Component {
                 placeholder="Select Skills"
               />
             </Grid.Row>
-
             <Button primary>Post</Button>
-            {this.state.success === true ? (
-              <Message positive>
-                <Message.Header>Opportunity submitted</Message.Header>
-                <p>opportunity waiting for approval</p>
-              </Message>
-            ) : null}
+            <Grid.Row />
+            <Grid.Row>
+              {this.state.success === true ? (
+                <Message positive>
+                  <Message.Header>Opportunity submitted</Message.Header>
+                  <p>opportunity waiting for approval</p>
+                </Message>
+              ) : null}
+            </Grid.Row>
           </Grid>
         </Form>
       </div>
