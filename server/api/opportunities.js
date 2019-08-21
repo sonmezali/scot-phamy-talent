@@ -6,7 +6,7 @@ const newOpportunity = require("../services/database/opportunities");
  * The route here will be: /cities/ (remember the prefix users is defined in api/index.js)
  */
 
-router.post("/", (req, res) => {
+router.post("/newOpportunity", (req, res) => {
   const name = req.body.name;
   const description = req.body.description;
   const contactPerson = req.body.contactPerson;
@@ -35,7 +35,7 @@ router.post("/", (req, res) => {
       res.send({ success: true });
     })
     .catch((err) => {
-      res.status(500).send({ success: false });
+      res.sendStatus(500).send({ success: false });
       console.log(err);
     });
 });
