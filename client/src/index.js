@@ -4,8 +4,15 @@ import "./index.css";
 import Home from "./components/Home";
 import About from "./components/About";
 import Status from "./components/Status";
+import Login from "./components/Login";
 import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 import "semantic-ui-css/semantic.min.css";
+
+const logout = event => {
+  event.preventDefault();
+  localStorage.removeItem("token");
+  document.location.reload();
+};
 
 const Routes = () => {
   return (
@@ -26,6 +33,15 @@ const Routes = () => {
             <Link className="nav-link" to="/status">
               Status
             </Link>
+          </li>
+          <li>
+            {localStorage.getItem("token") ? (
+              <button onClick={logout}>Logout</button>
+            ) : (
+              <Link className="nav-link" to="/login">
+                Login
+              </Link>
+            )}
           </li>
         </ul>
 
