@@ -4,6 +4,7 @@ import "./index.css";
 import Home from "./components/Home";
 import About from "./components/About";
 import Status from "./components/Status";
+import CompanyProfile from "./components/CompanyProfile";
 import NewOpportunityForm from "./components/NewOpportunityForm";
 import { BrowserRouter as Router, Route, Link, Switch } from "react-router-dom";
 import "semantic-ui-css/semantic.min.css";
@@ -33,6 +34,11 @@ const Routes = () => {
               Create Opportunity
             </Link>
           </li>
+          <li>
+            <Link className="nav-link" to="/company-profile">
+              Company Profile
+            </Link>
+          </li>
         </ul>
 
         <div>
@@ -40,6 +46,7 @@ const Routes = () => {
             <Route path="/" exact component={Home} />
             <Route path="/about/" component={About} />
             <Route path="/status/" component={Status} />
+            <Route path="/company-profile" exact component={CompanyProfile} />
             <Route Path="/create-opportunity" component={NewOpportunityForm} />
           </Switch>
         </div>
