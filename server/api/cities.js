@@ -1,19 +1,20 @@
 const express = require("express");
 const router = express.Router();
-const usersDb = require("../services/database/users");
+const cities = require("../services/database/cities");
 
 /**
- * The route here will be: /users/ (remember the prefix users is defined in api/index.js)
+ * The route here will be: /cities/ (remember the prefix users is defined in api/index.js)
  */
+
 router.get("/", (req, res) => {
-  usersDb
-    .getAllUsers()
+  cities
+    .getAllCities()
     .then((data) => {
       res.send(data);
     })
     .catch((err) => {
       console.error(err);
-      res.status(500);
+      res.sendStatus(500);
     });
 });
 
