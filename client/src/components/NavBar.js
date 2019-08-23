@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
-import { Menu } from "semantic-ui-react";
+import { Menu, Button } from "semantic-ui-react";
 
 class NavBar extends Component {
   state = { activeItem: "home" };
@@ -38,6 +38,16 @@ class NavBar extends Component {
           as={Link}
           to="/create-opportunity"
         />
+        <Menu.Item
+          position="right"
+          name="main_register_page"
+          active={activeItem === "main_register_page"}
+          onClick={this.handleItemClick}
+          as={Link}
+          to="/main-register-page"
+        >
+          <Button primary>SignUp</Button>
+        </Menu.Item>
       </Menu>
     );
   }
