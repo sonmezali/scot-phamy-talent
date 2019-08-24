@@ -3,7 +3,14 @@ import { Link } from "react-router-dom";
 import { Menu } from "semantic-ui-react";
 
 class NavBar extends Component {
-  state = { activeItem: "home" };
+  state = {
+    activeItem:
+      window.location.pathname === "/"
+        ? "home"
+        : window.location.pathname.substr(1)
+  };
+
+  handleItemClick = (e, { name }) => this.setState({ activeItem: name });
 
   logout = event => {
     event.preventDefault();
@@ -13,9 +20,9 @@ class NavBar extends Component {
 
   handleItemClick = ({ name }) => this.setState({ activeItem: name });
   render() {
-    const activeItem = this.state;
+    const { activeItem } = this.state;
     return (
-      <Menu tabular size="large">
+      <Menu pointing size="large" color="red">
         <Menu.Item
           name="home"
           active={activeItem === "home"}

@@ -40,7 +40,6 @@ const createUser = ({ email, password }) => {
         if (error) {
           reject(error);
         }
-        console.log(result);
         resolve(result.rows);
       },
     );
