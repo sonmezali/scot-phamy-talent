@@ -21,6 +21,8 @@ DROP TYPE IF EXISTS opportunity_type;
 
 DROP TYPE IF EXISTS status_type;
 
+DROP TABLE IF EXISTS cities;
+
 -- Create tables
 CREATE TYPE role_type AS ENUM (
   'applicant',
@@ -40,10 +42,20 @@ CREATE TYPE status_type AS ENUM (
   'approved'
 );
 
+CREATE TABLE skills (
+  skill_id SERIAL PRIMARY KEY,
+  name VARCHAR(30) NOT NULL
+);
+
+CREATE TABLE cities (
+  id SERIAL PRIMARY KEY,
+  city VARCHAR(50) NOT NULL
+);
+
 CREATE TABLE applicant_profile (
   applicant_id SERIAL PRIMARY KEY,
   name VARCHAR(30) NOT NULL,
-  city VARCHAR(30) NOT NULL,
+  city INTEGER REFERENCES cities (id),
   application_status status_type DEFAULT 'pending',
   right_to_work BOOLEAN,
   user_id INTEGER REFERENCES users (user_id)
@@ -80,17 +92,16 @@ CREATE TYPE opportunity_type AS ENUM (
 
 CREATE TABLE opportunities (
   opportunity_id SERIAL PRIMARY KEY,
-  TYPE opportunity_type,
-  description VARCHAR(200) NOT NULL,
-  city VARCHAR(200) NOT NULL,
-  status_opp BOOLEAN,
+  name VARCHAR(50) NOT NULL,
+  description VARCHAR(450) NOT NULL,
+  contact_person VARCHAR(50) NOT NULL,
+  telephone INTEGER,
+  email VARCHAR(40) NOT NULL,
+  city INTEGER REFERENCES cities (id),
   date DATE,
+  TYPE opportunity_type,
+  opp_status status_type DEFAULT 'pending',
   company_id INTEGER REFERENCES company_profile (company_id)
-);
-
-CREATE TABLE skills (
-  skill_id SERIAL PRIMARY KEY,
-  name VARCHAR(30) NOT NULL
 );
 
 CREATE TABLE opportunity_skills (

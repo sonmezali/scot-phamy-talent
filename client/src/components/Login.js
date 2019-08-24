@@ -4,8 +4,11 @@ import {
   Form,
   Grid,
   Header,
+  List,
   Message,
-  Segment
+  Label,
+  Segment,
+  Image
 } from "semantic-ui-react";
 import { signApi } from "../api/auth";
 
@@ -58,50 +61,55 @@ export default class Login extends Component {
       return <div>You are Log in. WELCOME!</div>;
     } else
       return (
-        <Grid centered columns={4}>
-          <Grid.Column>
-            <Header as="h2" textAlign="center">
-              Login into your account
+        <Grid
+          textAlign="center"
+          style={{ height: "100vh" }}
+          verticalAlign="middle"
+        >
+          <Grid.Column style={{ maxWidth: 450 }}>
+            <Header as="h2" color="blue" textAlign="center">
+              Login to your account
             </Header>
-            <Segment>
-              <Form onSubmit={this.handleSubmit} size="large">
-                <Form.Input
-                  fluid
-                  icon="user"
-                  iconPosition="left"
-                  placeholder="Email address"
-                  value={this.state.email}
-                  onChange={this.handleEmailChange}
-                />
-                <Form.Input
-                  fluid
-                  icon="lock"
-                  iconPosition="left"
-                  placeholder="Password"
-                  type="password"
-                  value={this.state.password}
-                  onSubmit={this.handleSubmit}
-                  onChange={this.handlePassChange}
-                />
+            <Form onSubmit={this.handleSubmit} size="large">
+              <p align="left">Email</p>
+              <Form.Input
+                fluid
+                icon="user"
+                iconPosition="left"
+                placeholder="E-mail address"
+                value={this.state.email}
+                onChange={this.handleEmailChange}
+              />
 
-                <Button
-                  onClick={this.singIn}
-                  value={this.state.error}
-                  color="blue"
-                  fluid
-                  size="large"
-                >
-                  Sign in
-                </Button>
-                {this.state.error ? <div>Wrong Info. Try Again</div> : null}
-              </Form>
-            </Segment>
-            <Message iconPosition="center">
-              <a href="#">Forgot Password?</a>
-            </Message>
-            <Message>
-              New User? <a href="#">Sign Up</a>
-            </Message>
+              <p align="left">Password</p>
+              <Form.Input
+                fluid
+                icon="lock"
+                iconPosition="left"
+                placeholder="Password"
+                type="password"
+                value={this.state.password}
+                onSubmit={this.handleSubmit}
+                onChange={this.handlePassChange}
+              />
+
+              <Button
+                onClick={this.singIn}
+                value={this.state.error}
+                color="blue"
+                fluid
+                size="large"
+              >
+                Login
+              </Button>
+              {this.state.error ? <div>Wrong Info. Try Again</div> : null}
+            </Form>
+            <List divided horizontal>
+              <List.Item>
+                <List.Content as="a">Already have an account?</List.Content>
+                <List.Content as="a">Forgot your password?</List.Content>
+              </List.Item>
+            </List>
           </Grid.Column>
         </Grid>
       );
