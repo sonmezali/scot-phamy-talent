@@ -7,15 +7,15 @@ const skills = require("../services/database/skills");
  */
 
 router.get("/", (req, res) => {
-  skills
-    .getAllSkills()
-    .then((data) => {
-      res.send(data);
-    })
-    .catch((err) => {
-      console.error(err);
-      res.send(500);
-    });
+	skills
+		.getAllSkills()
+		.then((data) => {
+			res.send(data);
+		})
+		.catch((err) => {
+			console.error(err);
+			res.SendStatus(500);
+		});
 });
 
 // router.get("/", (req, res) => {

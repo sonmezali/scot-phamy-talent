@@ -7,19 +7,15 @@ const cities = require("../services/database/cities");
  */
 
 router.get("/", (req, res) => {
-  cities
-    .getAllCities()
-    .then((data) => {
-      res.send(data);
-    })
-    .catch((err) => {
-      console.error(err);
-      res.send(500);
-    });
+	cities
+		.getAllCities()
+		.then((data) => {
+			res.send(data);
+		})
+		.catch((err) => {
+			console.error(err);
+			res.sendStatus(500);
+		});
 });
-
-// router.get("/", (req, res) => {
-//   res.send("All good");
-// });
 
 module.exports = router;

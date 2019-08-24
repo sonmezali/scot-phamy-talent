@@ -9,7 +9,7 @@ const pool = new Pool(config);
  */
 const getAllUsers = () => {
 	return new Promise((resolve, reject) => {
-		pool.query("SELECT id, email FROM users", (error, result) => {
+		pool.query("SELECT user_id, email FROM users", (error, result) => {
 			if (error) {
 				reject(error);
 			} else {
