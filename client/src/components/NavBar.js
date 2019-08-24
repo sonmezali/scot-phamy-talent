@@ -3,13 +3,18 @@ import { Link } from "react-router-dom";
 import { Menu, Button } from "semantic-ui-react";
 
 class NavBar extends Component {
-  state = { activeItem: "home" };
+  state = {
+    activeItem:
+      window.location.pathname === "/"
+        ? "home"
+        : window.location.pathname.substr(1)
+  };
 
-  handleItemClick = ({ name }) => this.setState({ activeItem: name });
+  handleItemClick = (e, { name }) => this.setState({ activeItem: name });
   render() {
-    const activeItem = this.state;
+    const { activeItem } = this.state;
     return (
-      <Menu tabular size="large">
+      <Menu pointing size="large" color="blue">
         <Menu.Item
           name="home"
           active={activeItem === "home"}
@@ -40,11 +45,11 @@ class NavBar extends Component {
         />
         <Menu.Item
           position="right"
-          name="main_register_page"
-          active={activeItem === "main_register_page"}
+          name="main_register"
+          active={activeItem === "main_register"}
           onClick={this.handleItemClick}
           as={Link}
-          to="/main-register-page"
+          to="/main-register"
         >
           <Button primary>SignUp</Button>
         </Menu.Item>
