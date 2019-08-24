@@ -9,6 +9,7 @@ import About from "./components/About";
 import Status from "./components/Status";
 import NavBar from "./components/NavBar";
 import NewOpportunityForm from "./components/NewOpportunityForm";
+import ApplicantProfile from "./components/ApplicantProfile";
 
 const Routes = () => {
   return (
@@ -21,6 +22,11 @@ const Routes = () => {
               <Route path="/" exact component={Home} />
               <Route path="/about" exact component={About} />
               <Route path="/status" exact component={Status} />
+              <Route
+                path="/applicant-profile"
+                exact
+                component={ApplicantProfile}
+              />
               <Route
                 Path="/create-opportunity"
                 exact
