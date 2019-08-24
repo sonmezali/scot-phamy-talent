@@ -21,7 +21,7 @@ class CompanyProfile extends React.Component {
       opportunityTitle: "",
       contactName: "",
       location: "",
-      industry_type: [],
+      industry: [],
       expiringDate: ""
     };
   }
@@ -101,13 +101,13 @@ class CompanyProfile extends React.Component {
             <Divider />
             <Grid>
               <Grid.Column width={3}>
-                <h4>Industry Type:</h4>
+                <h4>Industry:</h4>
               </Grid.Column>
 
               <Grid.Column width={9}>
                 <Segment secondary>
                   <ul>
-                    {this.state.industry_type.map(element => (
+                    {this.state.industry.map(element => (
                       <li>{element}</li>
                     ))}
                   </ul>
