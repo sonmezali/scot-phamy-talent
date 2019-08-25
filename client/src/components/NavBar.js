@@ -10,8 +10,13 @@ class NavBar extends Component {
         : window.location.pathname.substr(1)
   };
 
-  handleItemClick = (e, { name }) => this.setState({ activeItem: name });
+  logout = event => {
+    event.preventDefault();
+    localStorage.removeItem("token");
+    document.location.reload();
+  };
 
+  handleItemClick = ({ name }) => this.setState({ activeItem: name });
   render() {
     const { activeItem } = this.state;
     return (
@@ -51,6 +56,23 @@ class NavBar extends Component {
           as={Link}
           to="/applicant-profile"
         />
+        {localStorage.getItem("token") ? (
+          <Menu.Item
+            name="logout"
+            active={activeItem === "logout"}
+            onClick={this.logout}
+            as={Link}
+            to="/logout"
+          />
+        ) : (
+          <Menu.Item
+            name="login"
+            active={activeItem === "login"}
+            onClick={this.handleItemClick}
+            as={Link}
+            to="/login"
+          />
+        )}
       </Menu>
     );
   }
