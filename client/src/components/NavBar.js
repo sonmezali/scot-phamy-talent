@@ -10,8 +10,6 @@ class NavBar extends Component {
         : window.location.pathname.substr(1)
   };
 
-  handleItemClick = (e, { name }) => this.setState({ activeItem: name });
-
   logout = event => {
     event.preventDefault();
     localStorage.removeItem("token");

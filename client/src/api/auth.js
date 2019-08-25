@@ -1,7 +1,7 @@
 export const signApi = (email, password) => {
   const opts = {
     method: "POST",
-    body: JSON.stringify({ email: email, password: password }),
+    body: JSON.stringify({ email, password }),
     headers: {
       "content-type": "application/json"
     }

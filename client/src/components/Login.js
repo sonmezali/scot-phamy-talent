@@ -19,19 +19,6 @@ export default class Login extends Component {
     error: null
   };
 
-  // handleSubmit = event => {
-  //   event.preventDefault();
-
-  //   if (!this.state.email) {
-  //     return this.setState({ error: "Email is required" });
-  //   }
-  //   if (!this.state.password) {
-  //     return this.setState({ error: "Password is required" });
-  //   }
-
-  //   return this.setState({ error: "" });
-  // };
-
   handleEmailChange = event => {
     this.setState({ email: event.target.value });
   };
@@ -44,7 +31,6 @@ export default class Login extends Component {
     signApi(this.state.email, this.state.password)
       .then(data => {
         const token = data.token;
-        console.log(token);
 
         localStorage.setItem("token", token);
         localStorage.setItem("user", JSON.stringify(data.user));
