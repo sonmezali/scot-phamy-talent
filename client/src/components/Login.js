@@ -91,9 +91,13 @@ export default class Login extends Component {
               {this.state.error ? <div>Wrong Info. Try Again</div> : null}
             </Form>
             <List divided horizontal>
-              <List.Item>
-                <List.Content as="a">Already have an account?</List.Content>
-                <List.Content as="a">Forgot your password?</List.Content>
+              <List.Item as="a">
+                <List.Content>
+                  <List.Header as="a">Create an account?</List.Header>
+                </List.Content>
+                <List.Content>
+                  <List.Content as="a">Forgot your password?</List.Content>
+                </List.Content>
               </List.Item>
             </List>
           </Grid.Column>
