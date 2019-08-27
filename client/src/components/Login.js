@@ -83,7 +83,7 @@ export default class Login extends Component {
             </Form>
             <List divided horizontal>
               <List.Item as="a">
-                <List.Content as={Link} to="/create-account">
+                <List.Content as={Link} to="/main-register">
                   Create an Account?
                 </List.Content>
                 <List.Content as={Link} to="/reset-password">

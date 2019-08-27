@@ -29,6 +29,9 @@ class ApplicantRegister extends Component {
       value: ""
     },
     passwordValidation: {
+      lengthValid: null,
+      matching: null,
+      goodCharacter: null,
       active: false,
       lengthColor: "red",
       matchColor: "red",
@@ -97,7 +100,11 @@ class ApplicantRegister extends Component {
   };
   handleSubmit = e => {
     e.preventDefault();
-    if (this.state.passwordValidation.valid === true) {
+    if (
+      this.state.passwordValidation.lengthValid === true &&
+      this.state.passwordValidation.matching === true &&
+      this.state.passwordValidation.goodCharacter === true
+    ) {
       createNewApplicantUserAndProfile(this.state.applicantEntries).then(
         res => {
           this.setState({ success: res.success });
@@ -127,28 +134,27 @@ class ApplicantRegister extends Component {
         skills: [],
         cvLink: "",
         value: ""
+      },
+      passwordValidation: {
+        lengthValid: null,
+        matching: null,
+        goodCharacter: null,
+        active: false,
+        lengthColor: "red",
+        matchColor: "red",
+        containCaseAndNumberColor: "red",
+        checked: false,
+        valid: null
       }
     });
   };
   //Validations  this validation is not part of the card and it is not perfect may need help to improve it
   passwordValidation = () => {
     this.isActive();
-    if (
-      this.isPasswordTooShort() &&
-      this.isConfirm() &&
-      this.isPasswordMatch()
-    ) {
-      this.setState({
-        passwordValidation: {
-          ...this.state.passwordValidation,
-          lengthColor: "green",
-          matchColor: "green",
-          containCaseAndNumberColor: "green",
-          checked: true,
-          valid: true
-        }
-      });
-    }
+
+    this.isPasswordTooShort();
+    this.isConfirm();
+    this.isPasswordMatch();
   };
   isActive = () => {
     if (this.state.applicantEntries.password.length > 0) {
@@ -162,7 +168,16 @@ class ApplicantRegister extends Component {
       this.state.applicantEntries.password.length >= 6 &&
       this.state.applicantEntries.confirmPassword.length >= 6
     ) {
-      return true;
+      return (
+        true,
+        this.setState({
+          passwordValidation: {
+            ...this.state.passwordValidation,
+            lengthValid: true,
+            lengthColor: "green"
+          }
+        })
+      );
     }
   };
   isPasswordMatch = () => {
@@ -170,7 +185,16 @@ class ApplicantRegister extends Component {
       this.state.applicantEntries.password ===
       this.state.applicantEntries.confirmPassword
     ) {
-      return true;
+      return (
+        true,
+        this.setState({
+          passwordValidation: {
+            ...this.state.passwordValidation,
+            matching: true,
+            matchColor: "green"
+          }
+        })
+      );
     }
   };
   isConfirm = () => {
@@ -181,7 +205,16 @@ class ApplicantRegister extends Component {
         this.state.applicantEntries.confirmPassword
       ) === true
     ) {
-      return true;
+      return (
+        true,
+        this.setState({
+          passwordValidation: {
+            ...this.state.passwordValidation,
+            goodCharacter: true,
+            containCaseAndNumberColor: "green"
+          }
+        })
+      );
     }
   };
   isPasswordContainUpperCase = password => {
@@ -207,8 +240,7 @@ class ApplicantRegister extends Component {
       active,
       lengthColor,
       matchColor,
-      containCaseAndNumberColor,
-      checked
+      containCaseAndNumberColor
     } = this.state.passwordValidation;
     return (
       <div>
@@ -283,13 +315,9 @@ class ApplicantRegister extends Component {
                 </Form.Field>
                 {active === false ? null : (
                   <Message>
-                    {/* <p style={{ color: lengthColor }}>
+                    <p style={{ color: lengthColor }}>
                       Password is 8 characters
-                    </p> */}
-                    <Checkbox
-                      label="Password is 8 characters"
-                      checked={checked}
-                    />
+                    </p>
                     <p style={{ color: matchColor }}>Matching Passwords</p>
                     <p style={{ color: containCaseAndNumberColor }}>
                       password contain at least one Uppercase Lowercase
