@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Button, Form, Grid, Header, List } from "semantic-ui-react";
+import { Button, Form, Grid, Header, List, Message } from "semantic-ui-react";
 import { Link } from "react-router-dom";
 import { signApi } from "../api/auth";
 
@@ -83,12 +83,16 @@ export default class Login extends Component {
             </Form>
             <List divided horizontal>
               <List.Item as="a">
-                <List.Content as={Link} to="/create-account">
-                  Create an Account?
-                </List.Content>
-                <List.Content as={Link} to="/reset-password">
-                  Forgot your password?
-                </List.Content>
+                <Message>
+                  <List.Content as={Link} to="/create-account">
+                    Create Account
+                  </List.Content>
+                </Message>
+                <Message>
+                  <List.Content as={Link} to="/forgot-password">
+                    Forgot password?
+                  </List.Content>
+                </Message>
               </List.Item>
             </List>
           </Grid.Column>
