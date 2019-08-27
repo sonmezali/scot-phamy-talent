@@ -13,12 +13,10 @@ const getCompanyProfile = (id) => {
   opportunities.name AS opportunity_title,
   opportunities.contact_person,
   opportunities.date,
-  opportunities.description AS opportunity_description
-FROM
+  opportunities.description AS opportunity_description FROM
   company_profile
   INNER JOIN opportunities ON opportunities.company_id = company_profile.company_id
-  INNER JOIN users ON users.user_id=company_profile.user_id
-WHERE
+  INNER JOIN users ON users.user_id=company_profile.user_id WHERE
   company_profile.company_id = $1`,
 
 			[id],
