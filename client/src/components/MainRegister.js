@@ -9,11 +9,7 @@ class RegisterPage extends Component {
           {" "}
           Applicant Sign Up
         </Button>
-        <Button
-          primary
-          as={Link}
-          // to='/company-register'
-        >
+        <Button primary as={Link} to="/company-register">
           {" "}
           Company Sign Up
         </Button>

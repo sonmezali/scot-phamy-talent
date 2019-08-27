@@ -44,6 +44,13 @@ class NavBar extends Component {
           to="/create-opportunity"
         />
         <Menu.Item
+          name="applicant-profile"
+          active={activeItem === "applicant-profile"}
+          onClick={this.handleItemClick}
+          as={Link}
+          to="/applicant-profile"
+        />
+        <Menu.Item
           position="right"
           name="main_register"
           active={activeItem === "main_register"}

@@ -31,16 +31,15 @@ const getUserByEmail = (email) => {
   });
 };
 
-const createUser = ({ email, password }) => {
+const createUser = ({ role, email, password }) => {
   return new Promise((resolve, reject) => {
     pool.query(
-      "INSERT INTO users (email, password) values ($1, $2)",
-      [email, password],
+      "INSERT INTO users (role,email, password) values ($1, $2,$3) RETURNING user_id",
+      [role, email, password],
       (error, result) => {
         if (error) {
           reject(error);
         }
-        console.log(result);
         resolve(result.rows);
       },
     );

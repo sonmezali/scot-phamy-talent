@@ -5,10 +5,10 @@ import {
   Icon,
   Button,
   TextArea,
-  Select,
-  Message,
+  Modal,
   Grid,
-  Header
+  Header,
+  Divider
 } from "semantic-ui-react";
 import { getCities } from "../api/cities";
 import { getSkills } from "../api/skills";
@@ -23,17 +23,19 @@ class NewOpportunityForm extends Component {
       contactPerson: "",
       telephone: "",
       email: "",
-      city: Number,
+      city: null,
       date: "",
       type: "",
       skills: [],
-      company_id: 1
+      company_id: 1 // hardCoded
     },
     cities: [],
     skills: [],
-    success: null
+    success: null,
+    open: false
   };
-
+  close = () => this.setState({ open: false });
+  //Getting data
   getAllSkills = () => {
     getSkills().then(response => {
       this.setState({
@@ -56,6 +58,12 @@ class NewOpportunityForm extends Component {
       });
     });
   };
+
+  componentDidMount() {
+    this.getAllCities();
+    this.getAllSkills();
+  }
+  //Handlers
   handleSelectSkill = (e, data) => {
     const selectedSkill = data.value;
     this.setState({
@@ -74,16 +82,18 @@ class NewOpportunityForm extends Component {
       formEntries: { ...this.state.formEntries, type: selectedOpp }
     });
   };
-  componentDidMount() {
-    this.getAllCities();
-    this.getAllSkills();
-  }
+
   handlePost = e => {
     e.preventDefault();
-    createNewOpportunity(this.state.formEntries).then(res =>
-      this.setState({ success: true })
-    );
+    createNewOpportunity(this.state.formEntries).then(res => {
+      this.setState({ success: res.success });
+      if (res.success === true) {
+        this.setState({ open: true });
+        this.clearForm();
+      }
+    });
   };
+  handleClose = () => this.setState({ modalOpen: false });
   handleChange = e => {
     const property = e.target.name;
     const value = e.target.value;
@@ -93,10 +103,28 @@ class NewOpportunityForm extends Component {
       return { formEntries: newEntries };
     });
   };
+  //clear form Entries  after Success
+  clearForm = e => {
+    this.setState({
+      formEntries: {
+        name: "",
+        description: "",
+        contactPerson: "",
+        telephone: "",
+        email: "",
+        city: null,
+        date: "",
+        type: "",
+        skills: [],
+        company_id: 1 // hardCoded
+      }
+    });
+  };
+
   render() {
     return (
       <div style={{ margin: "10px" }}>
-        <Form onSubmit={this.handlePost}>
+        <Form>
           <Grid centered stackable columns={2}>
             <Grid.Row mobile={16} tablet={8} computer={4}>
               <Grid.Column width={15}>
@@ -107,16 +135,17 @@ class NewOpportunityForm extends Component {
               </Grid.Column>
             </Grid.Row>
             <Grid.Row mobile={16} tablet={8} computer={4}>
-              <Grid.Column width={3}>
+              <Grid.Column width={4}>
                 <Header as="h3"> Opportunity Details</Header>
               </Grid.Column>
-              <Grid.Column width={10}>
+              <Grid.Column width={12}>
                 <Form.Field
                   label="Title"
                   control={Input}
                   iconPosition="left"
                   placeholder="Title"
                   required
+                  value={this.state.formEntries.name}
                   name="name"
                   onChange={this.handleChange}
                 >
@@ -128,17 +157,18 @@ class NewOpportunityForm extends Component {
                   control={TextArea}
                   placeholder="opportunity Details"
                   name="description"
+                  value={this.state.formEntries.description}
                   required
                   onChange={this.handleChange}
                 />
               </Grid.Column>
             </Grid.Row>
-
+            <Divider fitted />
             <Grid.Row mobile={16} tablet={8} computer={4}>
-              <Grid.Column width={3}>
+              <Grid.Column width={4}>
                 <Header as="h3"> Contact Details</Header>
               </Grid.Column>
-              <Grid.Column width={10}>
+              <Grid.Column width={12}>
                 <Form.Group>
                   <Form.Field
                     control={Input}
@@ -146,6 +176,7 @@ class NewOpportunityForm extends Component {
                     placeholder="Contact Person"
                     iconPosition="left"
                     name="contactPerson"
+                    value={this.state.formEntries.contactPerson}
                     required
                     onChange={this.handleChange}
                   >
@@ -159,6 +190,7 @@ class NewOpportunityForm extends Component {
                     placeholder="Telephone"
                     iconPosition="left"
                     name="telephone"
+                    value={this.state.formEntries.telephone}
                     required
                     onChange={this.handleChange}
                   >
@@ -172,6 +204,7 @@ class NewOpportunityForm extends Component {
                     iconPosition="left"
                     name="email"
                     type="email"
+                    value={this.state.formEntries.email}
                     required
                     onChange={this.handleChange}
                   >
@@ -181,20 +214,21 @@ class NewOpportunityForm extends Component {
                 </Form.Group>
               </Grid.Column>
             </Grid.Row>
+            <Divider fitted />
             <Grid.Row mobile={16} tablet={8} computer={4}>
-              <Grid.Column width={3}>
-                <Header as="h3">Information</Header>
+              <Grid.Column width={4}>
+                <Header as="h3">Additional Information</Header>
               </Grid.Column>
-              <Grid.Column width={10}>
+              <Grid.Column width={12}>
                 <Form.Group>
-                  <Form.Field
+                  <Form.Dropdown
                     label="Location"
-                    control={Select}
                     name="city"
-                    placeholder="Location"
+                    placeholder="Select city"
                     search
                     selection
                     required
+                    value={this.state.formEntries.city}
                     options={this.state.cities}
                     onChange={this.handleSelectCity}
                   />
@@ -205,6 +239,7 @@ class NewOpportunityForm extends Component {
                     placeholder="Expiry date"
                     iconPosition="left"
                     required
+                    value={this.state.formEntries.date}
                     name="date"
                     onChange={this.handleChange}
                   >
@@ -216,34 +251,88 @@ class NewOpportunityForm extends Component {
                     options={opportunityType}
                     search
                     selection
+                    value={this.state.formEntries.type}
                     required
-                    placeholder="Type of Opportunity"
+                    placeholder="Select Opportunity Type"
                     onChange={this.handleSelectOppType}
-                  />
+                  />{" "}
                 </Form.Group>
+                <Form.Dropdown
+                  label="Skills"
+                  onChange={this.handleSelectSkill}
+                  options={this.state.skills}
+                  name="skills"
+                  multiple
+                  selection
+                  required
+                  value={this.state.formEntries.skills}
+                  placeholder="Select Skills"
+                />
               </Grid.Column>
             </Grid.Row>
-            <Grid.Row>
-              <Form.Dropdown
-                label="Skills"
-                onChange={this.handleSelectSkill}
-                options={this.state.skills}
-                name="skills"
-                multiple
-                selection
-                required
-                placeholder="Select Skills"
-              />
-            </Grid.Row>
-            <Button primary>Post</Button>
-            <Grid.Row />
-            <Grid.Row>
-              {this.state.success === true ? (
-                <Message positive>
-                  <Message.Header>Opportunity submitted</Message.Header>
-                  <p>opportunity waiting for approval</p>
-                </Message>
-              ) : null}
+            <Form.Group>
+              <Form.Button fluid basic onClick={this.clearForm}>
+                Cancel
+              </Form.Button>
+              <Form.Button
+                lapel="Submit"
+                primary
+                fluid
+                onClick={this.handlePost}
+              >
+                Post Opportunity
+              </Form.Button>
+            </Form.Group>
+
+            <Grid.Row width={16}>
+              {this.state.success === true && (
+                <Modal
+                  open={this.state.open}
+                  onClose={this.close}
+                  closeIcon
+                  basic
+                  size="small"
+                >
+                  <Modal.Header>
+                    {" "}
+                    Opportunity Submitted successfully
+                  </Modal.Header>
+                  <Modal.Content>
+                    <p>Waiting For approval</p>
+                  </Modal.Content>
+                  <Modal.Actions>
+                    <Button
+                      positive
+                      icon="checkmark"
+                      labelPosition="right"
+                      content="OK"
+                      onClick={this.close}
+                    />
+                  </Modal.Actions>
+                </Modal>
+              )}
+              {this.state.success === false && (
+                <Modal
+                  basic
+                  open={this.state.open}
+                  onClose={this.close}
+                  closeIcon
+                >
+                  <Modal.Header> Something went Wrong</Modal.Header>
+                  <Modal.Content>
+                    <p>check Your Data</p>
+                  </Modal.Content>
+                  <Modal.Actions>
+                    <Button
+                      positive
+                      icon="checkmark"
+                      labelPosition="right"
+                      content="OK"
+                      onClick={this.close}
+                    />
+                  </Modal.Actions>
+                </Modal>
+              )}
             </Grid.Row>
           </Grid>
         </Form>
