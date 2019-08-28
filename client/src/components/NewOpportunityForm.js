@@ -5,7 +5,6 @@ import {
   Icon,
   Button,
   TextArea,
-  Select,
   Message,
   Grid,
   Header
@@ -23,15 +22,16 @@ class NewOpportunityForm extends Component {
       contactPerson: "",
       telephone: "",
       email: "",
-      city: Number,
+      city: null,
       date: "",
       type: "",
       skills: [],
-      company_id: 1
+      company_id: 1 // hardCoded
     },
     cities: [],
     skills: [],
-    success: null
+    success: null,
+    message: {}
   };
 
   getAllSkills = () => {
@@ -80,10 +80,32 @@ class NewOpportunityForm extends Component {
   }
   handlePost = e => {
     e.preventDefault();
-    createNewOpportunity(this.state.formEntries).then(res =>
-      this.setState({ success: true })
-    );
+    createNewOpportunity(this.state.formEntries).then(res => {
+      this.setState({ success: res.success });
+      if (res.success === true) {
+        console.log("mesaeg", this.state.success);
+        this.clearForm();
+      }
+    });
   };
+
+  clearForm = () => {
+    this.setState({
+      formEntries: {
+        name: "",
+        description: "",
+        contactPerson: "",
+        telephone: "",
+        email: "",
+        city: null,
+        date: "",
+        type: "",
+        skills: [],
+        company_id: 1 // hardCoded
+      }
+    });
+  };
+
   handleChange = e => {
     const property = e.target.name;
     const value = e.target.value;
@@ -94,6 +116,8 @@ class NewOpportunityForm extends Component {
     });
   };
   render() {
+    console.log(this.state.formEntries);
+
     return (
       <div style={{ margin: "10px" }}>
         <Form onSubmit={this.handlePost}>
@@ -117,6 +141,7 @@ class NewOpportunityForm extends Component {
                   iconPosition="left"
                   placeholder="Title"
                   required
+                  value={this.state.formEntries.name}
                   name="name"
                   onChange={this.handleChange}
                 >
@@ -128,6 +153,7 @@ class NewOpportunityForm extends Component {
                   control={TextArea}
                   placeholder="opportunity Details"
                   name="description"
+                  value={this.state.formEntries.description}
                   required
                   onChange={this.handleChange}
                 />
@@ -146,6 +172,7 @@ class NewOpportunityForm extends Component {
                     placeholder="Contact Person"
                     iconPosition="left"
                     name="contactPerson"
+                    value={this.state.formEntries.contactPerson}
                     required
                     onChange={this.handleChange}
                   >
@@ -159,6 +186,7 @@ class NewOpportunityForm extends Component {
                     placeholder="Telephone"
                     iconPosition="left"
                     name="telephone"
+                    value={this.state.formEntries.telephone}
                     required
                     onChange={this.handleChange}
                   >
@@ -172,6 +200,7 @@ class NewOpportunityForm extends Component {
                     iconPosition="left"
                     name="email"
                     type="email"
+                    value={this.state.formEntries.email}
                     required
                     onChange={this.handleChange}
                   >
@@ -187,14 +216,14 @@ class NewOpportunityForm extends Component {
               </Grid.Column>
               <Grid.Column width={10}>
                 <Form.Group>
-                  <Form.Field
+                  <Form.Dropdown
                     label="Location"
-                    control={Select}
                     name="city"
-                    placeholder="Location"
+                    placeholder="Select city"
                     search
                     selection
                     required
+                    value={this.state.formEntries.city}
                     options={this.state.cities}
                     onChange={this.handleSelectCity}
                   />
@@ -205,6 +234,7 @@ class NewOpportunityForm extends Component {
                     placeholder="Expiry date"
                     iconPosition="left"
                     required
+                    value={this.state.formEntries.date}
                     name="date"
                     onChange={this.handleChange}
                   >
@@ -216,8 +246,9 @@ class NewOpportunityForm extends Component {
                     options={opportunityType}
                     search
                     selection
+                    value={this.state.formEntries.type}
                     required
-                    placeholder="Type of Opportunity"
+                    placeholder="Select Opportunity Type"
                     onChange={this.handleSelectOppType}
                   />
                 </Form.Group>
@@ -232,18 +263,31 @@ class NewOpportunityForm extends Component {
                 multiple
                 selection
                 required
+                value={this.state.formEntries.skills}
                 placeholder="Select Skills"
               />
             </Grid.Row>
-            <Button primary>Post</Button>
-            <Grid.Row />
-            <Grid.Row>
-              {this.state.success === true ? (
-                <Message positive>
-                  <Message.Header>Opportunity submitted</Message.Header>
-                  <p>opportunity waiting for approval</p>
+            <Button
+              primary
+              onClick={this.state.success === true ? this.clearForm : null}
+            >
+              Post
+            </Button>
+            <Grid.Row width={15}>
+              {this.state.success === true && (
+                <Message positive size="massive">
+                  <Message.Header>
+                    Opportunity Submitted successfully
+                  </Message.Header>
+                  <p>Waiting For approval</p>
                 </Message>
-              ) : null}
+              )}
+              {this.state.success === false && (
+                <Message negative size="massive">
+                  <Message.Header>Something went Wrong</Message.Header>
+                  <p>check Your Data</p>
+                </Message>
+              )}
             </Grid.Row>
           </Grid>
         </Form>

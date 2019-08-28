@@ -26,7 +26,7 @@ class Status extends React.Component {
           ) : (
             <ul>
               {this.state.users.map(user => (
-                <li key={user.id}>user: {user.email}</li>
+                <li key={user.user_id}>user: {user.email}</li>
               ))}
             </ul>
           )}
