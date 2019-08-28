@@ -6,7 +6,9 @@ import {
   Segment,
   Divider,
   Dropdown,
-  Menu
+  Menu,
+  Icon,
+  Image
 } from "semantic-ui-react";
 import "../styles/ApplicantProfile.css";
 import { Link } from "react-router-dom";
@@ -17,6 +19,8 @@ const options = [
     key: 1,
     text: (
       <Menu.Item as={Link} to="/applicant/manage-profile">
+        {" "}
+        <Icon name="edit" />
         Edit Profile
       </Menu.Item>
     ),
@@ -26,7 +30,7 @@ const options = [
     key: 2,
     text: (
       <Menu.Item as={Link} to="/applicant/delete-profile">
-        Delete Profile
+        <Icon name="delete" /> Delete Profile
       </Menu.Item>
     ),
     value: 2
@@ -35,12 +39,15 @@ const options = [
     key: 3,
     text: (
       <Menu.Item as={Link} to="/applicant/change-password">
-        Change Password
+        <Icon name="expeditedssl" /> Change Password
       </Menu.Item>
     ),
     value: 3
   }
 ];
+
+const square = { width: 100, height: 100, align: "center" };
+const alignment = { align: "center" };
 
 class ApplicantProfile extends React.Component {
   constructor(props) {
@@ -81,14 +88,26 @@ class ApplicantProfile extends React.Component {
           <Container text style={{ marginTop: "5em" }} border={{}}>
             <Divider horizontal>
               <Menu compact>
-                <Dropdown text="Profile" options={options} simple item />
+                <Dropdown text="Your Profile" options={options} simple item />
               </Menu>
             </Divider>
-            <Segment secondary>
+            <Container></Container>
+            <Segment inverted color="blue">
+              <div style={alignment}>
+                <Segment circular style={square} centered>
+                  <Image
+                    src="https://www.bsn.eu/wp-content/uploads/2016/12/user-icon-image-placeholder-300-grey.jpg"
+                    appImage
+                    size="medium"
+                    circular
+                    centered
+                  />
+                </Segment>
+              </div>
               <Header as="h1">{this.state.applicantName}</Header>
               <Header as="h3">{this.state.city}</Header>
             </Segment>
-            <Segment>
+            <Segment basic>
               <a href={`mailto: ${this.state.email}`}>
                 <Button primary>Contact</Button>
               </a>
@@ -102,7 +121,7 @@ class ApplicantProfile extends React.Component {
                 web and mobile apps. Contact me at {this.state.email}
               </p>
             </Segment>
-            <Segment>
+            <Segment inverted color="teal">
               <Header as="h2">Skills</Header>
               <Divider />
               {this.state.skills.map(skill => (
