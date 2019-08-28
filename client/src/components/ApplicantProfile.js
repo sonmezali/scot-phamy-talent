@@ -8,7 +8,8 @@ import {
   Dropdown,
   Menu,
   Icon,
-  Image
+  Image,
+  Grid
 } from "semantic-ui-react";
 import "../styles/ApplicantProfile.css";
 import { Link } from "react-router-dom";
@@ -19,7 +20,6 @@ const options = [
     key: 1,
     text: (
       <Menu.Item as={Link} to="/applicant/manage-profile">
-        {" "}
         <Icon name="edit" />
         Edit Profile
       </Menu.Item>
@@ -47,8 +47,7 @@ const options = [
 ];
 
 const square = { width: 100, height: 100, align: "center" };
-const alignment = { align: "center" };
-
+const skillsAreaStyle = { background: "LightSkyBlue " };
 class ApplicantProfile extends React.Component {
   constructor(props) {
     super(props);
@@ -93,8 +92,15 @@ class ApplicantProfile extends React.Component {
             </Divider>
             <Container></Container>
             <Segment inverted color="blue">
-              <div style={alignment}>
-                <Segment circular style={square} centered>
+              <Segment inverted color="blue"></Segment>
+              <Grid centered>
+                <Segment
+                  circular
+                  style={square}
+                  centered
+                  verticalAlign="middle"
+                  horizontalAlign="middle"
+                >
                   <Image
                     src="https://www.bsn.eu/wp-content/uploads/2016/12/user-icon-image-placeholder-300-grey.jpg"
                     appImage
@@ -103,7 +109,7 @@ class ApplicantProfile extends React.Component {
                     centered
                   />
                 </Segment>
-              </div>
+              </Grid>
               <Header as="h1">{this.state.applicantName}</Header>
               <Header as="h3">{this.state.city}</Header>
             </Segment>
@@ -111,17 +117,14 @@ class ApplicantProfile extends React.Component {
               <a href={`mailto: ${this.state.email}`}>
                 <Button primary>Contact</Button>
               </a>
-              <br />
-              <br />
-              {/* </Segment>
-            <Segment> */}
-              <p>
+
+              <Segment basic>
                 Hi! My name is {this.state.applicantName}. I am a creative geek
                 from {this.state.city}. I enjoy creating eye candy solutions for
                 web and mobile apps. Contact me at {this.state.email}
-              </p>
+              </Segment>
             </Segment>
-            <Segment inverted color="teal">
+            <Segment inverted style={skillsAreaStyle}>
               <Header as="h2">Skills</Header>
               <Divider />
               {this.state.skills.map(skill => (
