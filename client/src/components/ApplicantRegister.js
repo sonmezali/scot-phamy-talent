@@ -40,7 +40,7 @@ class ApplicantRegister extends Component {
       valid: null
     },
     successServerStatus: null,
-    openSubmitStatusMsg: false,
+    openSubmitStatusMsg: null,
     skillsData: [],
     citiesData: []
   };
@@ -107,13 +107,18 @@ class ApplicantRegister extends Component {
     ) {
       createNewApplicantUserAndProfile(this.state.applicantEntries).then(
         res => {
-          this.setState({ successServerStatus: res.successServerStatus });
-          if (res.successServerStatus === true) {
+          this.setState({ successServerStatus: res.success });
+          if (this.state.successServerStatus === true) {
             this.setState({ openSubmitStatusMsg: true });
             this.clearForm();
           }
         }
       );
+    } else {
+      return this.setState({
+        successServerStatus: false,
+        openSubmitStatusMsg: true
+      });
     }
   };
 
@@ -151,7 +156,6 @@ class ApplicantRegister extends Component {
   //Validations  this validation is not part of the card and it is not perfect may need help to improve it
   passwordValidation = () => {
     this.isActive();
-
     this.isPasswordTooShort();
     this.isConfirm();
     this.isPasswordMatch();
@@ -437,7 +441,7 @@ class ApplicantRegister extends Component {
               </Modal.Content>
               <Modal.Actions>
                 <Button
-                  positive
+                  negative
                   icon="checkmark"
                   labelPosition="right"
                   content="OK"
