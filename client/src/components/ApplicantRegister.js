@@ -39,8 +39,8 @@ class ApplicantRegister extends Component {
       checked: false,
       valid: null
     },
-    success: null,
-    modalOpen: false,
+    successServerStatus: null,
+    openSubmitStatusMsg: false,
     skillsData: [],
     citiesData: []
   };
@@ -73,7 +73,7 @@ class ApplicantRegister extends Component {
     this.getAllCities();
   }
   //Handlers
-  handleClose = () => this.setState({ modalOpen: false });
+  handleClose = () => this.setState({ openSubmitStatusMsg: false });
   handleSelectSkill = (e, data) => {
     const selectedSkill = data.value;
     this.setState({
@@ -107,9 +107,9 @@ class ApplicantRegister extends Component {
     ) {
       createNewApplicantUserAndProfile(this.state.applicantEntries).then(
         res => {
-          this.setState({ success: res.success });
-          if (res.success === true) {
-            this.setState({ modalOpen: true });
+          this.setState({ successServerStatus: res.successServerStatus });
+          if (res.successServerStatus === true) {
+            this.setState({ openSubmitStatusMsg: true });
             this.clearForm();
           }
         }
@@ -121,7 +121,7 @@ class ApplicantRegister extends Component {
     this.setState({
       applicantEntries: { ...this.state.applicantEntries, value }
     });
-  // Clear Form Entries after success
+  // Clear Form Entries after successServerStatus
   clearForm = e => {
     this.setState({
       applicantEntries: {
@@ -398,15 +398,18 @@ class ApplicantRegister extends Component {
               </Grid.Column>
             </Grid.Row>
           </Grid>
-          {this.state.success === true && (
+          {this.state.successServerStatus === true && (
             <Modal
-              open={this.state.modalOpen}
+              open={this.state.openSubmitStatusMsg}
               onClose={this.handleClose}
               closeIcon
               basic
               size="small"
             >
-              <Modal.Header> Request Submitted successfully</Modal.Header>
+              <Modal.Header>
+                {" "}
+                Request Submitted successServerStatusfully
+              </Modal.Header>
               <Modal.Content>
                 <p>Waiting For approval</p>
               </Modal.Content>
@@ -421,10 +424,10 @@ class ApplicantRegister extends Component {
               </Modal.Actions>
             </Modal>
           )}
-          {this.state.success === false && (
+          {this.state.successServerStatus === false && (
             <Modal
               basic
-              open={this.state.modalOpen}
+              open={this.state.openSubmitStatusMsg}
               onClose={this.handleClose}
               closeIcon
             >

@@ -35,7 +35,7 @@ export default class Login extends Component {
   render() {
     const token = localStorage.getItem("token");
     if (token) {
-      return <div>You are Log in. WELCOME!</div>;
+      return <Message positive>You are Log in. WELCOME!</Message>;
     } else
       return (
         <Grid

@@ -30,8 +30,8 @@ const Routes = () => {
             exact
             component={ApplicantRegister}
           />
-          <Route path="/applicant-profile" exact component={ApplicantProfile} />
-          <Route path="/login" exact component={Login} />
+          <Route path="/applicant-profile" component={ApplicantProfile} />
+          <Route path="/login" component={Login} />
         </div>
       </Router>
     </Container>

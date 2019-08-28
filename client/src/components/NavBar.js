@@ -56,36 +56,49 @@ class NavBar extends Component {
           as={Link}
           to="/applicant-profile"
         />
-        <Menu.Item
-          position="right"
-          name="main_register"
+        {/* <Menu.Item
+          position='right'
+          name='main_register'
           active={activeItem === "main_register"}
           onClick={this.handleItemClick}
           as={Link}
-          to="/main-register"
-        >
-          <Button primary>SignUp</Button>
-        </Menu.Item>
+          to='/main-register'
+        > */}
+        {/* <Button primary>SignUp</Button>
+        </Menu.Item> */}
         {localStorage.getItem("token") ? (
           <Menu.Item
             name="logout"
             active={activeItem === "logout"}
             onClick={this.logout}
             as={Link}
+            position="right"
             to="/logout"
           >
-            <Button primary> logout</Button>
+            <Button primary> Logout</Button>
           </Menu.Item>
         ) : (
-          <Menu.Item
-            name="login"
-            active={activeItem === "login"}
-            onClick={this.handleItemClick}
-            as={Link}
-            to="/login"
-          >
-            <Button primary> sign in</Button>
-          </Menu.Item>
+          <Menu.Menu position="right">
+            <Menu.Item
+              name="login"
+              active={activeItem === "login"}
+              onClick={this.handleItemClick}
+              as={Link}
+              to="/login"
+            >
+              {" "}
+              <Button primary>Sign in</Button>
+            </Menu.Item>
+            <Menu.Item
+              name="main_register"
+              active={activeItem === "main_register"}
+              onClick={this.handleItemClick}
+              as={Link}
+              to="/main-register"
+            >
+              <Button primary> Sign up</Button>
+            </Menu.Item>
+          </Menu.Menu>
         )}
       </Menu>
     );
