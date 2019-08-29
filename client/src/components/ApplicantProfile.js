@@ -57,10 +57,9 @@ class ApplicantProfile extends React.Component {
   }
 
   componentDidMount() {
-    const user_id = 2; //This is hard coded because we dont have user login information yet
+    const user_id = 2; //This is hard coded because we don't have user login information yet
 
     getApplicantProfileByUserId(user_id).then(response => {
-      console.log(response);
       this.setState({
         applicantName: response.applicant_name,
         city: response.city,
@@ -73,8 +72,6 @@ class ApplicantProfile extends React.Component {
   }
 
   render() {
-    console.log(this.state.skills);
-
     return (
       <div class="ui segment">
         <Container>

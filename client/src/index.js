@@ -9,6 +9,7 @@ import {
   Menu,
   Icon,
   Sidebar,
+  Header,
   Segment,
   Button
 } from "semantic-ui-react";
@@ -17,7 +18,9 @@ import About from "./components/About";
 import Status from "./components/Status";
 import Login from "./components/Login";
 // import NavBar from "./components/NavBar";
+import ApplicantRegister from "./components/ApplicantRegister";
 import NewOpportunityForm from "./components/NewOpportunityForm";
+import MainRegister from "./components/MainRegister";
 import ApplicantProfile from "./components/ApplicantProfile";
 class Routes extends Component {
   state = {
@@ -46,37 +49,43 @@ class Routes extends Component {
             <Button disabled={visible} onClick={this.handleShowClick}>
               <Icon name="list layout"></Icon>
             </Button>
-
             <Menu.Item
-              position="right"
-              name="logout"
+              name="Logout"
+              active={activeItem === "Logout"}
               onClick={this.logout}
               as={Link}
+              onClick={this.handleItemClick}
+              position="right"
               to="/logout"
             >
-              <Button secondary>{activeItem}</Button>
+              <Button inverted basic>
+                {activeItem}
+              </Button>
             </Menu.Item>
 
             <Menu.Menu position="right">
               {localStorage.getItem("token") ? (
                 <Menu.Item
-                  position="right"
-                  name="logout"
+                  name="Logout"
+                  active={activeItem === "Logout"}
                   onClick={this.logout}
                   as={Link}
+                  onClick={this.handleItemClick}
+                  position="right"
                   to="/logout"
                 >
-                  <Button primary>Log Out</Button>
+                  <Button primary> Logout</Button>
                 </Menu.Item>
               ) : (
                 <Menu.Item
-                  name="login"
-                  active={activeItem === "login"}
+                  name="Sign Up"
+                  active={activeItem === "Sign Up"}
                   onClick={this.handleItemClick}
                   as={Link}
                   to="/login"
                 >
-                  <Button primary>Sign In</Button>
+                  {" "}
+                  <Button primary>Sign in</Button>
                 </Menu.Item>
               )}
             </Menu.Menu>
@@ -94,68 +103,83 @@ class Routes extends Component {
               width="thin"
             >
               <Menu.Item
-                name="home"
+                name="Home"
                 onClick={this.handleItemClick}
                 as={Link}
-                active={activeItem === "home"}
+                active={activeItem === "Home"}
                 to="/"
               >
                 <Icon name="home"></Icon>
               </Menu.Item>
               <Menu.Item
-                name="about"
+                name="About"
                 onClick={this.handleItemClick}
-                active={activeItem === "about"}
+                active={activeItem === "About"}
                 as={Link}
                 to="/about"
               >
                 <Icon name="adn"></Icon>
               </Menu.Item>
               <Menu.Item
-                name="status"
+                name="Status"
                 onClick={this.handleItemClick}
                 as={Link}
-                active={activeItem === "status"}
+                active={activeItem === "Status"}
                 to="/status"
               >
                 <Icon name="star outline"></Icon>
               </Menu.Item>
               <Menu.Item
-                name="create_opportunity"
+                name="Create Opportunity"
                 onClick={this.handleItemClick}
                 as={Link}
-                active={activeItem === "create_opportunity"}
+                active={activeItem === "Create Opportunity"}
                 to="/create-opportunity"
               >
                 <Icon name="star outline"></Icon>
               </Menu.Item>
               <Menu.Item
-                name="applicant-profile"
+                name="Applicant Profile"
                 onClick={this.handleItemClick}
                 as={Link}
-                active={activeItem === "applicant-profile"}
+                active={activeItem === "Applicant Profile"}
                 to="/applicant-profile"
               />
               {localStorage.getItem("token") ? (
                 <Menu.Item
-                  position="right"
-                  name="logout"
+                  name="Logout"
+                  active={activeItem === "Logout"}
                   onClick={this.logout}
                   as={Link}
+                  onClick={this.handleItemClick}
+                  position="right"
                   to="/logout"
                 >
                   <Icon name="log out"></Icon>
+
+                  <Button primary> Logout</Button>
                 </Menu.Item>
               ) : (
-                <Menu.Item
-                  name="login"
-                  onClick={this.handleItemClick}
-                  as={Link}
-                  active={activeItem === "login"}
-                  to="/login"
-                >
-                  <Icon name="sign-in"></Icon>
-                </Menu.Item>
+                <Menu.Menu position="right">
+                  <Menu.Item
+                    name="Sign In"
+                    active={activeItem === "Sign In"}
+                    onClick={this.handleItemClick}
+                    as={Link}
+                    to="/login"
+                  >
+                    <Icon name="sign-in"></Icon>{" "}
+                  </Menu.Item>
+                  <Menu.Item
+                    name="Main register"
+                    active={activeItem === "Main register"}
+                    onClick={this.handleItemClick}
+                    as={Link}
+                    to="/main-register"
+                  >
+                    <Icon name="signup"></Icon>
+                  </Menu.Item>
+                </Menu.Menu>
               )}
             </Sidebar>
             <Sidebar.Pusher dimmed={visible}>
@@ -175,6 +199,12 @@ class Routes extends Component {
                     path="/create-opportunity"
                     exact
                     component={NewOpportunityForm}
+                  />
+                  <Route path="/main-register" exact component={MainRegister} />
+                  <Route
+                    path="/applicant-register"
+                    exact
+                    component={ApplicantRegister}
                   />
                 </div>
               </Grid>
