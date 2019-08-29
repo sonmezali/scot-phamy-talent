@@ -35,7 +35,7 @@ export default class Login extends Component {
   render() {
     const token = localStorage.getItem("token");
     if (token) {
-      return <div>You are Log in. WELCOME!</div>;
+      return <Message positive>You are Log in. WELCOME!</Message>;
     } else
       return (
         <Grid
@@ -83,16 +83,12 @@ export default class Login extends Component {
             </Form>
             <List divided horizontal>
               <List.Item as="a">
-                <Message>
-                  <List.Content as={Link} to="/create-account">
-                    Create Account
-                  </List.Content>
-                </Message>
-                <Message>
-                  <List.Content as={Link} to="/forgot-password">
-                    Forgot password?
-                  </List.Content>
-                </Message>
+                <List.Content as={Link} to="/main-register">
+                  Create an Account?
+                </List.Content>
+                <List.Content as={Link} to="/reset-password">
+                  Forgot your password?
+                </List.Content>
               </List.Item>
             </List>
           </Grid.Column>

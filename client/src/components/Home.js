@@ -5,7 +5,7 @@ import Login from "./Login";
 const Home = () => {
   return (
     <div>
-      {/* <Header as="h1">Scot Phamy Talent</Header> */}
+      <Header as="h1">Scot Phamy Talent</Header>
       <Login />
     </div>
   );
