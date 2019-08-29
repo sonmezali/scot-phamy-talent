@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Button, Container } from "semantic-ui-react";
+import { Button } from "semantic-ui-react";
 import { Link } from "react-router-dom";
 class RegisterPage extends Component {
   render() {
