@@ -83,7 +83,6 @@ class NewOpportunityForm extends Component {
     createNewOpportunity(this.state.formEntries).then(res => {
       this.setState({ success: res.success });
       if (res.success === true) {
-        console.log("mesaeg", this.state.success);
         this.clearForm();
       }
     });
@@ -116,8 +115,6 @@ class NewOpportunityForm extends Component {
     });
   };
   render() {
-    console.log(this.state.formEntries);
-
     return (
       <div style={{ margin: "10px" }}>
         <Form onSubmit={this.handlePost}>

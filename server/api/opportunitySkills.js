@@ -20,4 +20,16 @@ router.post("/addSkillsToOpportunity", (req, res) => {
     });
 });
 
+router.get("/opportunitySkillsForList", (req, res) => {
+  opportunitySkills
+    .getSkillsForOpportunitiesList()
+    .then((data) => {
+      res.send(data);
+    })
+    .catch((err) => {
+      console.error(err);
+      res.SendStatus(500);
+    });
+});
+
 module.exports = router;

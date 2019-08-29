@@ -1,6 +1,9 @@
 const express = require("express");
 const router = express.Router();
-const { createOpportunity } = require("../services/database/opportunities");
+const {
+  createOpportunity,
+  getOpportunitiesForList,
+} = require("../services/database/opportunities");
 const {
   newOpportunitySkills,
 } = require("../services/database/opportunitySkills");
@@ -47,6 +50,16 @@ router.post("/newOpportunity", (req, res) => {
     .then((data) => res.send({ success: true }))
     .catch((err) => {
       res.status(500).send({ success: false });
+    });
+});
+router.get("/opportunityList", (req, res) => {
+  getOpportunitiesForList()
+    .then((data) => {
+      res.send(data);
+    })
+    .catch((err) => {
+      console.error(err);
+      res.status(500);
     });
 });
 
