@@ -13,6 +13,7 @@ import ApplicantRegister from "./components/ApplicantRegister";
 import NewOpportunityForm from "./components/NewOpportunityForm";
 import MainRegister from "./components/MainRegister";
 import ApplicantProfile from "./components/ApplicantProfile";
+import NewCompanyForm from "./components/NewCompanyForm";
 
 const Routes = () => {
   return (
@@ -31,6 +32,7 @@ const Routes = () => {
             component={ApplicantRegister}
           />
           <Route path="/applicant-profile" component={ApplicantProfile} />
+          <Route path="/company-profile" exact component={NewCompanyForm} />
           <Route path="/login" component={Login} />
         </div>
       </Router>
