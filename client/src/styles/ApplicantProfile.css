@@ -2,6 +2,7 @@ body {
   color: blue;
 }
 
-.ui.segment {
+.ui.segment.secondary {
   background-color: aqua;
+  align-items: center;
 }
