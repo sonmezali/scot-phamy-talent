@@ -79,7 +79,7 @@ class ApplicantProfile extends React.Component {
   render() {
     return (
       <Container>
-        <Container text style={{ marginTop: "5em" }} border={{}}>
+        <Container text style={{ marginTop: "4em" }} border={{}}>
           <Divider horizontal>
             <Menu compact>
               <Dropdown text="Your Profile" options={options} simple item />
