@@ -17,7 +17,7 @@ import { getCities } from "../api/cities";
 class OpportunitiesList extends Component {
   state = {
     OpportunitiesList: [],
-    skillsOpportunity: [],
+    opportunitySkills: [],
     cities: [],
     skills: []
   };
@@ -47,19 +47,24 @@ class OpportunitiesList extends Component {
   };
   getOpportunities = () => {
     getOpportunitiesForList().then(data =>
-      this.setState({ OpportunitiesList: data })
+      this.setState({ OpportunitiesList: data }).then(
+        getSkillsList().then(data => {
+          this.setState({ opportunitySkills: data });
+        })
+      )
     );
   };
 
-  SkillsList = () => {
-    getSkillsList().then(data => {
-      this.setState({ skillsOpportunity: data });
-    });
-  };
+  // SkillsList = () => {
+  //   getSkillsList().then((data) => {
+  //     this.setState({ opportunitySkills: data });
+  //   });
+  // };
   filterSkillsForEachId = opportunity_id => {
-    this.state.skillsOpportunity
+    const skillsssss = this.state.opportunitySkills
       .filter(skill => skill.id === opportunity_id)
       .map(skill => skill.skill);
+    return skillsssss;
   };
 
   componentDidMount() {
@@ -67,8 +72,10 @@ class OpportunitiesList extends Component {
     this.SkillsList();
     this.getAllSkills();
     this.getAllCities();
+    this.filterSkillsForEachId(5);
   }
   render() {
+    console.log(this.filterSkillsForEachId(5));
     console.log(this.state.OpportunitiesList);
     return (
       <Container>
