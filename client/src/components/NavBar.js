@@ -1,113 +1,75 @@
 import React, { Component } from "react";
+import { Menu, Button, Icon } from "semantic-ui-react";
 import { Link } from "react-router-dom";
-import { Menu, Button } from "semantic-ui-react";
-
+import SideBarMenu from "./SideBar";
 class NavBar extends Component {
   state = {
-    activeItem:
-      window.location.pathname === "/"
-        ? "home"
-        : window.location.pathname.substr(1)
+    visible: false,
+    activeItem: "home"
   };
-
   handleItemClick = (e, { name }) => this.setState({ activeItem: name });
+
   logout = event => {
     event.preventDefault();
     localStorage.removeItem("token");
     document.location.reload();
   };
+  handleHideClick = () => this.setState({ visible: false });
+  handleShowClick = () => this.setState({ visible: true });
+  handleSidebarHide = () => this.setState({ visible: false });
 
   render() {
-    const { activeItem } = this.state;
+    const { visible, activeItem } = this.state;
+    const { handleSidebarHide, handleItemClick, logout } = this;
     return (
-      <Menu pointing size="large" color="blue">
-        <Menu.Item
-          name="home"
-          active={activeItem === "home"}
-          onClick={this.handleItemClick}
-          as={Link}
-          to="/"
-        />
-        <Menu.Item
-          name="about"
-          active={activeItem === "about"}
-          onClick={this.handleItemClick}
-          as={Link}
-          to="/about"
-        />
-        <Menu.Item
-          name="status"
-          active={activeItem === "status"}
-          onClick={this.handleItemClick}
-          as={Link}
-          to="/status"
-        />
-        <Menu.Item
-          name="create_opportunity"
-          active={activeItem === "create_opportunity"}
-          onClick={this.handleItemClick}
-          as={Link}
-          to="/create-opportunity"
-        />
-        <Menu.Item
-          name="company-profile"
-          active={activeItem === "company-profile"}
-          onClick={this.handleItemClick}
-          as={Link}
-          to="/company-profile"
-        />
-        <Menu.Item
-          name="applicant-profile"
-          active={activeItem === "applicant-profile"}
-          onClick={this.handleItemClick}
-          as={Link}
-          to="/applicant-profile"
-        />
-        {/* <Menu.Item
-          position='right'
-          name='main_register'
-          active={activeItem === "main_register"}
-          onClick={this.handleItemClick}
-          as={Link}
-          to='/main-register'
-        > */}
-        {/* <Button primary>SignUp</Button>
-        </Menu.Item> */}
-        {localStorage.getItem("token") ? (
-          <Menu.Item
-            name="logout"
-            active={activeItem === "logout"}
-            onClick={this.logout}
-            as={Link}
-            position="right"
-            to="/logout"
-          >
-            <Button primary> Logout</Button>
+      <React.Fragment>
+        <Menu inverted>
+          <Menu.Item>
+            <Button disabled={visible} onClick={this.handleShowClick}>
+              <Icon name="list layout"></Icon>
+            </Button>
           </Menu.Item>
-        ) : (
-          <Menu.Menu position="right">
+          <Menu.Item position="right">
+            <Button inverted basic disabled>
+              {activeItem}
+            </Button>
+          </Menu.Item>
+          {localStorage.getItem("token") ? (
             <Menu.Item
-              name="login"
-              active={activeItem === "login"}
+              name="Logout"
+              active={activeItem === "Logout"}
+              onClick={event => {
+                this.logout(event);
+                this.handleItemClick(event);
+              }}
+              as={Link}
+              position="right"
+              to="/logout"
+            >
+              <Button primary> Logout</Button>
+            </Menu.Item>
+          ) : (
+            <Menu.Item
+              name="Sign In"
+              active={activeItem === "Sign In"}
               onClick={this.handleItemClick}
               as={Link}
               to="/login"
+              position="right"
             >
               {" "}
               <Button primary>Sign in</Button>
             </Menu.Item>
-            <Menu.Item
-              name="main_register"
-              active={activeItem === "main_register"}
-              onClick={this.handleItemClick}
-              as={Link}
-              to="/main-register"
-            >
-              <Button primary> Sign up</Button>
-            </Menu.Item>
-          </Menu.Menu>
-        )}
-      </Menu>
+          )}
+        </Menu>
+        <SideBarMenu
+          visible={visible}
+          handleSidebarHide={handleSidebarHide}
+          activeItem={activeItem}
+          handleItemClick={handleItemClick}
+          logout={logout}
+        />
+      </React.Fragment>
     );
   }
 }

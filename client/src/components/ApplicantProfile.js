@@ -11,7 +11,6 @@ import {
   Image,
   Grid
 } from "semantic-ui-react";
-import "../styles/ApplicantProfile.css";
 import { Link } from "react-router-dom";
 import { getApplicantProfileByUserId } from "../api/applicantProfile";
 
@@ -63,7 +62,7 @@ class ApplicantProfile extends React.Component {
   }
 
   componentDidMount() {
-    const user_id = 2; //This is hard coded because we dont have user login information yet
+    const user_id = 2; //This is hard coded because we don't have user login information yet
 
     getApplicantProfileByUserId(user_id).then(response => {
       this.setState({
@@ -79,58 +78,56 @@ class ApplicantProfile extends React.Component {
 
   render() {
     return (
-      <div class="ui segment">
-        <Container>
-          <Container text style={{ marginTop: "5em" }} border={{}}>
-            <Divider horizontal>
-              <Menu compact>
-                <Dropdown text="Your Profile" options={options} simple item />
-              </Menu>
-            </Divider>
-            <Container></Container>
-            <Segment inverted color="blue">
-              <Segment inverted color="blue"></Segment>
-              <Grid centered>
-                <Segment
+      <Container>
+        <Container text style={{ marginTop: "4em" }} border={{}}>
+          <Divider horizontal>
+            <Menu compact>
+              <Dropdown text="Your Profile" options={options} simple item />
+            </Menu>
+          </Divider>
+          <Container></Container>
+          <Segment inverted color="blue">
+            <Segment inverted color="blue"></Segment>
+            <Grid centered>
+              <Segment
+                circular
+                style={square}
+                centered
+                verticalAlign="middle"
+                horizontalAlign="middle"
+              >
+                <Image
+                  src="https://www.bsn.eu/wp-content/uploads/2016/12/user-icon-image-placeholder-300-grey.jpg"
+                  appImage
+                  size="medium"
                   circular
-                  style={square}
                   centered
-                  verticalAlign="middle"
-                  horizontalAlign="middle"
-                >
-                  <Image
-                    src="https://www.bsn.eu/wp-content/uploads/2016/12/user-icon-image-placeholder-300-grey.jpg"
-                    appImage
-                    size="medium"
-                    circular
-                    centered
-                  />
-                </Segment>
-              </Grid>
-              <Header as="h1">{this.state.applicantName}</Header>
-              <Header as="h3">{this.state.city}</Header>
-            </Segment>
-            <Segment basic>
-              <a href={`mailto: ${this.state.email}`}>
-                <Button primary>Contact</Button>
-              </a>
-
-              <Segment basic>
-                Hi! My name is {this.state.applicantName}. I am a creative geek
-                from {this.state.city}. I enjoy creating eye candy solutions for
-                web and mobile apps. Contact me at {this.state.email}
+                />
               </Segment>
+            </Grid>
+            <Header as="h1">{this.state.applicantName}</Header>
+            <Header as="h3">{this.state.city}</Header>
+          </Segment>
+          <Segment basic>
+            <a href={`mailto: ${this.state.email}`}>
+              <Button primary>Contact</Button>
+            </a>
+
+            <Segment basic>
+              Hi! My name is {this.state.applicantName}. I am a creative geek
+              from {this.state.city}. I enjoy creating eye candy solutions for
+              web and mobile apps. Contact me at {this.state.email}
             </Segment>
-            <Segment inverted style={skillsAreaStyle}>
-              <Header as="h2">Skills</Header>
-              <Divider />
-              {this.state.skills.map(skill => (
-                <Button basic>{skill}</Button>
-              ))}
-            </Segment>
-          </Container>
+          </Segment>
+          <Segment inverted style={skillsAreaStyle}>
+            <Header as="h2">Skills</Header>
+            <Divider />
+            {this.state.skills.map(skill => (
+              <Button basic>{skill}</Button>
+            ))}
+          </Segment>
         </Container>
-      </div>
+      </Container>
     );
   }
 }
