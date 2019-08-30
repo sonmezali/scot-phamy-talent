@@ -1,5 +1,4 @@
 import ReactDOM from "react-dom";
-// import Routes from "./Routes";
 import React from "react";
 
 import "semantic-ui-css/semantic.min.css";

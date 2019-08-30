@@ -19,14 +19,14 @@ const getAllUsers = () => {
   });
 };
 
-const getUserByEmail = (email) => {
-  return new Promise((resolve) => {
+const getUserByEmail = email => {
+  return new Promise(resolve => {
     pool.query(
       "SELECT * FROM users where email = $1",
       [email],
       (error, result) => {
         resolve(result.rows[0]);
-      },
+      }
     );
   });
 };
@@ -34,19 +34,20 @@ const getUserByEmail = (email) => {
 const createUser = ({ role, email, password }) => {
   return new Promise((resolve, reject) => {
     pool.query(
-      "INSERT INTO users (role,email, password) values ($1, $2,$3) RETURNING user_id",
+      "INSERT INTO users (role , email, password) values ($1, $2, $3) RETURNING user_id",
       [role, email, password],
       (error, result) => {
         if (error) {
+          console.log(error);
           reject(error);
         }
         resolve(result.rows);
-      },
+      }
     );
   });
 };
 
-const getUserById = (id) => {
+const getUserById = id => {
   return new Promise((resolve, reject) => {
     pool.query("SELECT * FROM users where id = $1", [id], (error, result) => {
       if (error) {
@@ -62,5 +63,5 @@ module.exports = {
   getUserByEmail,
   createUser,
   getUserById,
-  getAllUsers,
+  getAllUsers
 };
