@@ -43,7 +43,7 @@ export default class Login extends Component {
           style={{ height: "100vh" }}
           verticalAlign="middle"
         >
-          <Grid.Column>
+          <Grid.Column style={{ maxWidth: 450 }}>
             <Header as="h2" color="blue" textAlign="center">
               Login to your account
             </Header>
@@ -82,13 +82,21 @@ export default class Login extends Component {
               {this.state.error ? <div>Wrong Info. Try Again</div> : null}
             </Form>
             <List divided horizontal>
-              <List.Item>
-                <List.Content as={Link} to="/main-register">
-                  Create an Account?
-                </List.Content>
-                <List.Content as={Link} to="/reset-password">
-                  Forgot your password?
-                </List.Content>
+              <List.Item as="a">
+                <Message>
+                  <List.Content>
+                    <List.Header as={Link} to="/create-account">
+                      Create account
+                    </List.Header>
+                  </List.Content>
+                </Message>
+                <Message>
+                  <List.Content>
+                    <List.Content as={Link} to="/reset-password">
+                      Forgot password
+                    </List.Content>
+                  </List.Content>
+                </Message>
               </List.Item>
             </List>
           </Grid.Column>
