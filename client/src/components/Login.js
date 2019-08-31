@@ -1,15 +1,6 @@
 import React, { Component } from "react";
-import {
-  Button,
-  Form,
-  Grid,
-  Header,
-  List,
-  Message,
-  Label,
-  Segment,
-  Image
-} from "semantic-ui-react";
+import { Button, Form, Grid, Header, List, Message } from "semantic-ui-react";
+import { Link } from "react-router-dom";
 import { signApi } from "../api/auth";
 
 export default class Login extends Component {
@@ -44,7 +35,7 @@ export default class Login extends Component {
   render() {
     const token = localStorage.getItem("token");
     if (token) {
-      return <div>You are Log in. WELCOME!</div>;
+      return <Message positive>You are Log in. WELCOME!</Message>;
     } else
       return (
         <Grid
@@ -94,12 +85,16 @@ export default class Login extends Component {
               <List.Item as="a">
                 <Message>
                   <List.Content>
-                    <List.Header as="a">Create account</List.Header>
+                    <List.Header as={Link} to="/create-account">
+                      Create account
+                    </List.Header>
                   </List.Content>
                 </Message>
                 <Message>
                   <List.Content>
-                    <List.Content as="a">Forgot password</List.Content>
+                    <List.Content as={Link} to="/reset-password">
+                      Forgot password
+                    </List.Content>
                   </List.Content>
                 </Message>
               </List.Item>

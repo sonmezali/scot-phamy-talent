@@ -1,5 +1,6 @@
-import React from "react";
 import ReactDOM from "react-dom";
+import React from "react";
+//import Routes from "./components/Routes";
 import "semantic-ui-css/semantic.min.css";
 import "./index.css";
 import { BrowserRouter as Router, Link, Route, Switch } from "react-router-dom";
