@@ -42,6 +42,14 @@ export default ({
         <Icon name="adn"></Icon>
       </Menu.Item>
       <Menu.Item
+        name="opportunity-list"
+        active={activeItem === "opportunity-list"}
+        onClick={handleItemClick}
+        as={Link}
+        to="/opportunity-list"
+      />
+
+      <Menu.Item
         name="Status"
         onClick={handleItemClick}
         as={Link}

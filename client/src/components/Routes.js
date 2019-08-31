@@ -11,6 +11,7 @@ import ApplicantRegister from "./ApplicantRegister";
 import NewOpportunityForm from "./NewOpportunityForm";
 import MainRegister from "./MainRegister";
 import ApplicantProfile from "./ApplicantProfile";
+import OpportunitiesList from "./OpportunitiesList";
 
 class Routes extends Component {
   render() {
@@ -19,22 +20,23 @@ class Routes extends Component {
         <NavBar />
         <Container>
           <Route path="/" exact component={Home} />
-          <Route path="/about" exact component={About} />
-          <Route path="/status" exact component={Status} />
+          <Route path="/about" component={About} />
+          <Route path="/status" component={Status} />
 
-          <Route path="/login" exact component={Login} />
-          <Route path="/applicant-profile" exact component={ApplicantProfile} />
+          <Route path="/login" component={Login} />
+          <Route path="/applicant-profile" component={ApplicantProfile} />
           <Route
             path="/create-opportunity"
             exact
             component={NewOpportunityForm}
           />
-          <Route path="/main-register" exact component={MainRegister} />
+          <Route path="/main-register" component={MainRegister} />
           <Route
             path="/applicant-register"
             exact
             component={ApplicantRegister}
           />
+          <Route path="/opportunity-list" component={OpportunitiesList} />
         </Container>
       </Router>
     );
