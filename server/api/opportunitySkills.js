@@ -12,23 +12,24 @@ router.post("/addSkillsToOpportunity", (req, res) => {
   const opportunityId = req.body.opportunityId;
   opportunitySkills
     .newOpportunitySkills(skills, opportunityId)
-    .then((data) => {
+    .then(data => {
       res.send({ success: true });
     })
-    .catch((err) => {
+    .catch(err => {
       res.sendStatus(500).send({ success: false });
     });
 });
 
-router.get("/opportunitySkillsForList", (req, res) => {
+router.get("/opportunitySkillsForList/:id", (req, res) => {
+  const { id } = req.params;
   opportunitySkills
-    .getSkillsForOpportunitiesList()
-    .then((data) => {
+    .getSkillsForOpportunitiesList(id)
+    .then(data => {
       res.send(data);
     })
-    .catch((err) => {
+    .catch(err => {
       console.error(err);
-      res.SendStatus(500);
+      res.status(500);
     });
 });
 

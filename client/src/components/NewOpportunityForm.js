@@ -5,9 +5,10 @@ import {
   Icon,
   Button,
   TextArea,
-  Message,
+  Modal,
   Grid,
-  Header
+  Header,
+  Divider
 } from "semantic-ui-react";
 import { getCities } from "../api/cities";
 import { getSkills } from "../api/skills";
@@ -31,9 +32,10 @@ class NewOpportunityForm extends Component {
     cities: [],
     skills: [],
     success: null,
-    message: {}
+    open: false
   };
-
+  close = () => this.setState({ open: false });
+  //Getting data
   getAllSkills = () => {
     getSkills().then(response => {
       this.setState({
@@ -56,6 +58,12 @@ class NewOpportunityForm extends Component {
       });
     });
   };
+
+  componentDidMount() {
+    this.getAllCities();
+    this.getAllSkills();
+  }
+  //Handlers
   handleSelectSkill = (e, data) => {
     const selectedSkill = data.value;
     this.setState({
@@ -74,21 +82,29 @@ class NewOpportunityForm extends Component {
       formEntries: { ...this.state.formEntries, type: selectedOpp }
     });
   };
-  componentDidMount() {
-    this.getAllCities();
-    this.getAllSkills();
-  }
+
   handlePost = e => {
     e.preventDefault();
     createNewOpportunity(this.state.formEntries).then(res => {
       this.setState({ success: res.success });
       if (res.success === true) {
+        this.setState({ open: true });
         this.clearForm();
       }
     });
   };
-
-  clearForm = () => {
+  handleClose = () => this.setState({ modalOpen: false });
+  handleChange = e => {
+    const property = e.target.name;
+    const value = e.target.value;
+    this.setState(function(prevState) {
+      const newEntries = prevState.formEntries;
+      newEntries[property] = value;
+      return { formEntries: newEntries };
+    });
+  };
+  //clear form Entries  after Success
+  clearForm = e => {
     this.setState({
       formEntries: {
         name: "",
@@ -105,19 +121,10 @@ class NewOpportunityForm extends Component {
     });
   };
 
-  handleChange = e => {
-    const property = e.target.name;
-    const value = e.target.value;
-    this.setState(function(prevState) {
-      const newEntries = prevState.formEntries;
-      newEntries[property] = value;
-      return { formEntries: newEntries };
-    });
-  };
   render() {
     return (
       <div style={{ margin: "10px" }}>
-        <Form onSubmit={this.handlePost}>
+        <Form>
           <Grid centered stackable columns={2}>
             <Grid.Row mobile={16} tablet={8} computer={4}>
               <Grid.Column width={15}>
@@ -128,10 +135,10 @@ class NewOpportunityForm extends Component {
               </Grid.Column>
             </Grid.Row>
             <Grid.Row mobile={16} tablet={8} computer={4}>
-              <Grid.Column width={3}>
+              <Grid.Column width={4}>
                 <Header as="h3"> Opportunity Details</Header>
               </Grid.Column>
-              <Grid.Column width={10}>
+              <Grid.Column width={12}>
                 <Form.Field
                   label="Title"
                   control={Input}
@@ -156,12 +163,12 @@ class NewOpportunityForm extends Component {
                 />
               </Grid.Column>
             </Grid.Row>
-
+            <Divider fitted />
             <Grid.Row mobile={16} tablet={8} computer={4}>
-              <Grid.Column width={3}>
+              <Grid.Column width={4}>
                 <Header as="h3"> Contact Details</Header>
               </Grid.Column>
-              <Grid.Column width={10}>
+              <Grid.Column width={12}>
                 <Form.Group>
                   <Form.Field
                     control={Input}
@@ -207,11 +214,12 @@ class NewOpportunityForm extends Component {
                 </Form.Group>
               </Grid.Column>
             </Grid.Row>
+            <Divider fitted />
             <Grid.Row mobile={16} tablet={8} computer={4}>
-              <Grid.Column width={3}>
-                <Header as="h3">Information</Header>
+              <Grid.Column width={4}>
+                <Header as="h3">Additional Information</Header>
               </Grid.Column>
-              <Grid.Column width={10}>
+              <Grid.Column width={12}>
                 <Form.Group>
                   <Form.Dropdown
                     label="Location"
@@ -247,43 +255,83 @@ class NewOpportunityForm extends Component {
                     required
                     placeholder="Select Opportunity Type"
                     onChange={this.handleSelectOppType}
-                  />
+                  />{" "}
                 </Form.Group>
+                <Form.Dropdown
+                  label="Skills"
+                  onChange={this.handleSelectSkill}
+                  options={this.state.skills}
+                  name="skills"
+                  multiple
+                  selection
+                  required
+                  value={this.state.formEntries.skills}
+                  placeholder="Select Skills"
+                />
               </Grid.Column>
             </Grid.Row>
-            <Grid.Row>
-              <Form.Dropdown
-                label="Skills"
-                onChange={this.handleSelectSkill}
-                options={this.state.skills}
-                name="skills"
-                multiple
-                selection
-                required
-                value={this.state.formEntries.skills}
-                placeholder="Select Skills"
-              />
-            </Grid.Row>
-            <Button
-              primary
-              onClick={this.state.success === true ? this.clearForm : null}
-            >
-              Post
-            </Button>
-            <Grid.Row width={15}>
+            <Form.Group>
+              <Form.Button fluid basic onClick={this.clearForm}>
+                Cancel
+              </Form.Button>
+              <Form.Button
+                lapel="Submit"
+                primary
+                fluid
+                onClick={this.handlePost}
+              >
+                Post Opportunity
+              </Form.Button>
+            </Form.Group>
+
+            <Grid.Row width={16}>
               {this.state.success === true && (
-                <Message positive size="massive">
-                  <Message.Header>
+                <Modal
+                  open={this.state.open}
+                  onClose={this.close}
+                  closeIcon
+                  basic
+                  size="small"
+                >
+                  <Modal.Header>
+                    {" "}
                     Opportunity Submitted successfully
-                  </Message.Header>
-                  <p>Waiting For approval</p>
-                </Message>
+                  </Modal.Header>
+                  <Modal.Content>
+                    <p>Waiting For approval</p>
+                  </Modal.Content>
+                  <Modal.Actions>
+                    <Button
+                      positive
+                      icon="checkmark"
+                      labelPosition="right"
+                      content="OK"
+                      onClick={this.close}
+                    />
+                  </Modal.Actions>
+                </Modal>
               )}
               {this.state.success === false && (
-                <Message negative size="massive">
-                  <Message.Header>Something went Wrong</Message.Header>
-                  <p>check Your Data</p>
-                </Message>
+                <Modal
+                  basic
+                  open={this.state.open}
+                  onClose={this.close}
+                  closeIcon
+                >
+                  <Modal.Header> Something went Wrong</Modal.Header>
+                  <Modal.Content>
+                    <p>check Your Data</p>
+                  </Modal.Content>
+                  <Modal.Actions>
+                    <Button
+                      positive
+                      icon="checkmark"
+                      labelPosition="right"
+                      content="OK"
+                      onClick={this.close}
+                    />
+                  </Modal.Actions>
+                </Modal>
               )}
             </Grid.Row>
           </Grid>

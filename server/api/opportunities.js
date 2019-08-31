@@ -2,10 +2,13 @@ const express = require("express");
 const router = express.Router();
 const {
   createOpportunity,
-  getOpportunitiesForList,
+  getOpportunitiesForList
 } = require("../services/database/opportunities");
 const {
-  newOpportunitySkills,
+  newOpportunitySkills
+} = require("../services/database/opportunitySkills");
+const {
+  getSkillsForOpportunitiesList
 } = require("../services/database/opportunitySkills");
 
 /**
@@ -24,7 +27,7 @@ router.post("/newOpportunity", (req, res) => {
     date,
     type,
     skills,
-    company_id,
+    company_id
   } = req.body;
 
   let formEntries = {
@@ -37,29 +40,27 @@ router.post("/newOpportunity", (req, res) => {
     date,
     type,
     skills,
-    company_id,
+    company_id
   };
   createOpportunity(formEntries)
-    .then((data) => {
+    .then(data => {
       const opportunityId = data[0].opportunity_id;
       return { opportunityId, skills };
     })
-    .then((SkillsAndOpportunityID) => {
+    .then(SkillsAndOpportunityID => {
       return newOpportunitySkills(SkillsAndOpportunityID);
     })
-    .then((data) => res.send({ success: true }))
-    .catch((err) => {
+    .then(data => res.send({ success: true }))
+    .catch(err => {
       res.status(500).send({ success: false });
     });
 });
+
 router.get("/opportunityList", (req, res) => {
   getOpportunitiesForList()
-    .then((data) => {
-      res.send(data);
-    })
-    .catch((err) => {
-      console.error(err);
-      res.status(500);
+    .then(data => res.send(data))
+    .catch(err => {
+      res.status(500).send(err);
     });
 });
 

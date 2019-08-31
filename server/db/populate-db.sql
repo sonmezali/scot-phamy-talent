@@ -43,8 +43,8 @@ INSERT INTO users (ROLE, email, PASSWORD)
 INSERT INTO cities (city)
     VALUES ('Edinburgh');
 
-INSERT INTO applicant_profile (name, city, application_status, right_to_work, user_id)
-    VALUES ('Irina', 2, 'approved', FALSE, 2);
+INSERT INTO applicant_profile (name, city, application_status, about, cvLink, right_to_work, user_id)
+    VALUES ('Irina', 2, 'approved', 'cyf mentor', 'wwwfb', 'no', 2);
 
 INSERT INTO company_profile (name, description, industry, user_id)
     VALUES ('CYF', 'Tech company', 'Technology', 3);

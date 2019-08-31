@@ -55,8 +55,10 @@ CREATE TABLE cities (
 CREATE TABLE applicant_profile (
   applicant_id SERIAL PRIMARY KEY,
   name VARCHAR(30) NOT NULL,
-  city INTEGER REFERENCES cities (id),
+  about VARCHAR(450) NOT NULL,
   application_status status_type DEFAULT 'pending',
+  city INTEGER REFERENCES cities (id),
+  cvLink VARCHAR(30),
   right_to_work BOOLEAN,
   user_id INTEGER REFERENCES users (user_id)
 );
