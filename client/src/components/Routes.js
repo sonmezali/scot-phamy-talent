@@ -18,7 +18,7 @@ class Routes extends Component {
     return (
       <Router>
         <NavBar />
-        <Container>
+        <Container fluid>
           <Route path="/" exact component={Home} />
           <Route path="/about" component={About} />
           <Route path="/status" component={Status} />

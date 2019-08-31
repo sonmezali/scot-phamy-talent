@@ -85,7 +85,7 @@ export default class Login extends Component {
               <List.Item as="a">
                 <Message>
                   <List.Content>
-                    <List.Header as={Link} to="/create-account">
+                    <List.Header as={Link} to="/main-register">
                       Create account
                     </List.Header>
                   </List.Content>
