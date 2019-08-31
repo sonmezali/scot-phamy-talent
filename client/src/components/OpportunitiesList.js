@@ -1,16 +1,14 @@
 import React, { Component } from "react";
 import {
-  Container,
+  Grid,
   Header,
   Input,
   Dropdown,
-  Menu,
   Form,
   Icon,
   Card,
-  Button,
   Image,
-  Modal
+  Divider
 } from "semantic-ui-react";
 import { getOpportunitiesForList, getSkillsList } from "../api/opportunities";
 import { getSkills } from "../api/skills";
@@ -32,7 +30,8 @@ class OpportunitiesList extends Component {
         skills: response.map(skill => ({
           key: skill.skill_id,
           text: skill.name,
-          value: skill.skill_id
+          value: skill.name,
+          content: skill.name
         }))
       });
     });
@@ -73,7 +72,7 @@ class OpportunitiesList extends Component {
     this.getAllSkills();
   }
   // handlers
-  handleItemClick = (e, { name }) => this.setState({ selectedJobType: name });
+  handleItemClick = name => this.setState({ selectedJobType: name });
 
   handleSelectSkill = (e, data) => {
     const selectedSkill = data.value;
@@ -95,18 +94,9 @@ class OpportunitiesList extends Component {
   };
 
   render() {
-    const {
-      searchKeyWord,
-      selectedJobType,
-      OpportunitiesList,
-      selectedOpportunity,
-      cities,
-      skills
-    } = this.state;
-    console.log(searchKeyWord, selectedOpportunity);
-    console.log(this.state.OpportunitiesList);
+    const { searchKeyWord, cities, skills } = this.state;
     return (
-      <Container>
+      <div>
         <Form>
           <Form.Field
             control={Input}
@@ -116,133 +106,130 @@ class OpportunitiesList extends Component {
             iconPosition="right"
             onChange={this.handleChange}
           >
-            <Icon name="search" />
+            <Icon name="search" color="blue" />
             <input />
           </Form.Field>
-          <Header as="h3">
-            <Icon name="map marker alternate" size="big" color="blue" />
+
+          <Header as="h4">
+            <Icon name="map marker alternate" size="large" color="blue" />
             <Header.Content>
+              Location{" "}
               <Dropdown
                 inline
-                header="Select City"
+                header="Location"
+                onChange={this.handleSelectSkill}
                 options={cities}
+                multiple
                 defaultValue="Glasgow"
               />
             </Header.Content>
           </Header>
-          <Header as="h3">
-            <Icon name="check" size="big" color="blue" />
+          <Header as="h4">
+            <Icon name="check" size="large" color="blue" />
             <Header.Content>
-              Skills {"   "}
+              Skills{" "}
               <Dropdown
                 inline
-                color="yellow"
-                header="Select Skill"
-                multiple
-                selection
+                header="SKills"
+                onChange={this.handleSelectSkill}
                 options={skills}
+                multiple
                 defaultValue="JavaScript"
               />
             </Header.Content>
           </Header>
         </Form>
         <Header textAlign="left">Job Type</Header>
-        <Menu compact icon="labeled">
-          <Menu.Item
-            name="volunteer"
-            active={selectedJobType === "volunteer"}
-            onClick={this.handleItemClick}
-          >
-            <Icon name="hand paper" color="blue" />
-            Volunteer
-          </Menu.Item>
 
-          <Menu.Item
-            name="internship"
-            active={selectedJobType === "internship"}
-            onClick={this.handleItemClick}
-          >
-            <Icon name="handshake outline" color="blue" />
-            Internship
-          </Menu.Item>
-
-          <Menu.Item
-            name="full time"
-            active={selectedJobType === "full time"}
-            onClick={this.handleItemClick}
-          >
-            <Icon name="briefcase" color="blue" />
-            Full Time
-          </Menu.Item>
-          <Menu.Item
-            name="part time"
-            active={selectedJobType === "part time"}
-            onClick={this.handleItemClick}
-          >
-            <Icon name="chart pie" color="blue" />
-            Part Time
-          </Menu.Item>
-          <Menu.Item
-            name="work experience"
-            active={selectedJobType === "work experience"}
-            onClick={this.handleItemClick}
-          >
-            <Icon name="certificate" color="blue" />
-            Work Experience
-          </Menu.Item>
-        </Menu>
-        {this.state.OpportunitiesList.map((opportunity, index) => (
-          <Card
-            centered
-            key={index}
-            raised
-            color="blue"
-            onClick={this.handleSelectOpportunity}
-            name={opportunity.opportunity_id}
-          >
-            <Card.Content>
-              <Image
-                floated="right"
-                size="mini"
-                name={opportunity.opportunity_id}
-              >
-                <Icon
-                  name="ellipsis vertical"
-                  color="blue"
-                  onClick={this.handleSelectOpportunity}
-                ></Icon>
-              </Image>
-              <Card.Header>{opportunity.opportunity_title}</Card.Header>
-              <Card.Content textAlign="left">
-                contact Person: {opportunity.contact_person}
+        <Grid columns={3} centered>
+          <Grid.Row>
+            <Grid.Column
+              textAlign="center"
+              onClick={() => this.handleItemClick("Full time")}
+            >
+              <Icon name="briefcase" size="large" color="blue" />
+              <Header as="h4"> Full time</Header>
+            </Grid.Column>
+            <Grid.Column
+              textAlign="center"
+              onClick={() => this.handleItemClick("Volunteer")}
+            >
+              <Icon name="hand paper" size="large" color="blue" />
+              <Header as="h4"> Volunteer</Header>
+            </Grid.Column>
+            <Grid.Column
+              textAlign="center"
+              onClick={() => this.handleItemClick("Internship")}
+            >
+              <Icon name="handshake outline" size="large" color="blue" />
+              <Header as="h4"> Internship</Header>
+            </Grid.Column>
+          </Grid.Row>
+          <Grid.Row>
+            <Grid.Column
+              textAlign="center"
+              onClick={() => this.handleItemClick("Part Time")}
+            >
+              <Icon name="chart pie" size="large" color="blue" />
+              <Header as="h4"> Part Time</Header>
+            </Grid.Column>
+            <Grid.Column
+              textAlign="center"
+              onClick={() => this.handleItemClick("Apprenticeship")}
+            >
+              <Icon name="certificate" size="large" color="blue" />
+              <Header as="h5"> Apprenticeship</Header>
+            </Grid.Column>
+            <Grid.Column
+              textAlign="center"
+              onClick={() => this.handleItemClick("Work Experience")}
+            >
+              <Icon name="chart pie" size="large" color="blue" />
+              <Header as="h4"> Work Experience</Header>
+            </Grid.Column>
+          </Grid.Row>
+        </Grid>
+        <Divider>
+          <br></br>
+        </Divider>
+        <br />
+        <Grid>
+          {this.state.OpportunitiesList.map((opportunity, index) => (
+            <Card
+              centered
+              key={index}
+              raised
+              color="blue"
+              onClick={this.handleSelectOpportunity}
+              name={opportunity.opportunity_id}
+            >
+              <Card.Content>
+                <Image
+                  floated="right"
+                  size="mini"
+                  name={opportunity.opportunity_id}
+                >
+                  <Icon
+                    name="ellipsis vertical"
+                    color="blue"
+                    onClick={this.handleSelectOpportunity}
+                  ></Icon>
+                </Image>
+                <Card.Header>{opportunity.opportunity_title}</Card.Header>
+                <Card.Content textAlign="left">
+                  contact Person: {opportunity.contact_person}
+                </Card.Content>
+                <Card.Meta textAlign="left">
+                  Expire at:{opportunity.date}{" "}
+                </Card.Meta>
               </Card.Content>
-              <Card.Meta textAlign="left">
-                Expire at:{opportunity.date}{" "}
-              </Card.Meta>
-            </Card.Content>
-            <Card.Content>
-              <Card.Description>{opportunity.description}</Card.Description>
-            </Card.Content>
-          </Card>
-        ))}
-        <Modal trigger={<Button>Scrolling Content Modal</Button>}>
-          <Modal.Header>Profile Picture</Modal.Header>
-          <Modal.Content image scrolling>
-            <Modal.Description>
-              <Header>Modal Header</Header>
-              <p>
-                This is an example of expanded content that will cause the
-                modal's dimmer to scroll
-              </p>
-            </Modal.Description>
-          </Modal.Content>
-          <Modal.Actions>
-            <Button primary>
-              Proceed <Icon name="chevron right" />
-            </Button>
-          </Modal.Actions>
-        </Modal>{" "}
-      </Container>
+              <Card.Content>
+                <Card.Description>{opportunity.description}</Card.Description>
+              </Card.Content>
+            </Card>
+          ))}
+        </Grid>
+      </div>
     );
   }
 }

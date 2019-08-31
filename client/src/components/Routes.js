@@ -19,12 +19,12 @@ class Routes extends Component {
       <Router>
         <NavBar />
         <Container>
-          <Route path="/" component={Home} />
+          <Route path="/" exact component={Home} />
           <Route path="/about" component={About} />
           <Route path="/status" component={Status} />
 
           <Route path="/login" component={Login} />
-          <Route path="/applicant-profile" exact component={ApplicantProfile} />
+          <Route path="/applicant-profile" component={ApplicantProfile} />
           <Route
             path="/create-opportunity"
             exact
