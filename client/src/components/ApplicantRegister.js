@@ -31,11 +31,15 @@ class ApplicantRegister extends Component {
     passwordValidation: {
       lengthValid: null,
       matching: null,
-      goodCharacter: null,
       active: false,
-      lengthColor: "red",
+      eightCharactersColor: "red",
       matchColor: "red",
-      containCaseAndNumberColor: "red",
+      containUppercaseColor: "red",
+      containLowercaseColor: "red",
+      containNumberColor: "red",
+      containUppercase: null,
+      containLowercase: null,
+      containNumber: null,
       checked: false,
       valid: null
     },
@@ -103,7 +107,9 @@ class ApplicantRegister extends Component {
     if (
       this.state.passwordValidation.lengthValid === true &&
       this.state.passwordValidation.matching === true &&
-      this.state.passwordValidation.goodCharacter === true
+      this.state.passwordValidation.containUppercase === true &&
+      this.state.passwordValidation.containLowercase === true &&
+      this.state.passwordValidation.containNumber === true
     ) {
       createNewApplicantUserAndProfile(this.state.applicantEntries).then(
         res => {
@@ -143,91 +149,158 @@ class ApplicantRegister extends Component {
       passwordValidation: {
         lengthValid: null,
         matching: null,
-        goodCharacter: null,
-        active: false,
-        lengthColor: "red",
+        active: null,
+        eightCharactersColor: "red",
         matchColor: "red",
-        containCaseAndNumberColor: "red",
+        containUppercaseColor: "red",
+        containLowercaseColor: "red",
+        containNumberColor: "red",
+        containUppercase: null,
+        containLowercase: null,
+        containNumber: null,
         checked: false,
         valid: null
       }
     });
   };
   //Validations  this validation is not part of the card and it is not perfect may need help to improve it
-  passwordValidation = () => {
-    this.isActive();
-    this.isPasswordTooShort();
-    this.isConfirm();
-    this.isPasswordMatch();
+  passwordValidation = (password, confirmPassword) => {
+    this.isActive(this.state.applicantEntries.password);
+    this.isPasswordMatch(password, confirmPassword);
+    this.isConfirmNumber(password, confirmPassword);
+    this.isConfirmLowercase(password, confirmPassword);
+    this.isPasswordTooShort(password, confirmPassword);
+    this.isConfirmUppercase(password, confirmPassword);
   };
-  isActive = () => {
-    if (this.state.applicantEntries.password.length > 0) {
+  isActive = password => {
+    if (password.length > 0) {
       this.setState({
         passwordValidation: { ...this.state.passwordValidation, active: true }
       });
     }
   };
-  isPasswordTooShort = () => {
-    if (
-      this.state.applicantEntries.password.length >= 6 &&
-      this.state.applicantEntries.confirmPassword.length >= 6
-    ) {
-      return (
-        true,
-        this.setState({
-          passwordValidation: {
-            ...this.state.passwordValidation,
-            lengthValid: true,
-            lengthColor: "green"
-          }
-        })
-      );
+  isPasswordTooShort = (password, confirmPassword) => {
+    if (password.length >= 6 && confirmPassword.length >= 6) {
+      return this.setState({
+        passwordValidation: {
+          ...this.state.passwordValidation,
+          lengthValid: true,
+          eightCharactersColor: "green"
+        }
+      });
+    } else {
+      return this.setState({
+        passwordValidation: {
+          ...this.state.passwordValidation,
+          lengthValid: false,
+          eightCharactersColor: "red"
+        }
+      });
     }
   };
-  isPasswordMatch = () => {
-    if (
-      this.state.applicantEntries.password ===
-      this.state.applicantEntries.confirmPassword
-    ) {
-      return (
-        true,
-        this.setState({
-          passwordValidation: {
-            ...this.state.passwordValidation,
-            matching: true,
-            matchColor: "green"
-          }
-        })
-      );
+  isPasswordMatch = (password, confirmPassword) => {
+    if (password === confirmPassword) {
+      return this.setState({
+        passwordValidation: {
+          ...this.state.passwordValidation,
+          matching: true,
+          matchColor: "green"
+        }
+      });
+    } else {
+      return this.setState({
+        passwordValidation: {
+          ...this.state.passwordValidation,
+          matching: false,
+          matchColor: "red"
+        }
+      });
     }
   };
-  isConfirm = () => {
+  isConfirmUppercase = (password, confirmPassword) => {
     if (
-      this.isPasswordContainUpperCase(this.state.applicantEntries.password) ===
-        true &&
-      this.isPasswordContainUpperCase(
-        this.state.applicantEntries.confirmPassword
-      ) === true
+      this.isPasswordContainUpperCase(password) === true &&
+      this.isPasswordContainUpperCase(confirmPassword) === true
     ) {
-      return (
-        true,
-        this.setState({
-          passwordValidation: {
-            ...this.state.passwordValidation,
-            goodCharacter: true,
-            containCaseAndNumberColor: "green"
-          }
-        })
-      );
+      return this.setState({
+        passwordValidation: {
+          ...this.state.passwordValidation,
+          containUppercase: true,
+          containUppercaseColor: "green"
+        }
+      });
+    } else {
+      return this.setState({
+        passwordValidation: {
+          ...this.state.passwordValidation,
+          containUppercase: false,
+          containUppercaseColor: "red"
+        }
+      });
     }
   };
-  isPasswordContainUpperCase = password => {
-    const newReg = /(?=.*[a-z])(?=.*[0-9])(?=.*[A-Z])[0-9A-Z-a-z]{8,}/g;
+  isConfirmLowercase = (password, confirmPassword) => {
+    if (
+      this.isPasswordContainLowerCase(password) === true &&
+      this.isPasswordContainLowerCase(confirmPassword) === true
+    ) {
+      return this.setState({
+        passwordValidation: {
+          ...this.state.passwordValidation,
+          containLowercase: true,
+          containLowercaseColor: "green"
+        }
+      });
+    } else {
+      return this.setState({
+        passwordValidation: {
+          ...this.state.passwordValidation,
+          containLowercase: false,
+          containLowercaseColor: "red"
+        }
+      });
+    }
+  };
+  isConfirmNumber = (password, confirmPassword) => {
+    if (
+      this.isPasswordContainNumber(password) === true &&
+      this.isPasswordContainNumber(confirmPassword) === true
+    ) {
+      return this.setState({
+        passwordValidation: {
+          ...this.state.passwordValidation,
+          containNumber: true,
+          containNumberColor: "green"
+        }
+      });
+    } else {
+      return this.setState({
+        passwordValidation: {
+          ...this.state.passwordValidation,
+          containNumber: false,
+          containNumberColor: "red"
+        }
+      });
+    }
+  };
+  isPasswordContainLowerCase = password => {
+    const newReg = /(?=.*[a-z])[a-z]/g;
     const pas = newReg.test(password);
 
     return pas;
   };
+  isPasswordContainUpperCase = password => {
+    const newReg = /(?=.*[A-Z])[A-Z]/g;
+    const pas = newReg.test(password);
 
+    return pas;
+  };
+  isPasswordContainNumber = password => {
+    const newReg = /(?=.*[0-9])[0-9]/g;
+    const pas = newReg.test(password);
+
+    return pas;
+  };
   render() {
     const {
       name,
@@ -242,9 +315,11 @@ class ApplicantRegister extends Component {
     } = this.state.applicantEntries;
     const {
       active,
-      lengthColor,
+      eightCharactersColor,
       matchColor,
-      containCaseAndNumberColor
+      containUppercaseColor,
+      containLowercaseColor,
+      containNumberColor
     } = this.state.passwordValidation;
     return (
       <div>
@@ -302,6 +377,7 @@ class ApplicantRegister extends Component {
                   <Icon name="lock" color="blue" />
                   <input />
                 </Form.Field>
+
                 <Form.Field
                   control={Input}
                   label="Confirm Password"
@@ -311,7 +387,11 @@ class ApplicantRegister extends Component {
                   iconPosition="left"
                   name="confirmPassword"
                   required
-                  onKeyUp={this.passwordValidation}
+                  onKeyUp={() =>
+                    setTimeout(() => {
+                      this.passwordValidation(password, confirmPassword);
+                    }, 50)
+                  }
                   onChange={this.handleChange}
                 >
                   <Icon name="undo alternate" color="blue" />
@@ -319,13 +399,18 @@ class ApplicantRegister extends Component {
                 </Form.Field>
                 {active === false ? null : (
                   <Message>
-                    <p style={{ color: lengthColor }}>
-                      Password is 8 characters
+                    <p style={{ color: eightCharactersColor }}>
+                      password Must be at least 8 characters
                     </p>
                     <p style={{ color: matchColor }}>Matching Passwords</p>
-                    <p style={{ color: containCaseAndNumberColor }}>
-                      password contain at least one Uppercase Lowercase
-                      characters and number
+                    <p style={{ color: containUppercaseColor }}>
+                      Password Contain at least 1 Uppercase letter
+                    </p>
+                    <p style={{ color: containLowercaseColor }}>
+                      Password Contain at least 1 Lowercase letter
+                    </p>
+                    <p style={{ color: containNumberColor }}>
+                      Password Contain at least 1 Number letter
                     </p>
                   </Message>
                 )}
@@ -410,10 +495,7 @@ class ApplicantRegister extends Component {
               basic
               size="small"
             >
-              <Modal.Header>
-                {" "}
-                Request Submitted successServerStatusfully
-              </Modal.Header>
+              <Modal.Header> Request Submitted successfully</Modal.Header>
               <Modal.Content>
                 <p>Waiting For approval</p>
               </Modal.Content>
