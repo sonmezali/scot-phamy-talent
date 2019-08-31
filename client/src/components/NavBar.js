@@ -70,6 +70,23 @@ class NavBar extends Component {
           handleItemClick={handleItemClick}
           logout={logout}
         />
+        {localStorage.getItem("token") ? (
+          <Menu.Item
+            name="logout"
+            active={activeItem === "logout"}
+            onClick={this.logout}
+            as={Link}
+            to="/logout"
+          />
+        ) : (
+          <Menu.Item
+            name="login"
+            active={activeItem === "login"}
+            onClick={this.handleItemClick}
+            as={Link}
+            to="/login"
+          />
+        )}
       </React.Fragment>
     );
   }
