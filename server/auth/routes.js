@@ -31,18 +31,16 @@ router.post("/login", async (req, res, next) => {
  * Users Registration
  */
 router.post("/register", async (req, res, next) => {
-	const { email, password } = req.body;
+	const { role, email, password } = req.body;
 
-	const user = {
-		email,
-		password
-	};
+	const user = { role, email, password };
 
 	db.createUser(user)
-		.then(() => {
+		.then((data) => {
 			res.send({
 				success: true,
 				message: "Account created",
+				data,
 			});
 		})
 		.catch((err) => {

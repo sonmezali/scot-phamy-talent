@@ -1,22 +1,29 @@
 const express = require("express");
 const router = express.Router();
-const newOpportunity = require("../services/database/opportunities");
+const { createOpportunity } = require("../services/database/opportunities");
+const {
+	newOpportunitySkills,
+} = require("../services/database/opportunitySkills");
 
 /**
- * The route here will be: /cities/ (remember the prefix users is defined in api/index.js)
+ * The route here will be: /opportunities/ (remember the prefix users is defined in api/index.js)
  */
 
+// post the new opportunity  takes the values from the body transferred from client api/opportunities
 router.post("/newOpportunity", (req, res) => {
-	const name = req.body.name;
-	const description = req.body.description;
-	const contactPerson = req.body.contactPerson;
-	const telephone = req.body.telephone;
-	const email = req.body.email;
-	const city = req.body.city;
-	const date = req.body.data;
-	const type = req.body.type;
-	const skills = req.body.skills;
-	const company_id = req.body.company_id;
+	const {
+		name,
+		description,
+		contactPerson,
+		telephone,
+		email,
+		city,
+		date,
+		type,
+		skills,
+		company_id,
+	} = req.body;
+
 	let formEntries = {
 		name,
 		description,
@@ -26,17 +33,20 @@ router.post("/newOpportunity", (req, res) => {
 		city,
 		date,
 		type,
-		// skills,
+		skills,
 		company_id,
 	};
-	newOpportunity
-		.createOpportunity(formEntries)
+	createOpportunity(formEntries)
 		.then((data) => {
-			res.send({ success: true });
+			const opportunityId = data[0].opportunity_id;
+			return { opportunityId, skills };
 		})
+		.then((SkillsAndOpportunityID) => {
+			return newOpportunitySkills(SkillsAndOpportunityID);
+		})
+		.then((data) => res.send({ success: true }))
 		.catch((err) => {
-			res.sendStatus(500).send({ success: false });
-			console.log(err);
+			res.status(500).send({ success: false });
 		});
 });
 

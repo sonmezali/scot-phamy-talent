@@ -21,4 +21,25 @@ const getApplicantProfile = (id) => {
 	});
 };
 
-module.exports = { getApplicantProfile };
+const createApplicantProfile = ({
+	name,
+	about,
+	city,
+	cvLink,
+	value,
+	user_id,
+}) => {
+	return new Promise((resolve, reject) => {
+		pool.query(
+			"INSERT INTO applicant_profile (name,about,city,cvLink,right_to_work,user_id ) VALUES($1,$2,$3,$4,$5,$6) RETURNING applicant_id",
+			[name, about, city, cvLink, value, user_id],
+			(error, result) => {
+				if (error) {
+					return reject(error);
+				}
+				resolve(result.rows);
+			}
+		);
+	});
+};
+module.exports = { getApplicantProfile, createApplicantProfile };
