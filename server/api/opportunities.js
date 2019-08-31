@@ -7,16 +7,12 @@ const {
 const {
   newOpportunitySkills
 } = require("../services/database/opportunitySkills");
-const {
-  getSkillsForOpportunitiesList
-} = require("../services/database/opportunitySkills");
-
 /**
  * The route here will be: /opportunities/ (remember the prefix users is defined in api/index.js)
  */
 
 // post the new opportunity  takes the values from the body transferred from client api/opportunities
-router.post("/newOpportunity", (req, res) => {
+router.post("/", (req, res) => {
   const {
     name,
     description,
@@ -30,7 +26,7 @@ router.post("/newOpportunity", (req, res) => {
     company_id
   } = req.body;
 
-  let formEntries = {
+  const formEntries = {
     name,
     description,
     contactPerson,
@@ -56,7 +52,7 @@ router.post("/newOpportunity", (req, res) => {
     });
 });
 
-router.get("/opportunityList", (req, res) => {
+router.get("/", (req, res) => {
   getOpportunitiesForList()
     .then(data => res.send(data))
     .catch(err => {

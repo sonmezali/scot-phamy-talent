@@ -1,5 +1,5 @@
 export const createNewOpportunity = formEntry => {
-  return fetch("/api/opportunities/newOpportunity", {
+  return fetch("/api/opportunities", {
     method: "POST",
     body: JSON.stringify(formEntry),
     headers: { "Content-Type": "application/json" }
@@ -7,10 +7,8 @@ export const createNewOpportunity = formEntry => {
 };
 
 export const getOpportunitiesForList = () => {
-  return fetch("/api/opportunities/opportunityList").then(res => res.json());
+  return fetch("/api/opportunities").then(res => res.json());
 };
 export const getSkillsList = id => {
-  return fetch(`/api/opportunitySkills/opportunitySkillsForList/${id}`).then(
-    res => res.json()
-  );
+  return fetch(`/api/opportunitySkills/${id}`).then(res => res.json());
 };

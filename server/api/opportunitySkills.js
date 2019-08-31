@@ -7,7 +7,7 @@ const opportunitySkills = require("../services/database/opportunitySkills");
  * The route here will be: /addSkillsToOpportunity/ (remember the prefix users is defined in api/index.js)
  */
 
-router.post("/addSkillsToOpportunity", (req, res) => {
+router.post("/", (req, res) => {
   const skills = req.body.skills;
   const opportunityId = req.body.opportunityId;
   opportunitySkills
@@ -20,7 +20,7 @@ router.post("/addSkillsToOpportunity", (req, res) => {
     });
 });
 
-router.get("/opportunitySkillsForList/:id", (req, res) => {
+router.get("/:id", (req, res) => {
   const { id } = req.params;
   opportunitySkills
     .getSkillsForOpportunitiesList(id)
