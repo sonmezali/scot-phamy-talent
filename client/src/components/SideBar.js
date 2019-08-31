@@ -31,6 +31,7 @@ export default ({
         to="/"
       >
         <Icon name="home"></Icon>
+        Home
       </Menu.Item>
       <Menu.Item
         name="About"
@@ -39,16 +40,19 @@ export default ({
         as={Link}
         to="/about"
       >
-        <Icon name="adn"></Icon>
+        <Icon name="adn"> </Icon>
+        About
       </Menu.Item>
       <Menu.Item
-        name="opportunity-list"
-        active={activeItem === "opportunity-list"}
+        name="Opportunity List"
+        active={activeItem === "Opportunity List"}
         onClick={handleItemClick}
         as={Link}
         to="/opportunity-list"
-      />
-
+      >
+        <Icon name="clipboard list"></Icon>
+        Opportunity List
+      </Menu.Item>
       <Menu.Item
         name="Status"
         onClick={handleItemClick}
@@ -56,7 +60,8 @@ export default ({
         active={activeItem === "Status"}
         to="/status"
       >
-        <Icon name="star outline"></Icon>
+        <Icon name="tag"></Icon>
+        Status
       </Menu.Item>
       <Menu.Item
         name="Create Opportunity"
@@ -65,7 +70,8 @@ export default ({
         active={activeItem === "Create Opportunity"}
         to="/create-opportunity"
       >
-        <Icon name="star outline"></Icon>
+        <Icon name="idea"></Icon>
+        Create Opportunity
       </Menu.Item>
       <Menu.Item
         name="Applicant Profile"
@@ -73,7 +79,10 @@ export default ({
         as={Link}
         active={activeItem === "Applicant Profile"}
         to="/applicant-profile"
-      />
+      >
+        <Icon name="address card outline"></Icon>
+        Applicant Profile
+      </Menu.Item>
       {localStorage.getItem("token") ? (
         <Menu.Item
           name="Logout"
@@ -87,9 +96,10 @@ export default ({
           to="/logout"
         >
           <Icon name="log out"></Icon>
+          Log Out
         </Menu.Item>
       ) : (
-        <Menu.Menu position="right">
+        <Menu.Menu>
           <Menu.Item
             name="Sign In"
             active={activeItem === "Sign In"}
@@ -97,7 +107,8 @@ export default ({
             as={Link}
             to="/login"
           >
-            <Icon name="sign-in"></Icon>{" "}
+            <Icon name="sign-in"></Icon>
+            Sign In
           </Menu.Item>
           <Menu.Item
             name="Main register"
@@ -107,6 +118,7 @@ export default ({
             to="/main-register"
           >
             <Icon name="signup"></Icon>
+            Sign In
           </Menu.Item>
         </Menu.Menu>
       )}
