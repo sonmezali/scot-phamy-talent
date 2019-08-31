@@ -92,12 +92,16 @@ export default class Login extends Component {
             </Form>
             <List divided horizontal>
               <List.Item as="a">
-                <List.Content>
-                  <List.Header as="a">Create an account?</List.Header>
-                </List.Content>
-                <List.Content>
-                  <List.Content as="a">Forgot your password?</List.Content>
-                </List.Content>
+                <Message>
+                  <List.Content>
+                    <List.Header as="a">Create account</List.Header>
+                  </List.Content>
+                </Message>
+                <Message>
+                  <List.Content>
+                    <List.Content as="a">Forgot password</List.Content>
+                  </List.Content>
+                </Message>
               </List.Item>
             </List>
           </Grid.Column>
