@@ -22,20 +22,11 @@ class Routes extends Component {
           <Route path="/" exact component={Home} />
           <Route path="/about" component={About} />
           <Route path="/status" component={Status} />
-
           <Route path="/login" component={Login} />
           <Route path="/applicant-profile" component={ApplicantProfile} />
-          <Route
-            path="/create-opportunity"
-            exact
-            component={NewOpportunityForm}
-          />
+          <Route path="/create-opportunity" component={NewOpportunityForm} />
           <Route path="/main-register" component={MainRegister} />
-          <Route
-            path="/applicant-register"
-            exact
-            component={ApplicantRegister}
-          />
+          <Route path="/applicant-register" component={ApplicantRegister} />
           <Route path="/opportunity-list" component={OpportunitiesList} />
         </Container>
       </Router>
