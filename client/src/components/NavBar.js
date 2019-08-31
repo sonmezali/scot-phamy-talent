@@ -31,7 +31,9 @@ class NavBar extends Component {
             </Button>
           </Menu.Item>
           <Menu.Item position="right">
-            <Button inverted>{activeItem}</Button>
+            <Button inverted basic disabled>
+              {activeItem}
+            </Button>
           </Menu.Item>
           {localStorage.getItem("token") ? (
             <Menu.Item
