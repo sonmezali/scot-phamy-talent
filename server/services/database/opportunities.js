@@ -16,7 +16,10 @@ const createOpportunity = ({
 }) => {
 	return new Promise((resolve, reject) => {
 		pool.query(
-			"INSERT INTO opportunities (name ,description ,contact_person,telephone ,email ,city,date,type,company_id) VALUES($1,$2,$3,$4,$5,$6,$7,$8,$9) RETURNING opportunity_id",
+			`INSERT INTO opportunities 
+      (name ,description ,contact_person,telephone ,email ,city,date,type,company_id) 
+      VALUES($1,$2,$3,$4,$5,$6,$7,$8,$9)
+       RETURNING opportunity_id`,
 			[
 				name,
 				description,

@@ -22,5 +22,25 @@ const newOpportunitySkills = ({ skills, opportunityId }) => {
 		});
 	});
 };
+const getSkillsForOpportunitiesList = (id) => {
+	return new Promise((resolve, reject) => {
+		pool.query(
+			`SELECT
+    skills.name AS skill
+  FROM 
+    skills
+    INNER JOIN  opportunity_skills ON opportunity_skills.skill_id = skills.skill_id
+    WHERE opportunity_skills.opportunity_id = '${id}'
+  `,
+			(error, result) => {
+				if (error) {
+					reject(error);
+				} else {
+					resolve(result.rows);
+				}
+			}
+		);
+	});
+};
 
 module.exports = { newOpportunitySkills };
