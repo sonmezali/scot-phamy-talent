@@ -20,7 +20,7 @@ export default ({
       visible={visible}
       width="thin"
       style={{
-        top: "48px"
+        top: "50px"
       }}
     >
       <Menu.Item

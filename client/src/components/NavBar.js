@@ -16,7 +16,13 @@ class NavBar extends Component {
     document.location.reload();
   };
   handleHideClick = () => this.setState({ visible: false });
-  handleShowClick = () => this.setState({ visible: true });
+  handleShowClick = () =>
+    this.setState(prevState => {
+      const visibleState = prevState.visible;
+      return {
+        visible: !visibleState
+      };
+    });
   handleSidebarHide = () => this.setState({ visible: false });
 
   render() {
@@ -31,7 +37,7 @@ class NavBar extends Component {
             </Button>
           </Menu.Item>
           <Menu.Item position="right">
-            <Menu.Header>{activeItem}</Menu.Header>
+            <Menu.Header as="h1">{activeItem}</Menu.Header>
           </Menu.Item>
           {localStorage.getItem("token") ? (
             <Menu.Item

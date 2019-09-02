@@ -26,27 +26,26 @@ class ApplicantRegister extends Component {
       city: null,
       skills: [],
       cvLink: "",
-      value: ""
+      value: null
     },
     passwordValidation: {
-      lengthValid: null,
-      matching: null,
+      lengthValid: false,
+      matching: false,
       active: false,
       eightCharactersColor: "red",
       matchColor: "red",
       containUppercaseColor: "red",
       containLowercaseColor: "red",
       containNumberColor: "red",
-      containUppercase: null,
-      containLowercase: null,
-      containNumber: null,
-      checked: false,
-      valid: null
+      containUppercase: false,
+      containLowercase: false,
+      containNumber: false
     },
-    successServerStatus: null,
-    openSubmitStatusMsg: null,
+    successServerStatus: false,
+    openSubmitStatusMsg: false,
     skillsData: [],
-    citiesData: []
+    citiesData: [],
+    checkboxErr: false
   };
 
   //Getting Data
@@ -105,11 +104,12 @@ class ApplicantRegister extends Component {
   handleSubmit = e => {
     e.preventDefault();
     if (
-      this.state.passwordValidation.lengthValid === true &&
-      this.state.passwordValidation.matching === true &&
-      this.state.passwordValidation.containUppercase === true &&
-      this.state.passwordValidation.containLowercase === true &&
-      this.state.passwordValidation.containNumber === true
+      this.state.applicantEntries.value !== null &&
+      this.state.passwordValidation.lengthValid &&
+      this.state.passwordValidation.matching &&
+      this.state.passwordValidation.containUppercase &&
+      this.state.passwordValidation.containLowercase &&
+      this.state.passwordValidation.containNumber
     ) {
       createNewApplicantUserAndProfile(this.state.applicantEntries).then(
         res => {
@@ -123,19 +123,25 @@ class ApplicantRegister extends Component {
     } else {
       return this.setState({
         successServerStatus: false,
-        openSubmitStatusMsg: true
+        openSubmitStatusMsg: true,
+        checkboxErr: true
       });
     }
   };
 
   handleChangeCheckBox = (e, { value }) =>
     this.setState({
-      applicantEntries: { ...this.state.applicantEntries, value }
+      applicantEntries: {
+        ...this.state.applicantEntries,
+        value
+      },
+      checkboxErr: false
     });
   // Clear Form Entries after successServerStatus
   clearForm = e => {
     this.setState({
       applicantEntries: {
+        role: "applicant",
         name: "",
         email: "",
         password: "",
@@ -144,12 +150,13 @@ class ApplicantRegister extends Component {
         city: null,
         skills: [],
         cvLink: "",
-        value: ""
+        value: null,
+        checked: null
       },
       passwordValidation: {
         lengthValid: null,
         matching: null,
-        active: null,
+        active: false,
         eightCharactersColor: "red",
         matchColor: "red",
         containUppercaseColor: "red",
@@ -157,9 +164,7 @@ class ApplicantRegister extends Component {
         containNumberColor: "red",
         containUppercase: null,
         containLowercase: null,
-        containNumber: null,
-        checked: false,
-        valid: null
+        containNumber: null
       }
     });
   };
@@ -300,6 +305,16 @@ class ApplicantRegister extends Component {
     const pas = newReg.test(password);
 
     return pas;
+  };
+  isCheckBoxChecked = () => {
+    if (
+      this.state.applicantEntries.value !== "Yes" ||
+      this.state.applicantEntries.value !== "No"
+    ) {
+      return true;
+    } else {
+      return false;
+    }
   };
   render() {
     const {
@@ -460,7 +475,7 @@ class ApplicantRegister extends Component {
                   <input />
                 </Form.Field>
                 <Header as="h4">Do you have the right to work? </Header>
-                <Form.Group inline>
+                <Form.Group inline required>
                   {" "}
                   <Form.Field>
                     <Checkbox
@@ -480,6 +495,9 @@ class ApplicantRegister extends Component {
                       onChange={this.handleChangeCheckBox}
                     />
                   </Form.Field>
+                  {this.state.checkboxErr ? (
+                    <Message> you have to choose</Message>
+                  ) : null}
                 </Form.Group>
                 <Form.Button fluid lapel="Submit" primary>
                   Sign Up
