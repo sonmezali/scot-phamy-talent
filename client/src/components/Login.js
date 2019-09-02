@@ -82,7 +82,7 @@ export default class Login extends Component {
               {this.state.error ? <div>Wrong Info. Try Again</div> : null}
             </Form>
             <List divided horizontal>
-              <List.Item as="a">
+              <List.Item>
                 <Message>
                   <List.Content>
                     <List.Header as={Link} to="/main-register">

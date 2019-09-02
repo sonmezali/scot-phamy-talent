@@ -96,7 +96,7 @@ export default ({
           to="/logout"
         >
           <Icon name="log out"></Icon>
-          Log Out
+          Logout
         </Menu.Item>
       ) : (
         <Menu.Menu>
@@ -118,7 +118,7 @@ export default ({
             to="/main-register"
           >
             <Icon name="signup"></Icon>
-            Sign In
+            Sign up
           </Menu.Item>
         </Menu.Menu>
       )}
