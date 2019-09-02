@@ -60,12 +60,12 @@ export default ({
         <Icon name="star outline"></Icon>
       </Menu.Item>
       <Menu.Item
-          name="company-profile"
-          active={activeItem === "company-profile"}
-          onClick={handleItemClick}
-          as={Link}
-          to="/company-profile"
-        />
+        name="company-profile"
+        active={activeItem === "company-profile"}
+        onClick={handleItemClick}
+        as={Link}
+        to="/company-profile"
+      />
       <Menu.Item
         name="Applicant Profile"
         onClick={handleItemClick}

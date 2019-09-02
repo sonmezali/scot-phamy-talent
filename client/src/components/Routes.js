@@ -14,7 +14,6 @@ import ApplicantProfile from "./ApplicantProfile";
 import CompanyProfile from "./CompanyProfile";
 import OpportunitiesList from "./OpportunitiesList";
 
-
 class Routes extends Component {
   render() {
     return (
@@ -22,7 +21,7 @@ class Routes extends Component {
         <NavBar />
         <Container>
           <Route path="/" exact component={Home} />
-          <Route path="/company-profile" component={CompanyProfile}/>
+          <Route path="/company-profile" component={CompanyProfile} />
           <Route path="/about" component={About} />
           <Route path="/status" component={Status} />
           <Route path="/login" component={Login} />
@@ -31,7 +30,7 @@ class Routes extends Component {
           <Route path="/main-register" component={MainRegister} />
           <Route path="/applicant-register" component={ApplicantRegister} />
           <Route path="/opportunity-list" component={OpportunitiesList} />
-          <Route path="/company-profile" exact component={CompanyProfile}/>
+          <Route path="/company-profile" exact component={CompanyProfile} />
         </Container>
       </Router>
     );

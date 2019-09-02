@@ -71,8 +71,6 @@ class CompanyProfile extends React.Component {
   componentDidMount() {
     const companyId = 1; // will get company id from company login
     getCompanyProfile(companyId).then(data => {
-      console.log("company_name", data);
-      // console.log("this is data", data)
       this.setState({
         companyName: data.company_name,
         aboutCompany: data.company_description,
@@ -99,7 +97,7 @@ class CompanyProfile extends React.Component {
     console.log(this.state);
     return (
       <Container text style={{ marginTop: "4em" }} border={{}} align="center">
-        <Dropdown clearable text="Your Profile" options={options} selection/>
+        <Dropdown clearable text="Your Profile" options={options} selection />
         <Card centered style={{ background: "#bce0fd" }}>
           <Card.Content textAlign="center">
             <Image
@@ -133,8 +131,8 @@ class CompanyProfile extends React.Component {
         </Card>
 
         <Card centered>
-          <Card.Header >
-            <Segment basic style={{background:"#f1f9ff"}}>
+          <Card.Header>
+            <Segment basic style={{ background: "#f1f9ff" }}>
               <Grid columns={2}>
                 <Grid.Column>
                   <Header as="h3">Opportunity Title</Header>
@@ -162,7 +160,7 @@ class CompanyProfile extends React.Component {
               <p>{this.state.opportunityDescription}</p>
             </Segment>
           </Card.Description>
-          <Card.Content extra style={{background:"#bce0fd"}}>
+          <Card.Content extra style={{ background: "#bce0fd" }}>
             <Grid columns={2}>
               <Grid.Column>
                 <Button onClick={this.handleClickEdit} primary>
