@@ -7,8 +7,7 @@ class NavBar extends Component {
     visible: false,
     activeItem: "home"
   };
-  handleItemClick = (e, { name }) =>
-    this.setState({ activeItem: name, visible: false });
+  handleItemClick = (e, { name }) => this.setState({ activeItem: name });
 
   logout = event => {
     event.preventDefault();
@@ -41,7 +40,7 @@ class NavBar extends Component {
               active={activeItem === "Logout"}
               onClick={event => {
                 this.logout(event);
-                this.handleItemClick(event);
+                handleItemClick(event);
               }}
               as={Link}
               position="right"
@@ -53,7 +52,7 @@ class NavBar extends Component {
             <Menu.Item
               name="Sign In"
               active={activeItem === "Sign In"}
-              onClick={this.handleItemClick}
+              onClick={handleItemClick}
               as={Link}
               to="/login"
               position="right"
