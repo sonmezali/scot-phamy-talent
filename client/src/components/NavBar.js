@@ -7,7 +7,8 @@ class NavBar extends Component {
     visible: false,
     activeItem: "home"
   };
-  handleItemClick = (e, { name }) => this.setState({ activeItem: name });
+  handleItemClick = (e, { name }) =>
+    this.setState({ activeItem: name, visible: false });
 
   logout = event => {
     event.preventDefault();
