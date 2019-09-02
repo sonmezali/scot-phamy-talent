@@ -6,5 +6,3 @@ import "./index.css";
 import Routes from "./components/Routes";
 
 ReactDOM.render(<Routes />, document.getElementById("root"));
-import CompanyProfile from "./components/CompanyProfile";
-<Route path="/company-profile" exact component={CompanyProfile}/>

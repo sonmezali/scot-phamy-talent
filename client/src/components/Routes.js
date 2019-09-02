@@ -11,6 +11,8 @@ import ApplicantRegister from "./ApplicantRegister";
 import NewOpportunityForm from "./NewOpportunityForm";
 import MainRegister from "./MainRegister";
 import ApplicantProfile from "./ApplicantProfile";
+import CompanyProfile from "./CompanyProfile";
+
 
 class Routes extends Component {
   render() {
@@ -29,6 +31,7 @@ class Routes extends Component {
             exact
             component={NewOpportunityForm}
           />
+<Route path="/company-profile" exact component={CompanyProfile}/>
           <Route path="/main-register" exact component={MainRegister} />
           <Route
             path="/applicant-register"

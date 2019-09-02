@@ -1,13 +1,15 @@
 import React from "react";
-import ReactDOM from "react-dom";
 import { Link } from "react-router-dom";
 import {
   Container,
   Button,
   Header,
-  Divider,
   Menu,
-  Dropdown
+  Dropdown,
+  Card,
+  Image,
+  Grid,
+  Segment
 } from "semantic-ui-react";
 import { getCompanyProfile } from "../api/companyProfile";
 const options = [
@@ -42,7 +44,7 @@ const options = [
   {
     key: 4,
     text: (
-      <Menu.Item as={Link} to="/company/manage-profile">
+      <Menu.Item as={Link} to="/company/manage-opportunities">
         Add Opportunity
       </Menu.Item>
     ),
@@ -86,7 +88,7 @@ class CompanyProfile extends React.Component {
 
   handleClickEdit = () => {
     console.log("something");
-    return "/company/managa-profile";
+    return "/company/manage-profile";
   };
 
   handleClickDelete = () => {
@@ -96,32 +98,85 @@ class CompanyProfile extends React.Component {
   render() {
     console.log(this.state);
     return (
-      <Container>
-        <Dropdown clearable text="Your Profile" options={options} selection />
+      <Container text style={{ marginTop: "4em" }} border={{}} align="center">
+        <Dropdown clearable text="Your Profile" options={options} selection/>
+        <Card centered style={{ background: "#bce0fd" }}>
+          <Card.Content textAlign="center">
+            <Image
+              size="tiny"
+              src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS_fNsF06WAgkNbqeLtIKBcnA1zZ_gPPXPmdchvEliAAyxmYVKM4w"
+              alt="Company Logo"
+            />
+            <Header as="h3">{this.state.companyName}</Header>
+            <Header as="h3">Location</Header>
+          </Card.Content>
+        </Card>
+        <Grid centered>
+          <Segment basic>
+            <a href={`mailto: ${this.state.contact}`}>
+              <Button primary size="large">
+                Contact
+              </Button>
+            </a>
+          </Segment>
+        </Grid>
+        <Card centered>
+          <Card.Content>
+            <Card.Header>
+              <Header as="h3">About Company</Header>
+            </Card.Header>
 
-        <Header as="h1">{this.state.companyName}</Header>
-        <Divider></Divider>
+            <Card.Description>
+              <p>{this.state.aboutCompany}</p>
+            </Card.Description>
+          </Card.Content>
+        </Card>
 
-        <a href={`mailto: ${this.state.contact}`}>
-          <Button primary>Contact</Button>
-        </a>
-        <Header as="h2">{this.state.contact}</Header>
-
-        <Divider></Divider>
-        <h5>About Company</h5>
-        <Header as="h3">{this.state.aboutCompany}</Header>
-
-        <Header as="h4">{this.state.opportunityTitle}</Header>
-        <Header as="h5">{this.state.contactName}</Header>
-        <Header as="h6">{this.state.date}</Header>
-        <Header as="h7">{this.state.opportunityDescription}</Header>
-        <Divider></Divider>
-        <Button onClick={this.handleClickEdit} primary>
-          Edit
-        </Button>
-        <Button onClick={this.handleClickDelete} secondary>
-          Delete
-        </Button>
+        <Card centered>
+          <Card.Header >
+            <Segment basic style={{background:"#f1f9ff"}}>
+              <Grid columns={2}>
+                <Grid.Column>
+                  <Header as="h3">Opportunity Title</Header>
+                </Grid.Column>
+                <Grid.Column>
+                  <Header as="h5">{this.state.opportunityTitle}</Header>
+                </Grid.Column>
+                <Grid.Column>
+                  <Header as="h3">
+                    Contact Name
+                    <Header as="h5">{this.state.contactName}</Header>
+                  </Header>
+                </Grid.Column>
+                <Grid.Column>
+                  <Header as="h3">
+                    Expiring Date
+                    <Header as="h6">{this.state.date}</Header>
+                  </Header>
+                </Grid.Column>
+              </Grid>
+            </Segment>
+          </Card.Header>
+          <Card.Description>
+            <Segment basic>
+              <p>{this.state.opportunityDescription}</p>
+            </Segment>
+          </Card.Description>
+          <Card.Content extra style={{background:"#bce0fd"}}>
+            <Grid columns={2}>
+              <Grid.Column>
+                <Button onClick={this.handleClickEdit} primary>
+                  Edit
+                </Button>
+              </Grid.Column>
+              <Grid.Column>
+                <Button onClick={this.handleClickDelete} secondary>
+                  Delete
+                </Button>
+              </Grid.Column>
+            </Grid>
+          </Card.Content>
+        </Card>
       </Container>
     );
   }

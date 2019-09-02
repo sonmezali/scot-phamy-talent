@@ -40,7 +40,7 @@ class NavBar extends Component {
               active={activeItem === "Logout"}
               onClick={event => {
                 this.logout(event);
-                this.handleItemClick(event);
+                handleItemClick(event);
               }}
               as={Link}
               position="right"
@@ -52,7 +52,7 @@ class NavBar extends Component {
             <Menu.Item
               name="Sign In"
               active={activeItem === "Sign In"}
-              onClick={this.handleItemClick}
+              onClick={handleItemClick}
               as={Link}
               to="/login"
               position="right"
@@ -75,10 +75,3 @@ class NavBar extends Component {
 }
 
 export default NavBar;
-<Menu.Item
-          name="company-profile"
-          active={activeItem === "company-profile"}
-          onClick={this.handleItemClick}
-          as={Link}
-          to="/company-profile"
-        />
