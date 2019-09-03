@@ -76,7 +76,6 @@ class ApplicantProfile extends React.Component {
       });
     });
   }
-
   render() {
     return (
       <Container>

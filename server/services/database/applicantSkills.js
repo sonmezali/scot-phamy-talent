@@ -8,19 +8,19 @@ const pool = new Pool(config);
 // Using pg-format to insert multiple rows with Node Postgres
 
 const newApplicantSkills = ({ skills, applicantId }) => {
-  const SkillsAndIdArray = skills.map((skill) => [skill, applicantId]);
-  const query = format(
-    "INSERT INTO applicant_skills (skill_id, applicant_id) VALUES %L",
-    SkillsAndIdArray,
-  );
-  return new Promise((resolve, reject) => {
-    pool.query(query, (error, result) => {
-      if (error) {
-        reject(error);
-      }
-      resolve(result.rows);
-    });
-  });
+	const SkillsAndIdArray = skills.map((skill) => [skill, applicantId]);
+	const query = format(
+		"INSERT INTO applicant_skills (skill_id, applicant_id) VALUES %L",
+		SkillsAndIdArray
+	);
+	return new Promise((resolve, reject) => {
+		pool.query(query, (error, result) => {
+			if (error) {
+				reject(error);
+			}
+			resolve(result.rows);
+		});
+	});
 };
 
 module.exports = { newApplicantSkills };
