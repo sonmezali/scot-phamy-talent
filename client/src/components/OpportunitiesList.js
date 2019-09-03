@@ -21,7 +21,10 @@ class OpportunitiesList extends Component {
     OpportunitiesList: [],
     selectedOpportunity: "",
     cities: [],
-    skills: []
+    skills: [],
+    selectedSkills: [],
+    filteredResult: [],
+    filtering: false
   };
   // Get data
   getAllSkills = () => {
@@ -77,7 +80,7 @@ class OpportunitiesList extends Component {
   handleSelectSkill = (e, data) => {
     const selectedSkill = data.value;
     this.setState({
-      formEntries: { ...this.state.formEntries, skills: selectedSkill }
+      selectedSkills: selectedSkill
     });
   };
   handleSelectOpportunity = e => {
@@ -92,7 +95,19 @@ class OpportunitiesList extends Component {
       formEntries: { ...this.state.formEntries, city: selectedCity }
     });
   };
+  filteringOpportunitiesBySkills = () => {
+    const filteredBySkills = this.state.OpportunitiesList.filter(opportunity =>
+      this.state.selectedSkills.some(skill =>
+        opportunity.skills.includes(skill)
+      )
+    ).filter(opportunity => this.state.selectedJobType === opportunity.type);
+    this.setState({
+      filteredResult: filteredBySkills,
+      filtering: true
+    });
+  };
   render() {
+    console.log(this.state.selectedJobType);
     const { searchKeyWord, cities, skills } = this.state;
     return (
       <div>
@@ -132,6 +147,7 @@ class OpportunitiesList extends Component {
                 header="SKills"
                 onChange={this.handleSelectSkill}
                 options={skills}
+                onClose={this.filteringOpportunitiesBySkills}
                 multiple
                 defaultValue="JavaScript"
               />
@@ -193,40 +209,85 @@ class OpportunitiesList extends Component {
         </Divider>
         <br />
         <Grid>
-          {this.state.OpportunitiesList.map((opportunity, index) => (
-            <Card
-              centered
-              key={index}
-              raised
-              color="blue"
-              onClick={this.handleSelectOpportunity}
-              name={opportunity.opportunity_id}
-            >
-              <Card.Content>
-                <Image
-                  floated="right"
-                  size="mini"
+          {this.state.filtering ? (
+            <Grid>
+              {this.state.filteredResult.map((opportunity, index) => (
+                <Card
+                  centered
+                  key={index}
+                  raised
+                  color="blue"
+                  onClick={this.handleSelectOpportunity}
                   name={opportunity.opportunity_id}
                 >
-                  <Icon
-                    name="ellipsis vertical"
-                    color="blue"
-                    onClick={this.handleSelectOpportunity}
-                  ></Icon>
-                </Image>
-                <Card.Header>{opportunity.opportunity_title}</Card.Header>
-                <Card.Content textAlign="left">
-                  contact Person: {opportunity.contact_person}
-                </Card.Content>
-                <Card.Meta textAlign="left">
-                  Expire at:{opportunity.date}{" "}
-                </Card.Meta>
-              </Card.Content>
-              <Card.Content>
-                <Card.Description>{opportunity.description}</Card.Description>
-              </Card.Content>
-            </Card>
-          ))}
+                  <Card.Content>
+                    <Image
+                      floated="right"
+                      size="mini"
+                      name={opportunity.opportunity_id}
+                    >
+                      <Icon
+                        name="ellipsis vertical"
+                        color="blue"
+                        onClick={this.handleSelectOpportunity}
+                      ></Icon>
+                    </Image>
+                    <Card.Header>{opportunity.opportunity_title}</Card.Header>
+                    <Card.Content textAlign="left">
+                      contact Person: {opportunity.contact_person}
+                    </Card.Content>
+                    <Card.Meta textAlign="left">
+                      Expire at:{opportunity.date}{" "}
+                    </Card.Meta>
+                  </Card.Content>
+                  <Card.Content>
+                    <Card.Description>
+                      {opportunity.description}
+                    </Card.Description>
+                  </Card.Content>
+                </Card>
+              ))}
+            </Grid>
+          ) : (
+            <Grid>
+              {this.state.OpportunitiesList.map((opportunity, index) => (
+                <Card
+                  centered
+                  key={index}
+                  raised
+                  color="blue"
+                  onClick={this.handleSelectOpportunity}
+                  name={opportunity.opportunity_id}
+                >
+                  <Card.Content>
+                    <Image
+                      floated="right"
+                      size="mini"
+                      name={opportunity.opportunity_id}
+                    >
+                      <Icon
+                        name="ellipsis vertical"
+                        color="blue"
+                        onClick={this.handleSelectOpportunity}
+                      ></Icon>
+                    </Image>
+                    <Card.Header>{opportunity.opportunity_title}</Card.Header>
+                    <Card.Content textAlign="left">
+                      contact Person: {opportunity.contact_person}
+                    </Card.Content>
+                    <Card.Meta textAlign="left">
+                      Expire at:{opportunity.date}{" "}
+                    </Card.Meta>
+                  </Card.Content>
+                  <Card.Content>
+                    <Card.Description>
+                      {opportunity.description}
+                    </Card.Description>
+                  </Card.Content>
+                </Card>
+              ))}
+            </Grid>
+          )}
         </Grid>
       </div>
     );
