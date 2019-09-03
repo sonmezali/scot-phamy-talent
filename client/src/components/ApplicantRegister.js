@@ -114,7 +114,7 @@ class ApplicantRegister extends Component {
       createNewApplicantUserAndProfile(this.state.applicantEntries).then(
         res => {
           this.setState({ successServerStatus: res.success });
-          if (this.state.successServerStatus === true) {
+          if (this.state.successServerStatus) {
             this.setState({ openSubmitStatusMsg: true });
             this.clearForm();
           }
@@ -224,8 +224,8 @@ class ApplicantRegister extends Component {
   };
   isConfirmUppercase = (password, confirmPassword) => {
     if (
-      this.isPasswordContainUpperCase(password) === true &&
-      this.isPasswordContainUpperCase(confirmPassword) === true
+      this.isPasswordContainUpperCase(password) &&
+      this.isPasswordContainUpperCase(confirmPassword)
     ) {
       return this.setState({
         passwordValidation: {
@@ -246,8 +246,8 @@ class ApplicantRegister extends Component {
   };
   isConfirmLowercase = (password, confirmPassword) => {
     if (
-      this.isPasswordContainLowerCase(password) === true &&
-      this.isPasswordContainLowerCase(confirmPassword) === true
+      this.isPasswordContainLowerCase(password) &&
+      this.isPasswordContainLowerCase(confirmPassword)
     ) {
       return this.setState({
         passwordValidation: {
@@ -268,8 +268,8 @@ class ApplicantRegister extends Component {
   };
   isConfirmNumber = (password, confirmPassword) => {
     if (
-      this.isPasswordContainNumber(password) === true &&
-      this.isPasswordContainNumber(confirmPassword) === true
+      this.isPasswordContainNumber(password)  &&
+      this.isPasswordContainNumber(confirmPassword)
     ) {
       return this.setState({
         passwordValidation: {
