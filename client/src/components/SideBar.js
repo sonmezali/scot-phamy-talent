@@ -20,7 +20,7 @@ export default ({
       visible={visible}
       width="thin"
       style={{
-        top: "48px"
+        top: "50px"
       }}
     >
       <Menu.Item
@@ -86,6 +86,7 @@ export default ({
           to="/logout"
         >
           <Icon name="log out"></Icon>
+          Logout
         </Menu.Item>
       ) : (
         <Menu.Menu position="right">
@@ -106,6 +107,7 @@ export default ({
             to="/main-register"
           >
             <Icon name="signup"></Icon>
+            Sign up
           </Menu.Item>
         </Menu.Menu>
       )}
