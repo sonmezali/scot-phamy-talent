@@ -5,9 +5,13 @@ import SideBarMenu from "./SideBar";
 class NavBar extends Component {
   state = {
     visible: false,
-    activeItem: "home"
+    activeItem:
+      window.location.pathname === "/"
+        ? "home"
+        : window.location.pathname.substr(1)
   };
-  handleItemClick = (e, { name }) => this.setState({ activeItem: name });
+  handleItemClick = (e, { name }) =>
+    this.setState({ activeItem: name, visible: false });
 
   logout = event => {
     event.preventDefault();
@@ -36,7 +40,7 @@ class NavBar extends Component {
             </Button>
           </Menu.Item>
           <Menu.Item position="right">
-            <Menu.Header as="h1">{activeItem}</Menu.Header>
+            <Menu.Header as="h5">{activeItem}</Menu.Header>
           </Menu.Item>
           {localStorage.getItem("token") ? (
             <Menu.Item
