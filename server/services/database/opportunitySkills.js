@@ -43,4 +43,4 @@ const getSkillsForOpportunitiesList = (id) => {
 	});
 };
 
-module.exports = { newOpportunitySkills };
+module.exports = { newOpportunitySkills  , getSkillsForOpportunitiesList};

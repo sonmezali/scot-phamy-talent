@@ -268,7 +268,7 @@ class ApplicantRegister extends Component {
   };
   isConfirmNumber = (password, confirmPassword) => {
     if (
-      this.isPasswordContainNumber(password)  &&
+      this.isPasswordContainNumber(password) &&
       this.isPasswordContainNumber(confirmPassword)
     ) {
       return this.setState({
@@ -339,7 +339,7 @@ class ApplicantRegister extends Component {
     return (
       <div>
         <Form onSubmit={this.handleSubmit}>
-          <Grid centered columns={2}>
+          <Grid centered stackable columns={2}>
             <Grid.Row>
               <Grid.Column>
                 <Header as="h1" textAlign="center">

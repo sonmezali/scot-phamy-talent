@@ -29,7 +29,7 @@ class Routes extends Component {
           <Route path="/create-opportunity" component={NewOpportunityForm} />
           <Route path="/main-register" component={MainRegister} />
           <Route path="/applicant-register" component={ApplicantRegister} />
-          <Route path="/opportunity-list" component={OpportunitiesList} />
+          <Route path="/opportunities" component={OpportunitiesList} />
           <Route path="/company-profile" exact component={CompanyProfile} />
         </Container>
       </Router>
