@@ -63,7 +63,7 @@ class ApplicantProfile extends React.Component {
   }
 
   componentDidMount() {
-    const user_id = null;
+    const user_id = 2;
     getApplicantProfileByUserId(user_id).then(response => {
       this.setState({
         applicantName: response.applicant_name,
