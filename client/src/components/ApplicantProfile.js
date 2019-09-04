@@ -92,7 +92,6 @@ class ApplicantProfile extends React.Component {
               <Segment circular style={square} centered>
                 <Image
                   src="https://www.bsn.eu/wp-content/uploads/2016/12/user-icon-image-placeholder-300-grey.jpg"
-                  appImage
                   size="medium"
                   circular
                   centered
