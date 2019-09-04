@@ -62,18 +62,21 @@ class ApplicantProfile extends React.Component {
   }
 
   componentDidMount() {
-    const user_id = 2; //This is hard coded because we don't have user login information yet
+    const getUserInformation = JSON.parse(localStorage.getItem("user"));
+    if (getUserInformation.role === "applicant") {
+      const user_id = getUserInformation.user_id;
 
-    getApplicantProfileByUserId(user_id).then(response => {
-      this.setState({
-        applicantName: response.applicant_name,
-        city: response.city,
-        applicationStatus: response.application_status,
-        rightToWork: response.right_to_work,
-        email: response.email,
-        skills: [response.skill_name]
+      getApplicantProfileByUserId(user_id).then(response => {
+        this.setState({
+          applicantName: response.applicant_name,
+          city: response.city,
+          applicationStatus: response.application_status,
+          rightToWork: response.right_to_work,
+          email: response.email,
+          skills: [response.skill_name]
+        });
       });
-    });
+    }
   }
   render() {
     return (
