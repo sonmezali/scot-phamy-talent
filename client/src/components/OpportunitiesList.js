@@ -89,9 +89,9 @@ class OpportunitiesList extends Component {
     });
   };
   handleSelectCity = (e, data) => {
-    const City = data.value;
+    const city = data.value;
     this.setState({
-      selectedCity: City
+      selectedCity: city
     });
   };
   handleChangeSearchKeyWord = e => {
@@ -163,7 +163,6 @@ class OpportunitiesList extends Component {
     return opportunitiesList;
   };
   render() {
-    console.log(this.state.selectedCity);
     const { searchKeyWord, cities, skills } = this.state;
     return (
       <div>
