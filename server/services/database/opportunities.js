@@ -68,5 +68,37 @@ const getOpportunitiesForList = () => {
     );
   });
 };
+const getOpportunityById = id => {
+  return new Promise((resolve, reject) => {
+    pool.query(
+      `SELECT
+  opportunities.opportunity_id,
+  opportunities.name AS opportunity_Title,
+  opportunities.contact_person, 
+  opportunities.description,
+  opportunities.telephone,
+  opportunities.email,
+  opportunities.date, 
+  opportunities.Type,
+  cities.city AS location
+  FROM
+    opportunities
+    INNER JOIN cities ON opportunities.city = cities.id
+    WHERE opportunities.opportunity_id =${id}
+  `,
+      (error, result) => {
+        if (error) {
+          reject(error);
+        } else {
+          resolve(result.rows);
+        }
+      }
+    );
+  });
+};
 
-module.exports = { createOpportunity, getOpportunitiesForList };
+module.exports = {
+  createOpportunity,
+  getOpportunitiesForList,
+  getOpportunityById
+};
