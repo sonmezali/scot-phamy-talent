@@ -2,7 +2,12 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { Sidebar, Menu, Icon } from "semantic-ui-react";
 
-export default ({ visible, activeItem, handleItemClick }) => {
+export default ({
+  visible,
+  activeItem,
+  handleSidebarHide,
+  handleItemClick
+}) => {
   return (
     <Sidebar
       as={Menu}
@@ -10,10 +15,11 @@ export default ({ visible, activeItem, handleItemClick }) => {
       icon="labeled"
       inverted
       vertical
+      onHide={handleSidebarHide}
       visible={visible}
       width="thin"
       style={{
-        top: "50px"
+        top: "40px"
       }}
     >
       <Menu.Item

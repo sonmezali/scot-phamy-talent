@@ -11,9 +11,10 @@ class NavBar extends Component {
         : window.location.pathname.substr(1)
   };
   // handlers
+  handleHideClick = () => this.setState({ visible: false });
   handleItemClick = (e, { name }) =>
     this.setState({ activeItem: name, visible: false });
-
+  handleSidebarHide = () => this.setState({ visible: false });
   handleShowClick = () =>
     this.setState(prevState => {
       const visibleState = prevState.visible;
@@ -31,11 +32,16 @@ class NavBar extends Component {
 
   render() {
     const { visible, activeItem } = this.state;
-    const { handleItemClick, logout } = this;
+    const {
+      handleItemClick,
+      handleShowClick,
+      logout,
+      handleSidebarHide
+    } = this;
     return (
       <React.Fragment>
         <Menu size="mini" flued inverted>
-          <Menu.Item onClick={this.handleShowClick}>
+          <Menu.Item onClick={handleShowClick}>
             <Icon size="large" name="list layout"></Icon>
           </Menu.Item>
           <Menu.Item position="left">
@@ -86,6 +92,7 @@ class NavBar extends Component {
           )}
           <SideBarMenu
             visible={visible}
+            handleSidebarHide={handleSidebarHide}
             activeItem={activeItem}
             handleItemClick={handleItemClick}
             logout={logout}
