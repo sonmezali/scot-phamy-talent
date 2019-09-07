@@ -39,10 +39,10 @@ export default ({ visible, activeItem, handleItemClick }) => {
       </Menu.Item>
 
       <Menu.Item
-        name="Create Opportunity"
+        name="Opportunity"
         onClick={handleItemClick}
         as={Link}
-        active={activeItem === "Create Opportunity"}
+        active={activeItem === "Opportunity"}
         to="/create-opportunity"
       >
         <Icon name="idea"></Icon>
@@ -50,36 +50,25 @@ export default ({ visible, activeItem, handleItemClick }) => {
       </Menu.Item>
 
       <Menu.Item
-        name="Applicant Profile"
+        name="My Profile"
         onClick={handleItemClick}
         as={Link}
-        active={activeItem === "Applicant Profile"}
+        active={activeItem === "My Profile"}
         to="/applicant-profile"
       >
         <Icon name="address card outline"></Icon>
-        Applicant Profile
+        My Profile
       </Menu.Item>
 
       <Menu.Item
-        name="company-profile"
-        active={activeItem === "company-profile"}
+        name="My profile"
+        active={activeItem === "My profile"}
         onClick={handleItemClick}
         as={Link}
         to="/company-profile"
       >
         <Icon name="cubes" />
-        Company Profile
-      </Menu.Item>
-
-      <Menu.Item
-        name="About"
-        onClick={handleItemClick}
-        active={activeItem === "About"}
-        as={Link}
-        to="/about"
-      >
-        <Icon name="adn"> </Icon>
-        About
+        My Profile
       </Menu.Item>
     </Sidebar>
   );

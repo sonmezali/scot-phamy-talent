@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Menu, Button, Icon } from "semantic-ui-react";
+import { Menu, Icon, Dropdown } from "semantic-ui-react";
 import { Link } from "react-router-dom";
 import SideBarMenu from "./SideBar";
 class NavBar extends Component {
@@ -34,63 +34,63 @@ class NavBar extends Component {
     const { handleItemClick, logout } = this;
     return (
       <React.Fragment>
-        <Menu size="mini" inverted>
+        <Menu size="mini" flued inverted>
           <Menu.Item onClick={this.handleShowClick}>
             <Icon size="large" name="list layout"></Icon>
           </Menu.Item>
-          <Menu.Item position="right">
-            <Menu.Header>{activeItem}</Menu.Header>
+          <Menu.Item position="left">
+            <Menu.Header as="h4" textAlign="center">
+              {activeItem}
+            </Menu.Header>
           </Menu.Item>
           {localStorage.getItem("token") ? (
             <Menu.Item
               name="Logout"
-              size="mini"
               active={activeItem === "Logout"}
               onClick={event => {
-                this.logout(event);
+                logout(event);
                 handleItemClick(event);
               }}
               as={Link}
               position="right"
               to="/logout"
             >
-              <Button primary> Logout</Button>
+              <Icon name="log out"></Icon>
+              Logout
             </Menu.Item>
           ) : (
-            <Menu.Item>
-              <Button
-                style={{ margin: "1px" }}
-                size="mini"
-                primary
-                name="Sign In"
-                active={activeItem === "Sign In"}
-                onClick={handleItemClick}
-                as={Link}
-                to="/login"
-              >
-                Sign In
-              </Button>{" "}
-              <Button
-                style={{ margin: "1px" }}
-                primary
-                size="mini"
-                name="Main register"
-                active={activeItem === "Main register"}
-                onClick={handleItemClick}
-                as={Link}
-                to="/main-register"
-              >
-                Sign up
-              </Button>
-            </Menu.Item>
+            <Dropdown item size="large" icon="user">
+              <Dropdown.Menu direction="left">
+                <Dropdown.Item
+                  name="Sign In"
+                  active={activeItem === "Sign In"}
+                  onClick={handleItemClick}
+                  as={Link}
+                  to="/login"
+                >
+                  <Icon size-="large" name="sign-in"></Icon>
+                  Sign In
+                </Dropdown.Item>
+                <Dropdown.Item
+                  name="Main register"
+                  active={activeItem === "Main register"}
+                  onClick={handleItemClick}
+                  as={Link}
+                  to="/main-register"
+                >
+                  <Icon size-="large" name="signup"></Icon>
+                  Sign up
+                </Dropdown.Item>
+              </Dropdown.Menu>
+            </Dropdown>
           )}
+          <SideBarMenu
+            visible={visible}
+            activeItem={activeItem}
+            handleItemClick={handleItemClick}
+            logout={logout}
+          />
         </Menu>
-        <SideBarMenu
-          visible={visible}
-          activeItem={activeItem}
-          handleItemClick={handleItemClick}
-          logout={logout}
-        />
       </React.Fragment>
     );
   }
