@@ -57,7 +57,8 @@ class ApplicantProfile extends React.Component {
       applicationStatus: "",
       rightToWork: null,
       email: "",
-      skills: []
+      skills: [],
+      about: ""
     };
   }
 
@@ -73,7 +74,8 @@ class ApplicantProfile extends React.Component {
           applicationStatus: response.application_status,
           rightToWork: response.right_to_work,
           email: response.email,
-          skills: [response.skill_name]
+          skills: [response.skill_name],
+          about: response.about
         });
       });
     }
@@ -91,38 +93,38 @@ class ApplicantProfile extends React.Component {
           <Segment inverted color="blue">
             <Segment inverted color="blue"></Segment>
             <Grid centered>
-              <Segment
-                circular
-                style={square}
-                centered
-                verticalAlign="middle"
-                horizontalAlign="middle"
-              >
+              <Segment circular style={square} centered>
                 <Image
                   src="https://www.bsn.eu/wp-content/uploads/2016/12/user-icon-image-placeholder-300-grey.jpg"
-                  appImage
                   size="medium"
                   circular
                   centered
                 />
               </Segment>
             </Grid>
-            <Header as="h1">{this.state.applicantName}</Header>
-            <Header as="h3">{this.state.city}</Header>
-          </Segment>
-          <Segment basic>
-            <a href={`mailto: ${this.state.email}`}>
-              <Button primary>Contact</Button>
-            </a>
-
-            <Segment basic>
-              Hi! My name is {this.state.applicantName}. I am a creative geek
-              from {this.state.city}. I enjoy creating eye candy solutions for
-              web and mobile apps. Contact me at {this.state.email}
+            <Segment inverted color="blue" padded="very">
+              <Grid centered>
+                <Header as="h1">{this.state.applicantName}</Header>
+              </Grid>
+              <Grid centered>
+                <Header as="h3">{this.state.city}</Header>
+              </Grid>
             </Segment>
           </Segment>
+          <Grid centered>
+            <Segment basic>
+              <a href={`mailto: ${this.state.email}`}>
+                <Button primary>Contact</Button>
+              </a>
+
+              <Segment basic>{this.state.about}</Segment>
+            </Segment>
+          </Grid>
           <Segment inverted style={skillsAreaStyle}>
-            <Header as="h2">Skills</Header>
+            <Grid centered padded>
+              {" "}
+              <Header as="h2">Skills</Header>
+            </Grid>
             <Divider />
             {this.state.skills.map(skill => (
               <Button basic>{skill}</Button>
