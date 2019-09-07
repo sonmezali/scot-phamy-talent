@@ -4,10 +4,9 @@ import { Sidebar, Menu, Icon } from "semantic-ui-react";
 
 export default ({
   visible,
-  handleSidebarHide,
   activeItem,
-  handleItemClick,
-  logout
+  handleSidebarHide,
+  handleItemClick
 }) => {
   return (
     <Sidebar
@@ -15,12 +14,12 @@ export default ({
       animation="overlay"
       icon="labeled"
       inverted
-      onHide={handleSidebarHide}
       vertical
+      onHide={handleSidebarHide}
       visible={visible}
       width="thin"
       style={{
-        top: "50px"
+        top: "40px"
       }}
     >
       <Menu.Item
@@ -33,16 +32,7 @@ export default ({
         <Icon name="home"></Icon>
         Home
       </Menu.Item>
-      <Menu.Item
-        name="About"
-        onClick={handleItemClick}
-        active={activeItem === "About"}
-        as={Link}
-        to="/about"
-      >
-        <Icon name="adn"> </Icon>
-        About
-      </Menu.Item>
+
       <Menu.Item
         name="Opportunities"
         active={activeItem === "Opportunities"}
@@ -53,82 +43,39 @@ export default ({
         <Icon name="clipboard list"></Icon>
         Opportunity List
       </Menu.Item>
+
       <Menu.Item
-        name="Status"
+        name="Opportunity"
         onClick={handleItemClick}
         as={Link}
-        active={activeItem === "Status"}
-        to="/status"
-      >
-        <Icon name="tag"></Icon>
-        Status
-      </Menu.Item>
-      <Menu.Item
-        name="Create Opportunity"
-        onClick={handleItemClick}
-        as={Link}
-        active={activeItem === "Create Opportunity"}
+        active={activeItem === "Opportunity"}
         to="/create-opportunity"
       >
         <Icon name="idea"></Icon>
         Create Opportunity
       </Menu.Item>
+
       <Menu.Item
-        name="company-profile"
-        active={activeItem === "company-profile"}
+        name="My Profile"
         onClick={handleItemClick}
         as={Link}
-        to="/company-profile"
-      />
-      <Menu.Item
-        name="Applicant Profile"
-        onClick={handleItemClick}
-        as={Link}
-        active={activeItem === "Applicant Profile"}
+        active={activeItem === "My Profile"}
         to="/applicant-profile"
       >
         <Icon name="address card outline"></Icon>
-        Applicant Profile
+        My Profile
       </Menu.Item>
-      {localStorage.getItem("token") ? (
-        <Menu.Item
-          name="Logout"
-          active={activeItem === "Logout"}
-          onClick={event => {
-            logout(event);
-            handleItemClick(event);
-          }}
-          as={Link}
-          position="right"
-          to="/logout"
-        >
-          <Icon name="log out"></Icon>
-          Logout
-        </Menu.Item>
-      ) : (
-        <Menu.Menu>
-          <Menu.Item
-            name="Sign In"
-            active={activeItem === "Sign In"}
-            onClick={handleItemClick}
-            as={Link}
-            to="/login"
-          >
-            <Icon name="sign-in"></Icon>
-            Sign In
-          </Menu.Item>
-          <Menu.Item
-            name="Main register"
-            active={activeItem === "Main register"}
-            onClick={handleItemClick}
-            as={Link}
-            to="/main-register"
-          >
-            <Icon name="signup"></Icon>
-            Sign up
-          </Menu.Item>
-        </Menu.Menu>
-      )}
+
+      <Menu.Item
+        name="My profile"
+        active={activeItem === "My profile"}
+        onClick={handleItemClick}
+        as={Link}
+        to="/company-profile"
+      >
+        <Icon name="cubes" />
+        My Profile
+      </Menu.Item>
     </Sidebar>
   );
 };

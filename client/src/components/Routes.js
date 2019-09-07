@@ -4,7 +4,6 @@ import { Container } from "semantic-ui-react";
 import { BrowserRouter as Router, Route } from "react-router-dom";
 import Home from "./Home";
 import About from "./About";
-import Status from "./Status";
 import Login from "./Login";
 import NavBar from "./NavBar";
 import ApplicantRegister from "./ApplicantRegister";
@@ -36,7 +35,6 @@ class Routes extends Component {
           <Route path="/" exact component={Home} />
           <Route path="/company-profile" component={CompanyProfile} />
           <Route path="/about" component={About} />
-          <Route path="/status" component={Status} />
           <Route path="/login" component={Login} />
           <Route path="/applicant-profile" component={ApplicantProfile} />
           <Route path="/create-opportunity" component={NewOpportunityForm} />
