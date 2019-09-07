@@ -32,7 +32,6 @@ class Routes extends Component {
           <Route path="/applicant-register" component={ApplicantRegister} />
           <Route path="/company-register" component={CompanyRegister} />
           <Route path="/opportunities" component={OpportunitiesList} />
-          <Route path="/company-profile" exact component={CompanyProfile} />
         </Container>
       </Router>
     );
