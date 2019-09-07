@@ -1,5 +1,7 @@
 import React from "react";
+import Status from "./Status";
 import { Header } from "semantic-ui-react";
+
 const About = () => {
   return (
     <React.Fragment>
@@ -11,6 +13,7 @@ const About = () => {
         "match" with the job ads. The focus is on highlighting the wasted
         talents of people who can't work in line with campaigns like #lifttheban{" "}
       </p>
+      <Status />
     </React.Fragment>
   );
 };

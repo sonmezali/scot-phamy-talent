@@ -90,6 +90,7 @@ class NewOpportunityForm extends Component {
       if (res.success === true) {
         this.setState({ open: true });
         this.clearForm();
+        document.location.reload();
       }
     });
   };

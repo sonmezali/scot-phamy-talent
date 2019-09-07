@@ -10,15 +10,10 @@ class NavBar extends Component {
         ? "home"
         : window.location.pathname.substr(1)
   };
+  // handlers
   handleItemClick = (e, { name }) =>
     this.setState({ activeItem: name, visible: false });
 
-  logout = event => {
-    event.preventDefault();
-    localStorage.removeItem("token");
-    document.location.reload();
-  };
-  handleHideClick = () => this.setState({ visible: false });
   handleShowClick = () =>
     this.setState(prevState => {
       const visibleState = prevState.visible;
@@ -26,25 +21,30 @@ class NavBar extends Component {
         visible: !visibleState
       };
     });
-  handleSidebarHide = () => this.setState({ visible: false });
+
+  //logOut function
+  logout = event => {
+    event.preventDefault();
+    localStorage.removeItem("token");
+    document.location.reload();
+  };
 
   render() {
     const { visible, activeItem } = this.state;
-    const { handleSidebarHide, handleItemClick, logout } = this;
+    const { handleItemClick, logout } = this;
     return (
       <React.Fragment>
-        <Menu inverted>
-          <Menu.Item>
-            <Button disabled={visible} onClick={this.handleShowClick}>
-              <Icon name="list layout"></Icon>
-            </Button>
+        <Menu size="mini" inverted>
+          <Menu.Item onClick={this.handleShowClick}>
+            <Icon size="large" name="list layout"></Icon>
           </Menu.Item>
           <Menu.Item position="right">
-            <Menu.Header as="h5">{activeItem}</Menu.Header>
+            <Menu.Header>{activeItem}</Menu.Header>
           </Menu.Item>
           {localStorage.getItem("token") ? (
             <Menu.Item
               name="Logout"
+              size="mini"
               active={activeItem === "Logout"}
               onClick={event => {
                 this.logout(event);
@@ -57,22 +57,36 @@ class NavBar extends Component {
               <Button primary> Logout</Button>
             </Menu.Item>
           ) : (
-            <Menu.Item
-              name="Sign In"
-              active={activeItem === "Sign In"}
-              onClick={handleItemClick}
-              as={Link}
-              to="/login"
-              position="right"
-            >
-              {" "}
-              <Button primary>Sign in</Button>
+            <Menu.Item>
+              <Button
+                style={{ margin: "1px" }}
+                size="mini"
+                primary
+                name="Sign In"
+                active={activeItem === "Sign In"}
+                onClick={handleItemClick}
+                as={Link}
+                to="/login"
+              >
+                Sign In
+              </Button>{" "}
+              <Button
+                style={{ margin: "1px" }}
+                primary
+                size="mini"
+                name="Main register"
+                active={activeItem === "Main register"}
+                onClick={handleItemClick}
+                as={Link}
+                to="/main-register"
+              >
+                Sign up
+              </Button>
             </Menu.Item>
           )}
         </Menu>
         <SideBarMenu
           visible={visible}
-          handleSidebarHide={handleSidebarHide}
           activeItem={activeItem}
           handleItemClick={handleItemClick}
           logout={logout}
