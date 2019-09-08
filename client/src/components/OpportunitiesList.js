@@ -210,7 +210,7 @@ class OpportunitiesList extends Component {
               }
             >
               <Icon name="chart pie" size="large" color="blue" />
-              <Header as="h4"> Part Time</Header>
+              <Header as="h4"> Part time</Header>
             </Grid.Column>
             <Grid.Column
               textAlign="center"
@@ -234,7 +234,7 @@ class OpportunitiesList extends Component {
               }
             >
               <Icon name="chart pie" size="large" color="blue" />
-              <Header as="h4"> Work Experience</Header>
+              <Header as="h4"> Work experience</Header>
             </Grid.Column>
           </Grid.Row>
         </Grid>
