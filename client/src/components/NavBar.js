@@ -11,17 +11,16 @@ class NavBar extends Component {
         : window.location.pathname.substr(1)
   };
   // handlers
-  handleHideClick = () => this.setState({ visible: false });
   handleItemClick = (e, { name }) =>
     this.setState({ activeItem: name, visible: false });
-  handleSidebarHide = () => this.setState({ visible: false });
-  handleShowClick = () =>
-    this.setState(prevState => {
-      const visibleState = prevState.visible;
-      return {
-        visible: !visibleState
-      };
-    });
+
+  handleSidebarHide = () => {
+    this.setState({ visible: false });
+  };
+
+  handleShowClick = () => {
+    this.setState({ visible: true });
+  };
 
   //logOut function
   logout = event => {
@@ -40,14 +39,16 @@ class NavBar extends Component {
     } = this;
     return (
       <React.Fragment>
-        <Menu size="mini" flued inverted>
-          <Menu.Item onClick={handleShowClick}>
-            <Icon size="large" name="list layout"></Icon>
+        <Menu size="mini" inverted>
+          <Menu.Item>
+            <Icon
+              size="large"
+              name="list layout"
+              onClick={handleShowClick}
+            ></Icon>
           </Menu.Item>
           <Menu.Item position="left">
-            <Menu.Header as="h4" textAlign="center">
-              {activeItem}
-            </Menu.Header>
+            <Menu.Header as="h4">{activeItem}</Menu.Header>
           </Menu.Item>
           {localStorage.getItem("token") ? (
             <Menu.Item
