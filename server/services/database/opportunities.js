@@ -80,14 +80,17 @@ const getOpportunityById = id => {
   opportunities.email,
   opportunities.date, 
   opportunities.Type,
-  cities.city AS location
+  cities.city AS location,
+  company_profile.name As company_name
   FROM
     opportunities
     INNER JOIN cities ON opportunities.city = cities.id
+    INNER JOIN company_profile ON opportunities.company_id = company_profile.company_id
     WHERE opportunities.opportunity_id =${id}
   `,
       (error, result) => {
         if (error) {
+          console.log(error);
           reject(error);
         } else {
           resolve(result.rows);

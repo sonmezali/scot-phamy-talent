@@ -13,6 +13,6 @@ export const getSkillsList = id => {
   return fetch(`/api/opportunitySkills/${id}`).then(res => res.json());
 };
 
-export const getopprtunityById = id => {
+export const getOpportunityById = id => {
   return fetch(`/api/opportunities/opportunity/${id}`).then(res => res.json());
 };
