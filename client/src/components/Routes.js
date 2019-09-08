@@ -18,16 +18,10 @@ import OpportunityView from "./OpportunityView";
 class Routes extends Component {
   constructor(props) {
     super(props);
-    this.state = {
-      id: null
-    };
+    this.state = {};
   }
 
-  getOpportunityId = id => {
-    this.setState({ id: id });
-  };
   render() {
-    console.log(this.state.id);
     return (
       <Router>
         <NavBar />
@@ -41,25 +35,8 @@ class Routes extends Component {
           <Route path="/main-register" component={MainRegister} />
           <Route path="/applicant-register" component={ApplicantRegister} />
           <Route path="/company-register" component={CompanyRegister} />
-          <Route
-            path="/opportunities"
-            render={props => (
-              <OpportunitiesList
-                {...props}
-                getOpportunityId={this.getOpportunityId}
-              ></OpportunitiesList>
-            )}
-          />
-          <Route path="/company-profile" component={CompanyProfile} />
-          <Route
-            path="/opportunity"
-            render={props => (
-              <OpportunityView
-                {...props}
-                opportunityId={this.state.id}
-              ></OpportunityView>
-            )}
-          />
+          <Route path="/opportunities" exact component={OpportunitiesList} />
+          <Route path="/opportunities/:id" component={OpportunityView} />
         </Container>
       </Router>
     );

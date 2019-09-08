@@ -69,6 +69,11 @@ class OpportunitiesList extends Component {
       })
     );
   };
+  handelSelectOpportunityAndGetItsData = opportunityId => {
+    this.state.OpportunitiesList.find(
+      opportunity => opportunity.opportunity_idg
+    );
+  };
 
   componentDidMount() {
     this.getOpportunities();
@@ -102,7 +107,6 @@ class OpportunitiesList extends Component {
     });
   };
   render() {
-    console.log(this.state.selectedOpportunity);
     const { searchKeyWord, cities, skills } = this.state;
     return (
       <div>
@@ -210,12 +214,8 @@ class OpportunitiesList extends Component {
               key={index}
               raised
               color="blue"
-              onClick={() =>
-                this.props.getOpportunityId(opportunity.opportunity_id)
-              }
-              name={opportunity.opportunity_id}
               as={Link}
-              to="/opportunity"
+              to={`/opportunities/${opportunity.opportunity_id}`}
             >
               <Card.Content>
                 <Image
