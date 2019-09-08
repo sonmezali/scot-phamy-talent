@@ -1,27 +1,32 @@
 import React, { Component } from "react";
-import { getopprtunityById, getSkillsList } from "../api/opportunities";
-import { Header, Grid } from "semantic-ui-react";
-
+import { getOpportunityById, getSkillsList } from "../api/opportunities";
+import { Header, Grid, Segment, Card, Item } from "semantic-ui-react";
+import moment from "moment";
 export default class OpportunityView extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      opportunityId: 1, //this.props.opportunityId,
+      opportunityId: null,
       opportunity: [],
       skills: []
     };
   }
-
+  componentWillMount() {
+    const { pathname } = window.location;
+    this.setState({
+      opportunityId: pathname && pathname.replace("/opportunities/", "")
+    });
+  }
   getOpportunity = () => {
-    getopprtunityById(this.state.opportunityId).then(data =>
+    getOpportunityById(this.state.opportunityId).then(data =>
       this.setState({ opportunity: data[0] })
     );
   };
   getSkills = () => {
     getSkillsList(this.state.opportunityId).then(data => {
-      const skillsarray = data.map(skill => skill.skill);
+      const skillsArray = data.map(skill => skill.skill);
       this.setState({
-        opportunity: { ...this.state.opportunity, skills: skillsarray }
+        opportunity: { ...this.state.opportunity, skills: skillsArray }
       });
     });
   };
@@ -31,24 +36,24 @@ export default class OpportunityView extends Component {
   }
   render() {
     const { opportunity } = this.state;
+    console.log("id===>", this.state.opportunityId);
     return (
-      <Grid centered stackable columns={1}>
-        <Grid.Row>
-          <Grid.Column textAlign="center">
-            <Header as="h1">{opportunity.opportunity_title}</Header>
-          </Grid.Column>
-        </Grid.Row>
-        <Grid.Row>
-          <Grid.Column textAlign="left">
-            <p> {opportunity.description}</p>
-          </Grid.Column>
-        </Grid.Row>
-        <Grid.Row>
-          <Grid.Column textAlign="left">
-            <p> {opportunity.contact_person}</p>
-          </Grid.Column>
-        </Grid.Row>
-      </Grid>
+      <React.Fragment>
+        <Segment>
+          <Header textAlign="center" as="h1">
+            {" "}
+            {opportunity.opportunity_title}
+          </Header>
+          <Grid>
+            <Grid.Column floated="left" width={4}>
+              {opportunity.location}
+            </Grid.Column>
+            <Grid.Column floated="right" width={4}>
+              {moment(opportunity.date).format("MMM Do YY")}
+            </Grid.Column>
+          </Grid>
+        </Segment>
+      </React.Fragment>
     );
   }
 }
