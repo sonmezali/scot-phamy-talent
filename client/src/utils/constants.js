@@ -2,8 +2,8 @@ export const opportunityType = [
   { key: "1", text: "Volunteer", value: "Volunteer" },
   { key: "2", text: "Apprenticeship", value: "Apprenticeship" },
   { key: "3", text: "Internship", value: "Internship" },
-  { key: "4", text: "Work Experience", value: "Work Experience" },
-  { key: "5", text: "Part Time", value: "Part Time" },
+  { key: "4", text: "Work experience", value: "Work experience" },
+  { key: "5", text: "Part time", value: "Part time" },
   { key: "6", text: "Full time", value: "Full time" }
 ];
 export const industryList = [

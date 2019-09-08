@@ -13,6 +13,7 @@ import {
 import { getOpportunitiesForList, getSkillsList } from "../api/opportunities";
 import { getSkills } from "../api/skills";
 import { getCities } from "../api/cities";
+import filterOpportunities from "../utils/filterOpportunities";
 
 class OpportunitiesList extends Component {
   state = {
@@ -101,69 +102,17 @@ class OpportunitiesList extends Component {
       searchKeyWord: searchKeyWord
     });
   };
-  filterOpportunities = () => {
+
+  render() {
     const {
-      selectedCity,
       searchKeyWord,
+      cities,
+      skills,
+      selectedCity,
       selectedJobType,
       opportunitiesList,
       selectedSkills
     } = this.state;
-    if (!selectedCity && !selectedJobType && searchKeyWord) {
-      return opportunitiesList.filter(opportunity => {
-        return (
-          (opportunity.description &&
-            opportunity.description
-              .toLowerCase()
-              .includes(searchKeyWord.toLowerCase())) ||
-          (opportunity.opportunity_title &&
-            opportunity.opportunity_title
-              .toLowerCase()
-              .includes(searchKeyWord.toLowerCase()))
-        );
-      });
-    }
-    if (selectedCity && !selectedJobType) {
-      return opportunitiesList.filter(opportunity => {
-        return selectedCity.includes(opportunity.location);
-      });
-    }
-    if (!selectedCity && selectedJobType) {
-      return opportunitiesList.filter(opportunity => {
-        return opportunity.type === selectedJobType;
-      });
-    }
-    if (selectedCity && selectedJobType) {
-      return opportunitiesList.filter(opportunity => {
-        return (
-          opportunity.type === selectedJobType &&
-          selectedCity.includes(opportunity.location)
-        );
-      });
-    }
-    if (!selectedCity && !selectedJobType && selectedSkills.length) {
-      return opportunitiesList.filter(opportunity => {
-        return selectedSkills.some(skill => {
-          return opportunity.skills.includes(skill);
-        });
-      });
-    }
-    if (selectedCity && selectedJobType && selectedSkills.length) {
-      return opportunitiesList.filter(opportunity => {
-        return (
-          opportunity.type === selectedJobType &&
-          opportunity.selectedCity === selectedCity &&
-          selectedSkills.some(skill => {
-            return opportunity.skills.includes(skill);
-          }).length
-        );
-      });
-    }
-
-    return opportunitiesList;
-  };
-  render() {
-    const { searchKeyWord, cities, skills } = this.state;
     return (
       <div>
         <Form>
@@ -186,10 +135,10 @@ class OpportunitiesList extends Component {
               <Dropdown
                 inline
                 header="Location"
-                onChange={this.handleSelectCity}
                 options={cities}
                 multiple
-                defaultValue="Glasgow"
+                onChange={this.handleSelectCity}
+                placeholder="Search city"
               />
             </Header.Content>
           </Header>
@@ -204,7 +153,7 @@ class OpportunitiesList extends Component {
                 options={skills}
                 onClose={this.filteringOpportunitiesBySkills}
                 multiple
-                defaultValue="JavaScript"
+                placeholder="Select skills"
               />
             </Header.Content>
           </Header>
@@ -253,9 +202,9 @@ class OpportunitiesList extends Component {
           <Grid.Row>
             <Grid.Column
               textAlign="center"
-              onClick={() => this.handleItemClick("Part Time")}
+              onClick={() => this.handleItemClick("Part time")}
               style={
-                this.state.selectedJobType === "Part Time"
+                this.state.selectedJobType === "Part time"
                   ? { backgroundColor: "lightGrey" }
                   : null
               }
@@ -294,7 +243,13 @@ class OpportunitiesList extends Component {
         </Divider>
         <br />
         <Grid>
-          {this.filterOpportunities().map((opportunity, index) => (
+          {filterOpportunities({
+            selectedCity,
+            searchKeyWord,
+            selectedJobType,
+            opportunitiesList,
+            selectedSkills
+          }).map((opportunity, index) => (
             <Card
               centered
               key={index}

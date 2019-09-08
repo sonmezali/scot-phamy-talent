@@ -50,7 +50,19 @@ INSERT INTO company_profile (name, description, industry, user_id)
     VALUES ('CYF', 'Tech company', 'Technology', 3);
 
 INSERT INTO opportunities (name, description, contact_Person, telephone, email, city, date, TYPE, company_id)
-    VALUES ('Volunteer with cyf', 'Two months in voluntary work', 'youssef', '0444445555', 'yan@cyf.com', 1, '2020-01-15', 'Volunteer', 1);
+    VALUES ('Work with cyf', 'One months in voluntary work', 'youssef', '0444445555', 'yan@cyf.com', 1, '2020-01-15', 'Volunteer', 1);
+
+INSERT INTO opportunities (name, description, contact_Person, telephone, email, city, date, TYPE, company_id)
+    VALUES ('Volunteer with cyf today', 'Two months in voluntary work', 'Mohammed', '0444445555', 'yan@cyf.com', 2, '2020-01-15', 'Full time', 1);
+
+INSERT INTO opportunities (name, description, contact_Person, telephone, email, city, date, TYPE, company_id)
+    VALUES ('Internship with cyf', 'Three months in voluntary work', 'Ali', '0444445555', 'yan@cyf.com', 1, '2020-01-15', 'Part time', 1);
+
+INSERT INTO opportunities (name, description, contact_Person, telephone, email, city, date, TYPE, company_id)
+    VALUES ('Volunteer with cyf', 'Four months in voluntary work', 'Havva', '0444445555', 'yan@cyf.com', 1, '2020-01-15', 'Volunteer', 1);
+
+INSERT INTO opportunities (name, description, contact_Person, telephone, email, city, date, TYPE, company_id)
+    VALUES ('Volunteer with cyf', 'Five months in voluntary work', 'Phil', '0444445555', 'yan@cyf.com', 5, '2020-01-15', 'Volunteer', 1);
 
 INSERT INTO skills (name)
     VALUES ('JavaScript');
@@ -66,6 +78,15 @@ INSERT INTO skills (name)
 
 INSERT INTO opportunity_skills (skill_id, opportunity_id)
     VALUES (1, 1);
+
+INSERT INTO opportunity_skills (skill_id, opportunity_id)
+    VALUES (2, 2);
+
+INSERT INTO opportunity_skills (skill_id, opportunity_id)
+    VALUES (1, 3);
+
+INSERT INTO opportunity_skills (skill_id, opportunity_id)
+    VALUES (4, 1);
 
 INSERT INTO applicant_skills (applicant_id, skill_id)
     VALUES (1, 1);

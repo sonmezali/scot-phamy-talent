@@ -87,8 +87,8 @@ CREATE TYPE opportunity_type AS ENUM (
   'Volunteer',
   'Apprenticeship',
   'Internship',
-  'Work Experience',
-  'Part Time',
+  'Work experience',
+  'Part time',
   'Full time'
 );
 
