@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { Menu, Button, Icon } from "semantic-ui-react";
 import { Link } from "react-router-dom";
 import SideBarMenu from "./SideBar";
+
 class NavBar extends Component {
   state = {
     visible: false,
@@ -21,14 +22,30 @@ class NavBar extends Component {
   render() {
     const { visible, activeItem } = this.state;
     const { handleSidebarHide, handleItemClick, logout } = this;
+    const landingPage = window.location.pathname === "/";
     return (
       <React.Fragment>
         <Menu inverted>
-          <Menu.Item>
-            <Button disabled={visible} onClick={this.handleShowClick}>
-              <Icon name="list layout"></Icon>
-            </Button>
-          </Menu.Item>
+          {landingPage ? (
+            <Icon
+              name="align-left"
+              style={{
+                fontSize: "40px",
+                position: "absolute",
+                zIndex: " 3",
+                top: "25px",
+                color: "#2699fb"
+              }}
+              onClick={this.handleShowClick}
+            />
+          ) : (
+            <Menu.Item>
+              <Button disabled={visible} onClick={this.handleShowClick}>
+                <Icon name="list layout"></Icon>
+              </Button>
+            </Menu.Item>
+          )}
+
           <Menu.Item position="right">
             <Button inverted basic disabled>
               {activeItem}
@@ -58,7 +75,7 @@ class NavBar extends Component {
               position="right"
             >
               {" "}
-              <Button primary>Sign in</Button>
+              {/* <Button primary>Sign in</Button> */}
             </Menu.Item>
           )}
         </Menu>
