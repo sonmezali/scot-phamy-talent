@@ -1,5 +1,5 @@
 import React from "react";
-import image from "../utils/styles/image/background.svg";
+// import image from "../utils/styles/image/background.svg";
 import NavBar from "./NavBar";
 import { Link } from "react-router-dom";
 import { Menu, Icon } from "semantic-ui-react";
