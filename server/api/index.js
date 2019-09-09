@@ -10,6 +10,7 @@ const newOpportunity = require("./opportunities");
 const companyRegister = require("./companies");
 const opportunitySkills = require("./opportunitySkills");
 const applicantProfile = require("./applicantProfile");
+const applicantSkills = require("./applicantSkills");
 
 router.use("/users", users);
 router.use("/status", status);
@@ -20,5 +21,6 @@ router.use("/opportunities", newOpportunity);
 router.use("/companies", companyRegister);
 router.use("/opportunitySkills", opportunitySkills);
 router.use("/applicantProfile", applicantProfile);
+router.use("/applicantSKills", applicantSkills);
 
 module.exports = router;
