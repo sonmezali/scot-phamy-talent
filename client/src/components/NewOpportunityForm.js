@@ -125,7 +125,7 @@ class NewOpportunityForm extends Component {
     return (
       <div style={{ margin: "10px" }}>
         <Form>
-          <Grid centered stackable columns={2}>
+          <Grid centered stackable columns={1}>
             <Grid.Row mobile={16} tablet={8} computer={4}>
               <Grid.Column width={15}>
                 <Header as="h1" textAlign="center">

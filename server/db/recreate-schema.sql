@@ -84,12 +84,12 @@ CREATE TABLE company_profile (
 );
 
 CREATE TYPE opportunity_type AS ENUM (
-  'voluntary work',
-  'training',
-  'internship',
-  'work experience',
-  'part time job',
-  'full time job'
+  'Volunteer',
+  'Apprenticeship',
+  'Internship',
+  'Work experience',
+  'Part time',
+  'Full time'
 );
 
 CREATE TABLE opportunities (

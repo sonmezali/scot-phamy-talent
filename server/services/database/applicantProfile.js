@@ -2,7 +2,7 @@ const { Pool } = require("pg");
 const config = require("../../config");
 const pool = new Pool(config);
 
-const getApplicantProfile = (id) => {
+const getApplicantProfile = id => {
   return new Promise((resolve, reject) => {
     pool.query(
       `SELECT applicant_profile.name AS applicant_name,cities.city, applicant_profile.application_status, applicant_profile.right_to_work, users.email, skills.name AS skill_name FROM applicant_profile INNER JOIN cities ON applicant_profile.city=cities.id
@@ -16,7 +16,7 @@ const getApplicantProfile = (id) => {
           return reject(error);
         }
         resolve(result.rows[0]);
-      },
+      }
     );
   });
 };
@@ -27,7 +27,7 @@ const createApplicantProfile = ({
   city,
   cvLink,
   value,
-  user_id,
+  user_id
 }) => {
   return new Promise((resolve, reject) => {
     pool.query(
@@ -38,7 +38,7 @@ const createApplicantProfile = ({
           return reject(error);
         }
         resolve(result.rows);
-      },
+      }
     );
   });
 };

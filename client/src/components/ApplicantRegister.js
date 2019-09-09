@@ -14,6 +14,7 @@ import {
 import { getSkills } from "../api/skills";
 import { getCities } from "../api/cities";
 import { createNewApplicantUserAndProfile } from "../api/applicantProfile";
+import validateForm from "../utils/formValidation";
 class ApplicantRegister extends Component {
   state = {
     applicantEntries: {
@@ -26,21 +27,11 @@ class ApplicantRegister extends Component {
       city: null,
       skills: [],
       cvLink: "",
-      value: ""
+      rightToWork: null
     },
-    passwordValidation: {
-      lengthValid: null,
-      matching: null,
-      goodCharacter: null,
-      active: false,
-      lengthColor: "red",
-      matchColor: "red",
-      containCaseAndNumberColor: "red",
-      checked: false,
-      valid: null
-    },
-    successServerStatus: null,
-    openSubmitStatusMsg: null,
+    formErrors: {},
+    successServerStatus: false,
+    openSubmitStatusMsg: false,
     skillsData: [],
     citiesData: []
   };
@@ -89,9 +80,9 @@ class ApplicantRegister extends Component {
       applicantEntries: { ...this.state.applicantEntries, city: selectedCity }
     });
   };
-  handleChange = e => {
-    const property = e.target.name;
-    const value = e.target.value;
+  handleChange = event => {
+    const { target } = event;
+    const { name: property, value } = target;
     this.setState(function(prevState) {
       const newEntries = prevState.applicantEntries;
       newEntries[property] = value;
@@ -100,36 +91,43 @@ class ApplicantRegister extends Component {
   };
   handleSubmit = e => {
     e.preventDefault();
-    if (
-      this.state.passwordValidation.lengthValid === true &&
-      this.state.passwordValidation.matching === true &&
-      this.state.passwordValidation.goodCharacter === true
-    ) {
+    const result = validateForm(this.state.applicantEntries);
+    const { valid } = result;
+    if (valid) {
       createNewApplicantUserAndProfile(this.state.applicantEntries).then(
         res => {
           this.setState({ successServerStatus: res.success });
-          if (this.state.successServerStatus === true) {
+          if (this.state.successServerStatus) {
             this.setState({ openSubmitStatusMsg: true });
             this.clearForm();
+          } else {
+            return this.setState({
+              successServerStatus: false,
+              openSubmitStatusMsg: true
+            });
           }
         }
       );
     } else {
       return this.setState({
-        successServerStatus: false,
-        openSubmitStatusMsg: true
+        formErrors: result
       });
     }
   };
 
   handleChangeCheckBox = (e, { value }) =>
     this.setState({
-      applicantEntries: { ...this.state.applicantEntries, value }
+      applicantEntries: {
+        ...this.state.applicantEntries,
+        rightToWork: value
+      },
+      checkboxErr: false
     });
   // Clear Form Entries after successServerStatus
   clearForm = e => {
     this.setState({
       applicantEntries: {
+        role: "applicant",
         name: "",
         email: "",
         password: "",
@@ -138,96 +136,11 @@ class ApplicantRegister extends Component {
         city: null,
         skills: [],
         cvLink: "",
-        value: ""
-      },
-      passwordValidation: {
-        lengthValid: null,
-        matching: null,
-        goodCharacter: null,
-        active: false,
-        lengthColor: "red",
-        matchColor: "red",
-        containCaseAndNumberColor: "red",
-        checked: false,
-        valid: null
+        rightToWork: null,
+        checked: null
       }
     });
   };
-  //Validations  this validation is not part of the card and it is not perfect may need help to improve it
-  passwordValidation = () => {
-    this.isActive();
-    this.isPasswordTooShort();
-    this.isConfirm();
-    this.isPasswordMatch();
-  };
-  isActive = () => {
-    if (this.state.applicantEntries.password.length > 0) {
-      this.setState({
-        passwordValidation: { ...this.state.passwordValidation, active: true }
-      });
-    }
-  };
-  isPasswordTooShort = () => {
-    if (
-      this.state.applicantEntries.password.length >= 6 &&
-      this.state.applicantEntries.confirmPassword.length >= 6
-    ) {
-      return (
-        true,
-        this.setState({
-          passwordValidation: {
-            ...this.state.passwordValidation,
-            lengthValid: true,
-            lengthColor: "green"
-          }
-        })
-      );
-    }
-  };
-  isPasswordMatch = () => {
-    if (
-      this.state.applicantEntries.password ===
-      this.state.applicantEntries.confirmPassword
-    ) {
-      return (
-        true,
-        this.setState({
-          passwordValidation: {
-            ...this.state.passwordValidation,
-            matching: true,
-            matchColor: "green"
-          }
-        })
-      );
-    }
-  };
-  isConfirm = () => {
-    if (
-      this.isPasswordContainUpperCase(this.state.applicantEntries.password) ===
-        true &&
-      this.isPasswordContainUpperCase(
-        this.state.applicantEntries.confirmPassword
-      ) === true
-    ) {
-      return (
-        true,
-        this.setState({
-          passwordValidation: {
-            ...this.state.passwordValidation,
-            goodCharacter: true,
-            containCaseAndNumberColor: "green"
-          }
-        })
-      );
-    }
-  };
-  isPasswordContainUpperCase = password => {
-    const newReg = /(?=.*[a-z])(?=.*[0-9])(?=.*[A-Z])[0-9A-Z-a-z]{8,}/g;
-    const pas = newReg.test(password);
-
-    return pas;
-  };
-
   render() {
     const {
       name,
@@ -238,18 +151,13 @@ class ApplicantRegister extends Component {
       city,
       skills,
       cvLink,
-      value
+      rightToWork
     } = this.state.applicantEntries;
-    const {
-      active,
-      lengthColor,
-      matchColor,
-      containCaseAndNumberColor
-    } = this.state.passwordValidation;
+    const { formErrors } = this.state;
     return (
       <div>
         <Form onSubmit={this.handleSubmit}>
-          <Grid centered columns={2}>
+          <Grid centered stackable columns={2}>
             <Grid.Row>
               <Grid.Column>
                 <Header as="h1" textAlign="center">
@@ -311,23 +219,43 @@ class ApplicantRegister extends Component {
                   iconPosition="left"
                   name="confirmPassword"
                   required
-                  onKeyUp={this.passwordValidation}
                   onChange={this.handleChange}
                 >
                   <Icon name="undo alternate" color="blue" />
                   <input />
                 </Form.Field>
-                {active === false ? null : (
-                  <Message>
-                    <p style={{ color: lengthColor }}>
-                      Password is 8 characters
-                    </p>
-                    <p style={{ color: matchColor }}>Matching Passwords</p>
-                    <p style={{ color: containCaseAndNumberColor }}>
-                      password contain at least one Uppercase Lowercase
-                      characters and number
-                    </p>
+                {formErrors.passwordLength === false ? (
+                  <Message negative>
+                    Password Must Be atleast 8 Characters
                   </Message>
+                ) : (
+                  ""
+                )}
+                {formErrors.passwordIsMatching === false ? (
+                  <Message negative>Passwords Are Not Matching</Message>
+                ) : (
+                  ""
+                )}
+                {formErrors.passwordContainUppercase === false ? (
+                  <Message negative>
+                    Password Must Contain atleast 1 Uppercase Letter
+                  </Message>
+                ) : (
+                  ""
+                )}
+                {formErrors.passwordContainLowerCase === false ? (
+                  <Message negative>
+                    Password Must Contain atleast 1 Lowercase Letter
+                  </Message>
+                ) : (
+                  ""
+                )}
+                {formErrors.passwordContainNumber === false ? (
+                  <Message negative>
+                    Password Must Contain atleast 1 Number
+                  </Message>
+                ) : (
+                  ""
                 )}
                 <Form.Field
                   label="About me"
@@ -349,6 +277,12 @@ class ApplicantRegister extends Component {
                   options={this.state.citiesData}
                   onChange={this.handleSelectCity}
                 />
+                {formErrors.cityIsSelected === false ? (
+                  <Message negative>Location Is Not Selected</Message>
+                ) : (
+                  ""
+                )}
+
                 <Form.Dropdown
                   label="Skills"
                   onChange={this.handleSelectSkill}
@@ -360,6 +294,11 @@ class ApplicantRegister extends Component {
                   required
                   placeholder="Select Skills"
                 />
+                {formErrors.skillsIsSelected === false ? (
+                  <Message negative>Skills Is Not Selected</Message>
+                ) : (
+                  ""
+                )}
 
                 <Form.Field
                   control={Input}
@@ -375,14 +314,14 @@ class ApplicantRegister extends Component {
                   <input />
                 </Form.Field>
                 <Header as="h4">Do you have the right to work? </Header>
-                <Form.Group inline>
+                <Form.Group inline required>
                   {" "}
                   <Form.Field>
                     <Checkbox
                       label="Yes"
                       name="radioGroup"
                       value="Yes"
-                      checked={value === "Yes"}
+                      checked={rightToWork === "Yes"}
                       onChange={this.handleChangeCheckBox}
                     />
                   </Form.Field>
@@ -391,10 +330,15 @@ class ApplicantRegister extends Component {
                       label="No"
                       name="radioGroup"
                       value="No"
-                      checked={value === "No"}
+                      checked={rightToWork === "No"}
                       onChange={this.handleChangeCheckBox}
                     />
                   </Form.Field>
+                  {formErrors.checkRightToWorkBox === false ? (
+                    <Message negative>Please Select One</Message>
+                  ) : (
+                    ""
+                  )}
                 </Form.Group>
                 <Form.Button fluid lapel="Submit" primary>
                   Sign Up
@@ -410,10 +354,7 @@ class ApplicantRegister extends Component {
               basic
               size="small"
             >
-              <Modal.Header>
-                {" "}
-                Request Submitted successServerStatusfully
-              </Modal.Header>
+              <Modal.Header> Request Submitted successfully</Modal.Header>
               <Modal.Content>
                 <p>Waiting For approval</p>
               </Modal.Content>

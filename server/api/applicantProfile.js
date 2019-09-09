@@ -3,7 +3,7 @@ const router = express.Router();
 const applicantProfileDb = require("../services/database/applicantProfile");
 const db = require("../services/database/users");
 const {
-  createApplicantProfile,
+  createApplicantProfile
 } = require("../services/database/applicantProfile");
 const { newApplicantSkills } = require("../services/database/applicantSkills");
 
@@ -11,10 +11,10 @@ router.get("/:id", (req, res) => {
   const { id } = req.params;
   applicantProfileDb
     .getApplicantProfile(id)
-    .then((data) => {
+    .then(data => {
       res.send(data);
     })
-    .catch((err) => {
+    .catch(err => {
       console.error(err);
       res.send(500);
     });
@@ -30,7 +30,7 @@ router.post("/", (req, res) => {
     city,
     skills,
     cvLink,
-    value,
+    value
   } = req.body;
 
   const applicant = {
@@ -42,11 +42,11 @@ router.post("/", (req, res) => {
     city,
     skills,
     cvLink,
-    value,
+    value
   };
 
   db.createUser(applicant)
-    .then((data) => {
+    .then(data => {
       const userId = data[0].user_id;
       return {
         role,
@@ -56,21 +56,21 @@ router.post("/", (req, res) => {
         cvLink,
         skills,
         value,
-        userId,
+        userId
       };
     })
-    .then((userData) => {
-      return createApplicantProfile(userData).then((data) => {
+    .then(userData => {
+      return createApplicantProfile(userData).then(data => {
         const profileId = data[0].applicant_id;
         return { profileId };
       });
     })
-    .then((profileId) => {
+    .then(profileId => {
       newApplicantSkills({ profileId, skills });
     })
-    .then((data) => res.send({ success: true }))
+    .then(data => res.send({ success: true }))
 
-    .catch((err) => {});
+    .catch(err => {});
 });
 
 module.exports = router;
