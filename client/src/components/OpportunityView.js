@@ -132,26 +132,35 @@ export default class OpportunityView extends Component {
               <Icon name="building outline"></Icon>
               Company Name:{opportunity.company_name}
             </Header>
-            <Item.Description as="h4" color="blue">
-              <Icon name="address card outline" color="blue"></Icon>
-              <span style={{ color: "rgb(92, 175, 239)" }}>
-                Contact Name:{" "}
-              </span>{" "}
-              {opportunity.contact_person}
-            </Item.Description>
-            <Item.Description as="h4" color="blue">
-              <Icon name="phone square" color="blue"></Icon>
-              <span style={{ color: "rgb(92, 175, 239)" }}>Phone Number: </span>
-              {opportunity.telephone}
-            </Item.Description>
-            <Item.Description as="h4">
-              <Icon name="mail" color="blue"></Icon>
-              <span style={{ color: "rgb(92, 175, 239)" }}>Email: </span>{" "}
-              {opportunity.email} {"  "}
-              <a href={`mailto: ${opportunity.email}`}>
-                <Icon name="send" color="blue"></Icon>
-              </a>
-            </Item.Description>
+            {localStorage.getItem("token") ? (
+              <Item.Group>
+                <Item.Description as="h4" color="blue">
+                  <Icon name="address card outline" color="blue"></Icon>
+                  <span style={{ color: "rgb(92, 175, 239)" }}>
+                    Contact Name:{" "}
+                  </span>{" "}
+                  {opportunity.contact_person}
+                </Item.Description>
+
+                <Item.Description as="h4" color="blue">
+                  <Icon name="phone square" color="blue"></Icon>
+                  <span style={{ color: "rgb(92, 175, 239)" }}>
+                    Phone Number:{" "}
+                  </span>
+                  {opportunity.telephone}
+                </Item.Description>
+                <Item.Description as="h4">
+                  <Icon name="mail" color="blue"></Icon>
+                  <span style={{ color: "rgb(92, 175, 239)" }}>
+                    Email:{" "}
+                  </span>{" "}
+                  {opportunity.email} {"  "}
+                  <a href={`mailto: ${opportunity.email}`}>
+                    <Icon name="send" color="blue"></Icon>
+                  </a>
+                </Item.Description>
+              </Item.Group>
+            ) : null}
             <Item.Description
               style={{ backgroundColor: "rgb(137, 193, 236)", padding: "12px" }}
             >
