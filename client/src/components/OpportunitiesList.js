@@ -13,6 +13,7 @@ import {
 import { getOpportunitiesForList, getSkillsList } from "../api/opportunities";
 import { getSkills } from "../api/skills";
 import { getCities } from "../api/cities";
+import { Link } from "react-router-dom";
 import filterOpportunities from "../utils/filterOpportunities";
 
 class OpportunitiesList extends Component {
@@ -81,12 +82,6 @@ class OpportunitiesList extends Component {
     const selectedSkill = data.value;
     this.setState({
       selectedSkills: selectedSkill
-    });
-  };
-  handleSelectOpportunity = e => {
-    const selectedOpportunityId = e.target.name;
-    this.setState({
-      selectedOpportunity: selectedOpportunityId
     });
   };
   handleSelectCity = (e, data) => {
@@ -255,8 +250,8 @@ class OpportunitiesList extends Component {
               key={index}
               raised
               color="blue"
-              onClick={this.handleSelectOpportunity}
-              name={opportunity.opportunity_id}
+              as={Link}
+              to={`/opportunities/${opportunity.opportunity_id}`}
             >
               <Card.Content>
                 <Image
@@ -279,7 +274,15 @@ class OpportunitiesList extends Component {
                 </Card.Meta>
               </Card.Content>
               <Card.Content>
-                <Card.Description>{opportunity.description}</Card.Description>
+                <Card.Description
+                  style={{
+                    whiteSpace: "nowrap",
+                    textOverflow: "ellipsis",
+                    overflow: "hidden"
+                  }}
+                >
+                  {opportunity.description}
+                </Card.Description>
               </Card.Content>
             </Card>
           ))}
