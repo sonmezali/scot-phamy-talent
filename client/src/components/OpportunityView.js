@@ -9,7 +9,6 @@ import {
   Dimmer,
   Dropdown,
   Loader,
-  Message,
   Image
 } from "semantic-ui-react";
 import moment from "moment";
@@ -55,12 +54,7 @@ export default class OpportunityView extends Component {
   }
 
   //Handlers
-  handleEdit = () => {
-    this.setState({ isEditing: true });
-  };
-  handleIDeleteProfile = () => {
-    console.log("delete"); // i mean to add this console.log to approve the button is functioning
-  };
+
   render() {
     const token = localStorage.getItem("token");
     const loggedInUser = JSON.parse(localStorage.getItem("user"));
@@ -84,14 +78,11 @@ export default class OpportunityView extends Component {
                 <Grid.Column floated="right" width={3}>
                   <Dropdown item size="large" icon="options">
                     <Dropdown.Menu direction="left">
-                      <Dropdown.Item name="Edit" onClick={this.handleEdit}>
+                      <Dropdown.Item name="Edit">
                         <Icon size-="large" name="edit outline"></Icon>
                         Edit
                       </Dropdown.Item>
-                      <Dropdown.Item
-                        name="Delete"
-                        onClick={this.handleIDeleteProfile}
-                      >
+                      <Dropdown.Item name="Delete">
                         <Icon size-="large" name="delete"></Icon>
                         Delete
                       </Dropdown.Item>
