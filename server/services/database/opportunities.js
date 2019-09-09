@@ -81,7 +81,10 @@ const getOpportunityById = id => {
   opportunities.date, 
   opportunities.Type,
   cities.city AS location,
-  company_profile.name As company_name
+  company_profile.name As company_name,
+  opportunities.company_id,
+  company_profile.user_id AS user_id
+
   FROM
     opportunities
     INNER JOIN cities ON opportunities.city = cities.id

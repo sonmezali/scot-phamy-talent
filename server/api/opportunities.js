@@ -50,6 +50,7 @@ router.post("/", (req, res) => {
     })
     .then(data => res.send({ success: true }))
     .catch(err => {
+      console.log(err);
       res.status(500).send({ success: false });
     });
 });
@@ -59,6 +60,7 @@ router.get("/opportunity/:opportunityId", (req, res) => {
   getOpportunityById(id)
     .then(data => res.send(data))
     .catch(err => {
+      
       res.status(500).send(err);
     });
 });
