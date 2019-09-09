@@ -15,34 +15,26 @@ import OpportunitiesList from "./OpportunitiesList";
 import CompanyRegister from "./CompanyRegister";
 import OpportunityView from "./OpportunityView";
 
-class Routes extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {};
-  }
-
-  render() {
-    return (
-      <Router>
-        <NavBar />
-        <Container>
-          <Route path="/" exact component={Home} />
-          <Route path="/company-profile" exact component={CompanyProfile} />
-          <Route path="/company-profile/:id" component={CompanyProfile} />
-
-          <Route path="/about" component={About} />
-          <Route path="/login" component={Login} />
-          <Route path="/applicant-profile" component={ApplicantProfile} />
-          <Route path="/create-opportunity" component={NewOpportunityForm} />
-          <Route path="/main-register" component={MainRegister} />
-          <Route path="/applicant-register" component={ApplicantRegister} />
-          <Route path="/company-register" component={CompanyRegister} />
-          <Route path="/opportunities" exact component={OpportunitiesList} />
-          <Route path="/opportunities/:id" component={OpportunityView} />
-        </Container>
-      </Router>
-    );
-  }
-}
+const Routes = () => {
+  return (
+    <Router>
+      <NavBar />
+      <Container>
+        <Route path="/" exact component={Home} />
+        <Route path="/company-profile" exact component={CompanyProfile} />
+        <Route path="/company-profile/:id" component={CompanyProfile} />
+        <Route path="/about" component={About} />
+        <Route path="/login" component={Login} />
+        <Route path="/applicant-profile" component={ApplicantProfile} />
+        <Route path="/create-opportunity" component={NewOpportunityForm} />
+        <Route path="/main-register" component={MainRegister} />
+        <Route path="/applicant-register" component={ApplicantRegister} />
+        <Route path="/company-register" component={CompanyRegister} />
+        <Route path="/opportunities" exact component={OpportunitiesList} />
+        <Route path="/opportunities/:id" component={OpportunityView} />
+      </Container>
+    </Router>
+  );
+};
 
 export default Routes;
