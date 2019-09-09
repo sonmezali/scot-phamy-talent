@@ -5,7 +5,6 @@ export const getApplicantProfileByUserId = id => {
 };
 
 export const createNewApplicantUserAndProfile = applicantEntry => {
-  console.log("applicantEntriesApi=====>", applicantEntry);
   return fetch("/api/applicantProfile/", {
     method: "POST",
     body: JSON.stringify(applicantEntry),
