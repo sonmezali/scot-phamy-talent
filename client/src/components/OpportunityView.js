@@ -9,6 +9,7 @@ import {
   Dimmer,
   Dropdown,
   Loader,
+  Message,
   Image
 } from "semantic-ui-react";
 import moment from "moment";
@@ -160,7 +161,12 @@ export default class OpportunityView extends Component {
                   </a>
                 </Item.Description>
               </Item.Group>
-            ) : null}
+            ) : (
+              <Item.Content as={Link} to="/login">
+                <br></br>
+                Sign In for More Details.....
+              </Item.Content>
+            )}
             <Item.Description
               style={{ backgroundColor: "rgb(137, 193, 236)", padding: "12px" }}
             >
