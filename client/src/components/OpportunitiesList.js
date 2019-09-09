@@ -14,18 +14,18 @@ import { getOpportunitiesForList, getSkillsList } from "../api/opportunities";
 import { getSkills } from "../api/skills";
 import { getCities } from "../api/cities";
 import { Link } from "react-router-dom";
+import filterOpportunities from "../utils/filterOpportunities";
 
 class OpportunitiesList extends Component {
   state = {
+    selectedCity: [],
     searchKeyWord: "",
     selectedJobType: "",
-    OpportunitiesList: [],
+    opportunitiesList: [],
     selectedOpportunity: "",
     cities: [],
     skills: [],
-    selectedSkills: [],
-    filteredResult: [],
-    filtering: false
+    selectedSkills: []
   };
   // Get data
   getAllSkills = () => {
@@ -60,18 +60,13 @@ class OpportunitiesList extends Component {
         getSkillsList(opportunity.opportunity_id).then(data => {
           const skills = data && data.map(result => result && result.skill);
           this.setState({
-            OpportunitiesList: [
-              ...this.state.OpportunitiesList,
+            opportunitiesList: [
+              ...this.state.opportunitiesList,
               { ...opportunity, skills }
             ]
           });
         });
       })
-    );
-  };
-  handelSelectOpportunityAndGetItsData = opportunityId => {
-    this.state.OpportunitiesList.find(
-      opportunity => opportunity.opportunity_idg
     );
   };
 
@@ -90,24 +85,29 @@ class OpportunitiesList extends Component {
     });
   };
   handleSelectCity = (e, data) => {
-    const selectedCity = data.value;
+    const city = data.value;
     this.setState({
-      formEntries: { ...this.state.formEntries, city: selectedCity }
+      selectedCity: city
     });
   };
-  filteringOpportunitiesBySkills = () => {
-    const filteredBySkills = this.state.OpportunitiesList.filter(opportunity =>
-      this.state.selectedSkills.some(skill =>
-        opportunity.skills.includes(skill)
-      )
-    ).filter(opportunity => this.state.selectedJobType === opportunity.type);
+  handleChangeSearchKeyWord = e => {
+    const searchKeyWord = e.target.value;
     this.setState({
-      filteredResult: filteredBySkills,
-      filtering: true
+      ...this.state,
+      searchKeyWord: searchKeyWord
     });
   };
+
   render() {
-    const { searchKeyWord, cities, skills } = this.state;
+    const {
+      searchKeyWord,
+      cities,
+      skills,
+      selectedCity,
+      selectedJobType,
+      opportunitiesList,
+      selectedSkills
+    } = this.state;
     return (
       <div>
         <Form>
@@ -117,7 +117,7 @@ class OpportunitiesList extends Component {
             value={searchKeyWord}
             name="search"
             iconPosition="right"
-            onChange={this.handleChange}
+            onChange={this.handleChangeSearchKeyWord}
           >
             <Icon name="search" color="blue" />
             <input />
@@ -130,10 +130,10 @@ class OpportunitiesList extends Component {
               <Dropdown
                 inline
                 header="Location"
-                onChange={this.handleSelectSkill}
                 options={cities}
                 multiple
-                defaultValue="Glasgow"
+                onChange={this.handleSelectCity}
+                placeholder="Search city"
               />
             </Header.Content>
           </Header>
@@ -148,7 +148,7 @@ class OpportunitiesList extends Component {
                 options={skills}
                 onClose={this.filteringOpportunitiesBySkills}
                 multiple
-                defaultValue="JavaScript"
+                placeholder="Select skills"
               />
             </Header.Content>
           </Header>
@@ -160,6 +160,11 @@ class OpportunitiesList extends Component {
             <Grid.Column
               textAlign="center"
               onClick={() => this.handleItemClick("Full time")}
+              style={
+                this.state.selectedJobType === "Full time"
+                  ? { backgroundColor: "lightGrey" }
+                  : null
+              }
             >
               <Icon name="briefcase" size="large" color="blue" />
               <Header as="h4"> Full time</Header>
@@ -167,6 +172,11 @@ class OpportunitiesList extends Component {
             <Grid.Column
               textAlign="center"
               onClick={() => this.handleItemClick("Volunteer")}
+              style={
+                this.state.selectedJobType === "Volunteer"
+                  ? { backgroundColor: "lightGrey" }
+                  : null
+              }
             >
               <Icon name="hand paper" size="large" color="blue" />
               <Header as="h4"> Volunteer</Header>
@@ -174,6 +184,11 @@ class OpportunitiesList extends Component {
             <Grid.Column
               textAlign="center"
               onClick={() => this.handleItemClick("Internship")}
+              style={
+                this.state.selectedJobType === "Internship"
+                  ? { backgroundColor: "lightGrey" }
+                  : null
+              }
             >
               <Icon name="handshake outline" size="large" color="blue" />
               <Header as="h4"> Internship</Header>
@@ -182,14 +197,24 @@ class OpportunitiesList extends Component {
           <Grid.Row>
             <Grid.Column
               textAlign="center"
-              onClick={() => this.handleItemClick("Part Time")}
+              onClick={() => this.handleItemClick("Part time")}
+              style={
+                this.state.selectedJobType === "Part time"
+                  ? { backgroundColor: "lightGrey" }
+                  : null
+              }
             >
               <Icon name="chart pie" size="large" color="blue" />
-              <Header as="h4"> Part Time</Header>
+              <Header as="h4"> Part time</Header>
             </Grid.Column>
             <Grid.Column
               textAlign="center"
               onClick={() => this.handleItemClick("Apprenticeship")}
+              style={
+                this.state.selectedJobType === "Apprenticeship"
+                  ? { backgroundColor: "lightGrey" }
+                  : null
+              }
             >
               <Icon name="certificate" size="large" color="blue" />
               <Header as="h5"> Apprenticeship</Header>
@@ -197,9 +222,14 @@ class OpportunitiesList extends Component {
             <Grid.Column
               textAlign="center"
               onClick={() => this.handleItemClick("Work Experience")}
+              style={
+                this.state.selectedJobType === "Work Experience"
+                  ? { backgroundColor: "lightGrey" }
+                  : null
+              }
             >
               <Icon name="chart pie" size="large" color="blue" />
-              <Header as="h4"> Work Experience</Header>
+              <Header as="h4"> Work experience</Header>
             </Grid.Column>
           </Grid.Row>
         </Grid>
@@ -208,7 +238,13 @@ class OpportunitiesList extends Component {
         </Divider>
         <br />
         <Grid>
-          {this.state.OpportunitiesList.map((opportunity, index) => (
+          {filterOpportunities({
+            selectedCity,
+            searchKeyWord,
+            selectedJobType,
+            opportunitiesList,
+            selectedSkills
+          }).map((opportunity, index) => (
             <Card
               centered
               key={index}
@@ -238,7 +274,15 @@ class OpportunitiesList extends Component {
                 </Card.Meta>
               </Card.Content>
               <Card.Content>
-                <Card.Description>{opportunity.description}</Card.Description>
+                <Card.Description
+                  style={{
+                    whiteSpace: "nowrap",
+                    textOverflow: "ellipsis",
+                    overflow: "hidden"
+                  }}
+                >
+                  {opportunity.description}
+                </Card.Description>
               </Card.Content>
             </Card>
           ))}
