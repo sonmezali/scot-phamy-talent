@@ -27,7 +27,9 @@ class Routes extends Component {
         <NavBar />
         <Container>
           <Route path="/" exact component={Home} />
-          <Route path="/company-profile" component={CompanyProfile} />
+          <Route path="/company-profile" exact component={CompanyProfile} />
+          <Route path="/company-profile/:id" component={CompanyProfile} />
+
           <Route path="/about" component={About} />
           <Route path="/login" component={Login} />
           <Route path="/applicant-profile" component={ApplicantProfile} />
