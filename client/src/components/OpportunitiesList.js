@@ -243,7 +243,7 @@ class OpportunitiesList extends Component {
           <br></br>
         </Divider>
         <br />
-        {filteredOpportunities.length === 0 ? (
+        {!filteredOpportunities.length ? (
           <Message negative>
             <Message.Header>
               No matching opportunities to display.
