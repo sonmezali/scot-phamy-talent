@@ -3,19 +3,17 @@ import {
   Grid,
   Header,
   Input,
+  Message,
   Dropdown,
   Form,
   Icon,
-  Card,
-  Image,
   Divider
 } from "semantic-ui-react";
-import moment from "moment";
 import { getOpportunitiesForList, getSkillsList } from "../api/opportunities";
 import { getSkills } from "../api/skills";
 import { getCities } from "../api/cities";
-import { Link } from "react-router-dom";
 import filterOpportunities from "../utils/filterOpportunities";
+import OpportunitiesCard from "./OpportunitiesCard";
 
 class OpportunitiesList extends Component {
   state = {
@@ -109,6 +107,13 @@ class OpportunitiesList extends Component {
       opportunitiesList,
       selectedSkills
     } = this.state;
+    const filteredOpportunities = filterOpportunities({
+      selectedCity,
+      searchKeyWord,
+      selectedJobType,
+      opportunitiesList,
+      selectedSkills
+    });
     return (
       <div>
         <Form>
@@ -238,46 +243,19 @@ class OpportunitiesList extends Component {
           <br></br>
         </Divider>
         <br />
+        {!filteredOpportunities.length ? (
+          <Message negative>
+            <Message.Header>
+              No matching opportunities to display.
+            </Message.Header>
+            <p> Please change your search criteria and try again</p>
+          </Message>
+        ) : null}
         <Grid stackable>
           <Grid.Row columns={3} stretched>
-            {filterOpportunities({
-              selectedCity,
-              searchKeyWord,
-              selectedJobType,
-              opportunitiesList,
-              selectedSkills
-            }).map((opportunity, index) => (
-              <Grid.Column>
-                <Card
-                  centered
-                  key={index}
-                  raised
-                  color="blue"
-                  as={Link}
-                  to={`/opportunities/${opportunity.opportunity_id}`}
-                >
-                  <Card.Content>
-                    <Card.Header>{opportunity.opportunity_title}</Card.Header>
-                    <Card.Content textAlign="left">
-                      contact Person: {opportunity.contact_person}
-                    </Card.Content>
-                    <Card.Meta textAlign="right">
-                      <Icon name="calendar times" color="red"></Icon>
-                      {moment(opportunity.date).format("DD MMM YYYY")}{" "}
-                    </Card.Meta>
-                  </Card.Content>
-                  <Card.Content>
-                    <Card.Description
-                      style={{
-                        whiteSpace: "nowrap",
-                        textOverflow: "ellipsis",
-                        overflow: "hidden"
-                      }}
-                    >
-                      {opportunity.description}
-                    </Card.Description>
-                  </Card.Content>
-                </Card>
+            {filteredOpportunities.map((opportunity, index) => (
+              <Grid.Column key={opportunity.opportunity_id}>
+                <OpportunitiesCard opportunity={opportunity} />
                 <br></br>
               </Grid.Column>
             ))}
