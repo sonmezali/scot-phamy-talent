@@ -115,15 +115,12 @@ export default class OpportunityView extends Component {
                 </Grid.Row>
               </Grid>
             </Segment>
-            <Header
-              as="h2"
-              color="blue"
-              as={Link}
-              to={`/company-profile/${opportunity.company_id}`}
-            >
-              <Icon name="building outline"></Icon>
-              Company Name:{opportunity.company_name}
-            </Header>
+            <Link to={`/company-profile/${opportunity.company_id}`}>
+              <Header as="h2" color="blue">
+                <Icon name="building outline"></Icon>
+                Company Name:{opportunity.company_name}
+              </Header>
+            </Link>
             {localStorage.getItem("token") ? (
               <Item.Group>
                 <Item.Description as="h4" color="blue">

@@ -226,7 +226,7 @@ class ApplicantRegister extends Component {
                 </Form.Field>
                 {formErrors.passwordLength === false ? (
                   <Message negative>
-                    Password Must Be atleast 8 Characters
+                    Password Must Be at least 8 Characters
                   </Message>
                 ) : (
                   ""
@@ -238,21 +238,21 @@ class ApplicantRegister extends Component {
                 )}
                 {formErrors.passwordContainUppercase === false ? (
                   <Message negative>
-                    Password Must Contain atleast 1 Uppercase Letter
+                    Password Must Contain at least 1 Uppercase Letter
                   </Message>
                 ) : (
                   ""
                 )}
                 {formErrors.passwordContainLowerCase === false ? (
                   <Message negative>
-                    Password Must Contain atleast 1 Lowercase Letter
+                    Password Must Contain at least 1 Lowercase Letter
                   </Message>
                 ) : (
                   ""
                 )}
                 {formErrors.passwordContainNumber === false ? (
                   <Message negative>
-                    Password Must Contain atleast 1 Number
+                    Password Must Contain at least 1 Number
                   </Message>
                 ) : (
                   ""
