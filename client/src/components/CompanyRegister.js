@@ -19,6 +19,7 @@ class CompanyRegister extends Component {
       name: "",
       description: "",
       industry: [],
+      logo_url: "",
       email: "",
       password: "",
       user_id: ""
@@ -38,6 +39,7 @@ class CompanyRegister extends Component {
               name: "",
               description: "",
               industry: [],
+              logo_url: "",
               email: "",
               password: ""
             },
@@ -69,6 +71,7 @@ class CompanyRegister extends Component {
         name: "",
         description: "",
         industry: [],
+        logo_url: "",
         email: "",
         password: ""
       },
@@ -156,6 +159,17 @@ class CompanyRegister extends Component {
                     placeholder="Select Industry"
                     onChange={this.handleIndustry}
                   />
+                </Form.Field>
+                <Form.Field
+                  label="Logo URL"
+                  control={Input}
+                  type="text"
+                  placeholder="Enter your Company logo URL"
+                  name="logo_url"
+                  value={this.state.companyProfile.logo_url}
+                  onChange={this.handleChange}
+                >
+                  <input />
                 </Form.Field>
                 <Button type="submit" primary fluid>
                   Submit
