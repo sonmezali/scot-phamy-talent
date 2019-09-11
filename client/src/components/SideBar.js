@@ -6,8 +6,10 @@ export default ({
   visible,
   activeItem,
   handleSidebarHide,
-  handleItemClick
+  handleItemClick,
+  user
 }) => {
+  console.log(user);
   return (
     <Sidebar
       as={Menu}
@@ -54,28 +56,30 @@ export default ({
         <Icon name="idea"></Icon>
         Create Opportunity
       </Menu.Item>
-
-      <Menu.Item
-        name="My Profile"
-        onClick={handleItemClick}
-        as={Link}
-        active={activeItem === "My Profile"}
-        to="/applicant-profile"
-      >
-        <Icon name="address card outline"></Icon>
-        My Profile
-      </Menu.Item>
-
-      <Menu.Item
-        name="My profile"
-        active={activeItem === "My profile"}
-        onClick={handleItemClick}
-        as={Link}
-        to="/company-profile"
-      >
-        <Icon name="cubes" />
-        My Profile
-      </Menu.Item>
+      {user && user.role === "applicant" && (
+        <Menu.Item
+          name="My Profile"
+          onClick={handleItemClick}
+          as={Link}
+          active={activeItem === "My Profile"}
+          to="/applicant-profile"
+        >
+          <Icon name="address card outline"></Icon>
+          My Profile
+        </Menu.Item>
+      )}
+      {user && user.role === "company" && (
+        <Menu.Item
+          name="My profile"
+          active={activeItem === "My profile"}
+          onClick={handleItemClick}
+          as={Link}
+          to="/company-profile"
+        >
+          <Icon name="cubes" />
+          My Profile
+        </Menu.Item>
+      )}
     </Sidebar>
   );
 };

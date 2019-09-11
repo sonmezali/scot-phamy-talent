@@ -32,6 +32,8 @@ class NavBar extends Component {
 
   render() {
     const { visible, activeItem } = this.state;
+    const user = JSON.parse(localStorage.getItem("user"));
+
     const {
       handleItemClick,
       handleShowClick,
@@ -98,6 +100,7 @@ class NavBar extends Component {
             activeItem={activeItem}
             handleItemClick={handleItemClick}
             logout={logout}
+            user={user}
           />
         </Menu>
       </React.Fragment>
