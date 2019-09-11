@@ -1,27 +1,19 @@
-const validatePasswordLength = password => {
-  return password.length > 8;
-};
-const validatePasswordMatching = (password, confirmPassword) => {
-  return password === confirmPassword;
-};
-const validatePasswordContainUppercase = password => {
-  return /[A-Z]/.test(password);
-};
-const validatePasswordContainLowercase = password => {
-  return /[a-z]/.test(password);
-};
-const validatePasswordContainNumber = password => {
-  return /[0-9]/.test(password);
-};
-const validateSelectedCity = city => {
-  return city !== null;
-};
-const validateSelectedSkills = skills => {
-  return skills && skills.length > 0;
-};
-const validateCheckedRightToWork = rightToWork => {
-  return rightToWork === "Yes" || rightToWork === "No";
-};
+const validatePasswordLength = password => password.length > 8;
+
+const validatePasswordMatching = (password, confirmPassword) =>
+  password === confirmPassword;
+const validatePasswordContainUppercase = password => /[A-Z]/.test(password);
+const validatePasswordContainLowercase = password => /[a-z]/.test(password);
+
+const validatePasswordContainNumber = password => /[0-9]/.test(password);
+
+const validateSelectedCity = city => city !== null;
+
+const validateSelectedSkills = skills => skills && skills.length > 0;
+
+const validateCheckedRightToWork = rightToWork =>
+  rightToWork === "Yes" || rightToWork === "No";
+
 const validateForm = form => {
   const { password, confirmPassword, city, skills, rightToWork } = form;
   const passwordLength = validatePasswordLength(password);
@@ -35,22 +27,23 @@ const validateForm = form => {
   const cityIsSelected = validateSelectedCity(city);
   const skillsIsSelected = validateSelectedSkills(skills);
   const checkRightToWorkBox = validateCheckedRightToWork(rightToWork);
-  const valid =
-    !!passwordIsMatching &&
+  const validPassword =
     !!passwordLength &&
     !!passwordContainUppercase &&
     !!passwordContainLowerCase &&
-    !!passwordContainNumber &&
+    !!passwordContainNumber;
+  const validConfirmPassword = !!passwordIsMatching;
+
+  const valid =
+    !!validPassword &&
+    !!validConfirmPassword &&
     !!cityIsSelected &&
     !!skillsIsSelected &&
     !!checkRightToWorkBox;
 
   return {
-    passwordLength,
-    passwordIsMatching,
-    passwordContainUppercase,
-    passwordContainLowerCase,
-    passwordContainNumber,
+    validPassword,
+    validConfirmPassword,
     cityIsSelected,
     skillsIsSelected,
     checkRightToWorkBox,

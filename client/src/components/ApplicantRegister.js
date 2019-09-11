@@ -6,15 +6,18 @@ import {
   Icon,
   Input,
   Grid,
-  Checkbox,
   Modal,
-  Message,
   Button
 } from "semantic-ui-react";
 import { getSkills } from "../api/skills";
 import { getCities } from "../api/cities";
 import { createNewApplicantUserAndProfile } from "../api/applicantProfile";
 import validateForm from "../utils/formValidation";
+import {
+  ValidatedFormInput,
+  ValidatedFormDropDown,
+  ValidatedFormCheckbox
+} from "./ValidatedFormFields";
 class ApplicantRegister extends Component {
   state = {
     applicantEntries: {
@@ -64,7 +67,11 @@ class ApplicantRegister extends Component {
     this.getAllCities();
   }
   //Handlers
-  handleClose = () => this.setState({ openSubmitStatusMsg: false });
+  handleCloseFail = () => this.setState({ openSubmitStatusMsg: false });
+  handleCloseSuccess = () => {
+    this.setState({ openSubmitStatusMsg: false });
+    this.clearForm();
+  };
   handleSelectSkill = (e, data) => {
     const selectedSkill = data.value;
     this.setState({
@@ -99,7 +106,6 @@ class ApplicantRegister extends Component {
           this.setState({ successServerStatus: res.success });
           if (this.state.successServerStatus) {
             this.setState({ openSubmitStatusMsg: true });
-            this.clearForm();
           } else {
             return this.setState({
               successServerStatus: false,
@@ -136,9 +142,13 @@ class ApplicantRegister extends Component {
         city: null,
         skills: [],
         cvLink: "",
-        rightToWork: null,
-        checked: null
-      }
+        rightToWork: null
+      },
+      formErrors: {},
+      successServerStatus: false,
+      openSubmitStatusMsg: false,
+      skillsData: [],
+      citiesData: []
     });
   };
   render() {
@@ -171,8 +181,8 @@ class ApplicantRegister extends Component {
               <Grid.Column>
                 <Form.Field
                   control={Input}
-                  label="Name"
-                  placeholder="Name"
+                  label="Full Name"
+                  placeholder="Full Name"
                   value={name}
                   iconPosition="left"
                   name="name"
@@ -196,11 +206,13 @@ class ApplicantRegister extends Component {
                   <Icon name="at" color="blue" />
                   <input />
                 </Form.Field>
-                <Form.Field
+                <ValidatedFormInput
                   control={Input}
                   label="Password"
                   value={password}
                   type="password"
+                  valid={formErrors.validPassword}
+                  validationMessage="Password Must Have At Least 8 Character And Contain At Least One UpperCase , LowerCase,Number"
                   placeholder="Password"
                   iconPosition="left"
                   name="password"
@@ -209,97 +221,60 @@ class ApplicantRegister extends Component {
                 >
                   <Icon name="lock" color="blue" />
                   <input />
-                </Form.Field>
-                <Form.Field
+                </ValidatedFormInput>
+                <ValidatedFormInput
                   control={Input}
                   label="Confirm Password"
                   value={confirmPassword}
-                  type="password"
+                  type="Password"
                   placeholder="Confirm Password"
                   iconPosition="left"
+                  valid={formErrors.validConfirmPassword}
+                  validationMessage="Passwords Are Not Matching"
                   name="confirmPassword"
                   required
                   onChange={this.handleChange}
                 >
                   <Icon name="undo alternate" color="blue" />
                   <input />
-                </Form.Field>
-                {formErrors.passwordLength === false ? (
-                  <Message negative>
-                    Password Must Be at least 8 Characters
-                  </Message>
-                ) : (
-                  ""
-                )}
-                {formErrors.passwordIsMatching === false ? (
-                  <Message negative>Passwords Are Not Matching</Message>
-                ) : (
-                  ""
-                )}
-                {formErrors.passwordContainUppercase === false ? (
-                  <Message negative>
-                    Password Must Contain at least 1 Uppercase Letter
-                  </Message>
-                ) : (
-                  ""
-                )}
-                {formErrors.passwordContainLowerCase === false ? (
-                  <Message negative>
-                    Password Must Contain at least 1 Lowercase Letter
-                  </Message>
-                ) : (
-                  ""
-                )}
-                {formErrors.passwordContainNumber === false ? (
-                  <Message negative>
-                    Password Must Contain at least 1 Number
-                  </Message>
-                ) : (
-                  ""
-                )}
+                </ValidatedFormInput>
                 <Form.Field
-                  label="About me"
                   control={TextArea}
+                  label="About me"
                   placeholder="About me"
                   name="about"
                   value={about}
                   required
                   onChange={this.handleChange}
                 />
-                <Form.Dropdown
+                <ValidatedFormDropDown
                   label="Location"
                   name="city"
                   placeholder="Select city"
                   search
                   selection
+                  valid={formErrors.cityIsSelected}
+                  validationMessage="Location Is Not Selected"
                   required
                   value={city}
                   options={this.state.citiesData}
                   onChange={this.handleSelectCity}
                 />
-                {formErrors.cityIsSelected === false ? (
-                  <Message negative>Location Is Not Selected</Message>
-                ) : (
-                  ""
-                )}
 
-                <Form.Dropdown
+                <ValidatedFormDropDown
                   label="Skills"
+                  error
                   onChange={this.handleSelectSkill}
                   options={this.state.skillsData}
                   name="skills"
+                  valid={formErrors.skillsIsSelected}
+                  validationMessage="Skills Are Not Selected"
                   value={skills}
                   multiple
                   selection
                   required
                   placeholder="Select Skills"
                 />
-                {formErrors.skillsIsSelected === false ? (
-                  <Message negative>Skills Is Not Selected</Message>
-                ) : (
-                  ""
-                )}
-
                 <Form.Field
                   control={Input}
                   label="Link To External CV"
@@ -314,31 +289,25 @@ class ApplicantRegister extends Component {
                   <input />
                 </Form.Field>
                 <Header as="h4">Do you have the right to work? </Header>
-                <Form.Group inline required>
-                  {" "}
-                  <Form.Field>
-                    <Checkbox
-                      label="Yes"
-                      name="radioGroup"
-                      value="Yes"
-                      checked={rightToWork === "Yes"}
-                      onChange={this.handleChangeCheckBox}
-                    />
-                  </Form.Field>
-                  <Form.Field>
-                    <Checkbox
-                      label="No"
-                      name="radioGroup"
-                      value="No"
-                      checked={rightToWork === "No"}
-                      onChange={this.handleChangeCheckBox}
-                    />
-                  </Form.Field>
-                  {formErrors.checkRightToWorkBox === false ? (
-                    <Message negative>Please Select One</Message>
-                  ) : (
-                    ""
-                  )}
+                <Form.Group unstackable grouped>
+                  <ValidatedFormCheckbox
+                    label="Yes"
+                    valid={formErrors.checkRightToWorkBox}
+                    validationMessage="Please Check If you are Allowed to Work"
+                    name="radioGroup"
+                    value="Yes"
+                    checked={rightToWork === "Yes"}
+                    onChange={this.handleChangeCheckBox}
+                  />
+                  <ValidatedFormCheckbox
+                    valid={formErrors.checkRightToWorkBox}
+                    validationMessage="Please Check If you are Not Allowed to Work"
+                    label="No"
+                    name="radioGroup"
+                    value="No"
+                    checked={rightToWork === "No"}
+                    onChange={this.handleChangeCheckBox}
+                  />
                 </Form.Group>
                 <Form.Button fluid lapel="Submit" primary>
                   Sign Up
@@ -349,7 +318,7 @@ class ApplicantRegister extends Component {
           {this.state.successServerStatus === true && (
             <Modal
               open={this.state.openSubmitStatusMsg}
-              onClose={this.handleClose}
+              onClose={this.handleCloseSuccess}
               closeIcon
               basic
               size="small"
@@ -364,7 +333,7 @@ class ApplicantRegister extends Component {
                   icon="checkmark"
                   labelPosition="right"
                   content="OK"
-                  onClick={this.handleClose}
+                  onClick={this.handleCloseSuccess}
                 />
               </Modal.Actions>
             </Modal>
@@ -373,7 +342,7 @@ class ApplicantRegister extends Component {
             <Modal
               basic
               open={this.state.openSubmitStatusMsg}
-              onClose={this.handleClose}
+              onClose={this.handleCloseFail}
               closeIcon
             >
               <Modal.Header> Something went Wrong</Modal.Header>
@@ -386,7 +355,7 @@ class ApplicantRegister extends Component {
                   icon="checkmark"
                   labelPosition="right"
                   content="OK"
-                  onClick={this.handleClose}
+                  onClick={this.handleCloseFail}
                 />
               </Modal.Actions>
             </Modal>
