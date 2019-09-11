@@ -53,23 +53,26 @@ const options = [
 ];
 
 class CompanyProfile extends React.Component {
-  constructor(props) {
-    super(props);
+  state = {
+    companyName: "",
+    aboutCompany: "",
+    opportunityTitle: "",
+    contactName: "",
+    opportunityDescription: "",
+    industry: "",
+    contact: "",
+    date: "",
+    companyId: null
+  };
 
-    this.state = {
-      companyName: "",
-      aboutCompany: "",
-      opportunityTitle: "",
-      contactName: "",
-      opportunityDescription: "",
-      industry: "",
-      contact: "",
-      date: ""
-    };
+  componentWillMount() {
+    const { pathname } = window.location;
+    this.setState({
+      companyId: pathname && pathname.replace("/company-profile/", "")
+    });
   }
-
   componentDidMount() {
-    const companyId = 1; // will get company id from company login
+    const { companyId } = this.state; // will get company id from company login
     getCompanyProfile(companyId).then(data => {
       this.setState({
         companyName: data.company_name,
@@ -94,7 +97,6 @@ class CompanyProfile extends React.Component {
   };
 
   render() {
-    console.log(this.state);
     return (
       <Container text style={{ marginTop: "4em" }} border={{}} align="center">
         <Dropdown clearable text="Your Profile" options={options} selection />

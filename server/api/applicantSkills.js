@@ -2,12 +2,12 @@ const express = require("express");
 const router = express.Router();
 
 const {
-  getSkillsForOpportunitiesList
-} = require("../services/database/opportunitySkills");
+  getSkillsForApplicantProfile
+} = require("../services/database/applicantSkills");
 
 router.get("/:id", (req, res) => {
   const { id } = req.params;
-  getSkillsForOpportunitiesList(id)
+  getSkillsForApplicantProfile(id)
     .then(data => {
       res.send(data);
     })

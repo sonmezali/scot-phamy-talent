@@ -55,7 +55,7 @@ CREATE TABLE cities (
 CREATE TABLE applicant_profile (
   applicant_id SERIAL PRIMARY KEY,
   name VARCHAR(30) NOT NULL,
-  about VARCHAR(450) NOT NULL,
+  about TEXT NOT NULL,
   application_status status_type DEFAULT 'pending',
   city INTEGER REFERENCES cities (id),
   cvLink VARCHAR(30),
@@ -78,24 +78,25 @@ CREATE TYPE industry_type AS ENUM (
 CREATE TABLE company_profile (
   company_id SERIAL PRIMARY KEY,
   name VARCHAR(30) NOT NULL,
-  description VARCHAR(400) NOT NULL,
+  description TEXT NOT NULL,
   industry industry_type,
+  logo_url TEXT DEFAULT NULL,
   user_id INTEGER REFERENCES users (user_id)
 );
 
 CREATE TYPE opportunity_type AS ENUM (
-  'voluntary work',
-  'training',
-  'internship',
-  'work experience',
-  'part time job',
-  'full time job'
+  'Volunteer',
+  'Apprenticeship',
+  'Internship',
+  'Work experience',
+  'Part time',
+  'Full time'
 );
 
 CREATE TABLE opportunities (
   opportunity_id SERIAL PRIMARY KEY,
   name VARCHAR(50) NOT NULL,
-  description VARCHAR(450) NOT NULL,
+  description TEXT NOT NULL,
   contact_person VARCHAR(50) NOT NULL,
   telephone INTEGER,
   email VARCHAR(40) NOT NULL,

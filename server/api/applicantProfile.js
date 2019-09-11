@@ -30,7 +30,7 @@ router.post("/", (req, res) => {
     city,
     skills,
     cvLink,
-    value
+    rightToWork
   } = req.body;
 
   const applicant = {
@@ -42,20 +42,18 @@ router.post("/", (req, res) => {
     city,
     skills,
     cvLink,
-    value
+    rightToWork
   };
-
   db.createUser(applicant)
     .then(data => {
       const userId = data[0].user_id;
       return {
-        role,
         name,
         about,
         city,
         cvLink,
         skills,
-        value,
+        rightToWork,
         userId
       };
     })
@@ -66,10 +64,10 @@ router.post("/", (req, res) => {
       });
     })
     .then(profileId => {
-      newApplicantSkills({ profileId, skills });
+      const profileID = profileId.profileId;
+      newApplicantSkills({ profileID, skills });
     })
     .then(data => res.send({ success: true }))
-
     .catch(err => {});
 });
 
