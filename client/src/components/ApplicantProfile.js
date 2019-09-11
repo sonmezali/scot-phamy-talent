@@ -70,8 +70,14 @@ class ApplicantProfile extends React.Component {
   // Get data from db
   componentWillMount() {
     const loggedInUser = JSON.parse(localStorage.getItem("user"));
-    const userId = loggedInUser.user_id;
-    this.setState({ userId: userId });
+    if (loggedInUser) {
+      const userId = loggedInUser.user_id;
+      this.setState({ userId: userId });
+      console.log(loggedInUser);
+    } else {
+      // window.location.replace("/applicant-profile");
+      this.props.history.push(`/`);
+    }
   }
   componentDidMount() {
     this.getApplicantData();

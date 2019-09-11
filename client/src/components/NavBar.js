@@ -26,6 +26,7 @@ class NavBar extends Component {
   logout = event => {
     event.preventDefault();
     localStorage.removeItem("token");
+    localStorage.removeItem("user");
     document.location.reload();
   };
 
