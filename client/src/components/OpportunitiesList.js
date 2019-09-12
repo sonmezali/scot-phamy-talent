@@ -12,9 +12,10 @@ import {
 import { getOpportunitiesForList, getSkillsList } from "../api/opportunities";
 import { getSkills } from "../api/skills";
 import { getCities } from "../api/cities";
-import OpportunityTypeCard from "./OpportunityTypeCard";
+import OpportunityTypeFilters from "./OpportunityTypeFilters";
 import filterOpportunities from "../utils/filterOpportunities";
-import OpportunitiesCard from "./OpportunitiesCard";
+import OpportunityCard from "./OpportunityCard";
+import { Link } from "react-router-dom";
 
 class OpportunitiesList extends Component {
   state = {
@@ -127,46 +128,46 @@ class OpportunitiesList extends Component {
             icon="search"
             onChange={this.handleChangeSearchKeyWord}
           />
-<Grid stackable columns={2}>
-<Grid.Column>
-          <Header as="h4">
-            <Icon name="map marker alternate" size="large" color="blue" />
-            <Header.Content>
-              Location{" "}
-              <Dropdown
-                inline
-                header="Location"
-                options={cities}
-                multiple
-                onChange={this.handleSelectCity}
-                placeholder="Search city"
-              />
-            </Header.Content>
-          </Header>
-          </Grid.Column>
-          <Grid.Column>
-          <Header as="h4">
-            <Icon name="check" size="large" color="blue" />
-            <Header.Content>
-              Skills{" "}
-              <Dropdown
-                inline
-                header="SKills"
-                onChange={this.handleSelectSkill}
-                options={skills}
-                onClose={this.filteringOpportunitiesBySkills}
-                multiple
-                placeholder="Select skills"
-              />
-            </Header.Content>
-          </Header>
-          </Grid.Column>
-</Grid>
-
+          <br />
+          <Grid stackable columns={2}>
+            <Grid.Column>
+              <Header as="h4">
+                <Icon name="map marker alternate" size="large" color="blue" />
+                <Header.Content>
+                  Location{" "}
+                  <Dropdown
+                    inline
+                    header="Location"
+                    options={cities}
+                    multiple
+                    onChange={this.handleSelectCity}
+                    placeholder="Search city"
+                  />
+                </Header.Content>
+              </Header>
+            </Grid.Column>
+            <Grid.Column>
+              <Header as="h4">
+                <Icon name="check" size="large" color="blue" />
+                <Header.Content>
+                  Skills{" "}
+                  <Dropdown
+                    inline
+                    header="SKills"
+                    onChange={this.handleSelectSkill}
+                    options={skills}
+                    onClose={this.filteringOpportunitiesBySkills}
+                    multiple
+                    placeholder="Select skills"
+                  />
+                </Header.Content>
+              </Header>
+            </Grid.Column>
+          </Grid>
         </Form>
         <Header textAlign="left">Job Type</Header>
 
-        <OpportunityTypeCard
+        <OpportunityTypeFilters
           handelSelectJobType={this.handelSelectJobType}
           selectedJobType={selectedJobType}
         />
@@ -182,9 +183,13 @@ class OpportunitiesList extends Component {
         ) : null}
         <Grid stackable>
           <Grid.Row columns={3} stretched>
-            {filteredOpportunities.map((opportunity, index) => (
-              <Grid.Column key={opportunity.opportunity_id}>
-                <OpportunitiesCard opportunity={opportunity} />
+            {filteredOpportunities.map(opportunity => (
+              <Grid.Column
+                key={opportunity.opportunity_id}
+                as={Link}
+                to={`/opportunities/${opportunity.opportunity_id}`}
+              >
+                <OpportunityCard opportunity={opportunity} />
                 <br></br>
               </Grid.Column>
             ))}

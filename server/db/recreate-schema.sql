@@ -79,6 +79,7 @@ CREATE TABLE company_profile (
   company_id SERIAL PRIMARY KEY,
   name VARCHAR(30) NOT NULL,
   description TEXT NOT NULL,
+  location INTEGER REFERENCES cities (id),
   industry industry_type,
   logo_url TEXT DEFAULT NULL,
   user_id INTEGER REFERENCES users (user_id)

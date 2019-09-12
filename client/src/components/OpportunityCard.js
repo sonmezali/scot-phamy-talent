@@ -1,15 +1,13 @@
 import React from "react";
-import { Icon, Card } from "semantic-ui-react";
+import { Icon, Card, Button, Divider } from "semantic-ui-react";
 import moment from "moment";
-import { Link } from "react-router-dom";
-export default ({ opportunity }) => (
-  <Card
-    centered
-    raised
-    color="blue"
-    as={Link}
-    to={`/opportunities/${opportunity.opportunity_id}`}
-  >
+export default ({
+  opportunity,
+  options,
+  handleDeleteOpportunity,
+  handleEditOpportunity
+}) => (
+  <Card centered raised color="blue">
     <Card.Content>
       <Card.Header>{opportunity.opportunity_title}</Card.Header>
       <Card.Content textAlign="left">
@@ -30,6 +28,19 @@ export default ({ opportunity }) => (
       >
         {opportunity.description}
       </Card.Description>
+      {options && (
+        <Card.Content extra>
+          <Divider></Divider>
+          <div className="ui two buttons">
+            <Button basic color="green" onClick={handleEditOpportunity}>
+              Edit
+            </Button>
+            <Button basic color="red" onClick={handleDeleteOpportunity}>
+              Delete
+            </Button>
+          </div>
+        </Card.Content>
+      )}
     </Card.Content>
   </Card>
 );

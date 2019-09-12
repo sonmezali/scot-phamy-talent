@@ -77,10 +77,10 @@ VALUES
     ('Irina', 2, 'approved', 'cyf mentor', 'wwwfb', 'no', 2);
 
 INSERT INTO company_profile
-    (name, description, logo_url, industry, user_id
+    (name, description, logo_url, location, industry, user_id
     )
 VALUES
-    ('CYF', 'Tech company','http://codeyourfuture.io/wp-content/uploads/2019/03/cyf_brand.png', 'Technology', 3);
+    ('CYF', 'Tech company','http://codeyourfuture.io/wp-content/uploads/2019/03/cyf_brand.png', 1, 'Technology', 3);
 
 INSERT INTO opportunities
     (name, description, contact_Person, telephone, email, city, date, TYPE, company_id)
