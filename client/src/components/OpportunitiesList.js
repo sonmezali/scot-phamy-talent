@@ -127,7 +127,8 @@ class OpportunitiesList extends Component {
             icon="search"
             onChange={this.handleChangeSearchKeyWord}
           />
-
+<Grid stackable columns={2}>
+<Grid.Column>
           <Header as="h4">
             <Icon name="map marker alternate" size="large" color="blue" />
             <Header.Content>
@@ -142,6 +143,8 @@ class OpportunitiesList extends Component {
               />
             </Header.Content>
           </Header>
+          </Grid.Column>
+          <Grid.Column>
           <Header as="h4">
             <Icon name="check" size="large" color="blue" />
             <Header.Content>
@@ -157,6 +160,9 @@ class OpportunitiesList extends Component {
               />
             </Header.Content>
           </Header>
+          </Grid.Column>
+</Grid>
+
         </Form>
         <Header textAlign="left">Job Type</Header>
 
