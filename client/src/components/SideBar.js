@@ -9,7 +9,6 @@ export default ({
   handleItemClick,
   user
 }) => {
-  console.log(user);
   return (
     <Sidebar
       as={Menu}

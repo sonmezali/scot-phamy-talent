@@ -73,9 +73,7 @@ class ApplicantProfile extends React.Component {
     if (loggedInUser) {
       const userId = loggedInUser.user_id;
       this.setState({ userId: userId });
-      console.log(loggedInUser);
     } else {
-      // window.location.replace("/applicant-profile");
       this.props.history.push(`/`);
     }
   }
