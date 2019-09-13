@@ -7,49 +7,38 @@ describe("form to be valid", () => {
 
     const result = validateForm(formData);
     expect(result.valid).toEqual(false);
-    expect(result.passwordLength).toEqual(false);
+    expect(result.validPassword).toEqual(false);
   });
 
   it("should fail if Password NotMatching", () => {
     const formData = {
-      password: "abcdefghij",
-      confirmPassword: "abcdefghi"
+      password: "abcdefghij"
     };
 
     const result = validateForm(formData);
     expect(result.valid).toEqual(false);
-    expect(result.passwordLength).toEqual(true);
-    expect(result.passwordIsMatching).toEqual(false);
+    expect(result.validPassword).toEqual(false);
   });
 
   it(`should fail if there is capital letter and matching password 
   and length is 8 characters But there is no LowerCase letter `, () => {
     const formData = {
-      password: "ABCDEFGHIJ",
-      confirmPassword: "ABCDEFGHIJ"
+      password: "ABCDEFGHIJ"
     };
 
     const result = validateForm(formData);
     expect(result.valid).toEqual(false);
-    expect(result.passwordLength).toEqual(true);
-    expect(result.passwordIsMatching).toEqual(true);
-    expect(result.passwordContainUppercase).toEqual(true);
-    expect(result.passwordContainLowerCase).toEqual(false);
+    expect(result.validPassword).toEqual(false);
   });
 
   it("should not pass if Length & match & uppercase & Lowercase & but no number", () => {
     const formData = {
-      password: "abcdEfghj",
-      confirmPassword: "abcdEfghj"
+      password: "abcdEfghj"
     };
 
     const result = validateForm(formData);
     expect(result.valid).toEqual(false);
-    expect(result.passwordLength).toEqual(true);
-    expect(result.passwordIsMatching).toEqual(true);
-    expect(result.passwordContainUppercase).toEqual(true);
-    expect(result.passwordContainLowerCase).toEqual(true);
-    expect(result.passwordContainNumber).toEqual(false);
+    expect(result.validPassword).toEqual(false);
   });
 
   it("should not pass length & match & lowercase & uppercase & number but no city selected ", () => {
@@ -61,11 +50,8 @@ describe("form to be valid", () => {
 
     const result = validateForm(formData);
     expect(result.valid).toEqual(false);
-    expect(result.passwordLength).toEqual(true);
-    expect(result.passwordIsMatching).toEqual(true);
-    expect(result.passwordContainUppercase).toEqual(true);
-    expect(result.passwordContainLowerCase).toEqual(true);
-    expect(result.passwordContainNumber).toEqual(true);
+    expect(result.validPassword).toEqual(true);
+    expect(result.validConfirmPassword).toEqual(true);
     expect(result.cityIsSelected).toEqual(false);
   });
   it("should not pass length & match & lowercase & uppercase & number & city selected  but no Skills", () => {
@@ -78,11 +64,8 @@ describe("form to be valid", () => {
 
     const result = validateForm(formData);
     expect(result.valid).toEqual(false);
-    expect(result.passwordLength).toEqual(true);
-    expect(result.passwordIsMatching).toEqual(true);
-    expect(result.passwordContainUppercase).toEqual(true);
-    expect(result.passwordContainLowerCase).toEqual(true);
-    expect(result.passwordContainNumber).toEqual(true);
+    expect(result.validPassword).toEqual(true);
+    expect(result.validConfirmPassword).toEqual(true);
     expect(result.cityIsSelected).toEqual(true);
     expect(result.skillsIsSelected).toEqual(false);
   });
@@ -97,11 +80,8 @@ describe("form to be valid", () => {
 
     const result = validateForm(formData);
     expect(result.valid).toEqual(false);
-    expect(result.passwordLength).toEqual(true);
-    expect(result.passwordIsMatching).toEqual(true);
-    expect(result.passwordContainUppercase).toEqual(true);
-    expect(result.passwordContainLowerCase).toEqual(true);
-    expect(result.passwordContainNumber).toEqual(true);
+    expect(result.validPassword).toEqual(true);
+    expect(result.validConfirmPassword).toEqual(true);
     expect(result.cityIsSelected).toEqual(true);
     expect(result.skillsIsSelected).toEqual(true);
     expect(result.checkRightToWorkBox).toEqual(false);
@@ -117,11 +97,8 @@ describe("form to be valid", () => {
 
     const result = validateForm(formData);
     expect(result.valid).toEqual(true);
-    expect(result.passwordLength).toEqual(true);
-    expect(result.passwordIsMatching).toEqual(true);
-    expect(result.passwordContainUppercase).toEqual(true);
-    expect(result.passwordContainLowerCase).toEqual(true);
-    expect(result.passwordContainNumber).toEqual(true);
+    expect(result.validPassword).toEqual(true);
+    expect(result.validConfirmPassword).toEqual(true);
     expect(result.cityIsSelected).toEqual(true);
     expect(result.skillsIsSelected).toEqual(true);
     expect(result.skillsIsSelected).toEqual(true);

@@ -11,14 +11,12 @@ const getCompanyProfile = id => {
   company_profile.description AS company_Description,
   company_profile.industry,
   company_profile.logo_url,
-  opportunities.name AS opportunity_title,
-  opportunities.contact_person,
-  opportunities.date,
-  opportunities.description AS opportunity_description FROM
+  cities.city AS location
+   FROM
   company_profile
-  INNER JOIN opportunities ON opportunities.company_id = company_profile.company_id
-  INNER JOIN users ON users.user_id=company_profile.user_id WHERE
-  company_profile.company_id = $1`,
+  INNER JOIN users ON users.user_id = company_profile.user_id 
+  INNER JOIN cities ON cities.id = company_profile.location
+  WHERE company_profile.company_id = $1`,
 
       [id],
       (error, result) => {

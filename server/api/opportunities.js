@@ -3,7 +3,8 @@ const router = express.Router();
 const {
   createOpportunity,
   getOpportunitiesForList,
-  getOpportunityById
+  getOpportunityById,
+  getOpportunitiesForCompanyProfileByCompanyId
 } = require("../services/database/opportunities");
 const {
   newOpportunitySkills
@@ -50,7 +51,6 @@ router.post("/", (req, res) => {
     })
     .then(data => res.send({ success: true }))
     .catch(err => {
-      console.log(err);
       res.status(500).send({ success: false });
     });
 });
@@ -60,7 +60,14 @@ router.get("/opportunity/:opportunityId", (req, res) => {
   getOpportunityById(id)
     .then(data => res.send(data))
     .catch(err => {
-      
+      res.status(500).send(err);
+    });
+});
+router.get("/company/:companyId", (req, res) => {
+  const id = req.params.companyId;
+  getOpportunitiesForCompanyProfileByCompanyId(id)
+    .then(data => res.send(data))
+    .catch(err => {
       res.status(500).send(err);
     });
 });
