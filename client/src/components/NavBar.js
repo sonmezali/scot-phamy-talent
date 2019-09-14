@@ -40,7 +40,8 @@ class NavBar extends Component {
       handleSidebarHide
     } = this;
     const landingPage = window.location.pathname === "/";
-
+    console.log(landingPage);
+    console.log(window.location.pathname);
     return (
       <React.Fragment>
         <Menu size="mini" flued inverted>

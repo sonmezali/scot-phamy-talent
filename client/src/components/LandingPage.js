@@ -4,6 +4,14 @@ import { Link } from "react-router-dom";
 import { Menu, Icon } from "semantic-ui-react";
 import { Grid, Header } from "semantic-ui-react";
 
+const login = () => {
+  window.location.href = "/login";
+};
+const register = () => {
+  window.location.href = "/main-register";
+  console.log("hi");
+};
+
 export default () => {
   return (
     <div alt="background" style={styles.landingPage}>
@@ -19,7 +27,7 @@ export default () => {
       </Header>
       <Grid style={styles.signIn}>
         <Icon name="signing" />
-        <Menu.Item name="Sign In" as={Link} to="/login">
+        <Menu.Item name="Sign In" as={Link} link={true} onClick={login}>
           {" "}
           Sign in
         </Menu.Item>
@@ -27,7 +35,9 @@ export default () => {
 
       <Grid style={styles.signOut}>
         <Icon name="signing" />
-        <Menu.Item name="Register" as={Link} to="/main-register" />
+        <Menu.Item name="Register" as={Link} link={true} onClick={register}>
+          Register
+        </Menu.Item>
       </Grid>
     </div>
   );
