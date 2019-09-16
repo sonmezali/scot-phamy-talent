@@ -39,29 +39,12 @@ class NavBar extends Component {
       logout,
       handleSidebarHide
     } = this;
-    const landingPage = window.location.pathname === "/";
-    console.log(landingPage);
-    console.log(window.location.pathname);
     return (
       <React.Fragment>
         <Menu size="mini" flued inverted>
-          {landingPage ? (
-            <Icon
-              name="align left"
-              style={{
-                fontSize: "40px",
-                position: "absolute",
-                zIndex: " 3",
-                top: "25px",
-                color: "#2699fb"
-              }}
-              onClick={this.handleShowClick}
-            />
-          ) : (
-            <Menu.Item onClick={handleShowClick}>
-              <Icon size="large" name="list layout"></Icon>
-            </Menu.Item>
-          )}
+          <Menu.Item onClick={handleShowClick}>
+            <Icon size="large" name="list layout"></Icon>
+          </Menu.Item>
           <Menu.Item position="left">
             <Menu.Header as="h4" textAlign="center">
               {activeItem}
