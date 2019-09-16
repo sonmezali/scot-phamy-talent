@@ -1,17 +1,18 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import {
-  Container,
+  Divider,
   Button,
   Header,
   Menu,
   Dropdown,
-  Card,
   Image,
   Grid,
   Segment
 } from "semantic-ui-react";
 import { getCompanyProfile } from "../api/companyProfile";
+import { getOpportunitiesByCompanyId } from "../api/opportunities";
+import OpportunityCard from "./OpportunityCard";
 const options = [
   {
     key: 1,
@@ -53,129 +54,104 @@ const options = [
 ];
 
 class CompanyProfile extends React.Component {
-  constructor(props) {
-    super(props);
+  state = {
+    companyData: {},
+    opportunitiesArray: []
+  };
 
-    this.state = {
-      companyName: "",
-      aboutCompany: "",
-      opportunityTitle: "",
-      contactName: "",
-      opportunityDescription: "",
-      industry: "",
-      contact: "",
-      date: ""
-    };
-  }
-
-  componentDidMount() {
-    const companyId = 1; // will get company id from company login
-    getCompanyProfile(companyId).then(data => {
-      this.setState({
-        companyName: data.company_name,
-        aboutCompany: data.company_description,
-        industry: data.industry,
-        opportunityTitle: data.opportunity_title,
-        contactName: data.contact_person,
-        date: data.date,
-        opportunityDescription: data.opportunity_description,
-        contact: data.email
-      });
+  componentWillMount() {
+    const { pathname } = window.location;
+    this.setState({
+      companyId: pathname && pathname.replace("/company-profile/", "")
     });
   }
 
-  handleClickEdit = () => {
-    console.log("something");
+  getOpportunitiesForCompanyProfileByCompanyId = () => {
+    const { companyId } = this.state; // will get company id from company login
+    getOpportunitiesByCompanyId(companyId).then(opportunities =>
+      this.setState({
+        opportunitiesArray: opportunities
+      })
+    );
+  };
+  getCompanyProfileData = () => {
+    const { companyId } = this.state; // will get company id from company login
+    getCompanyProfile(companyId).then(companyData => {
+      this.setState({ companyData: companyData });
+    });
+  };
+  componentDidMount() {
+    this.getCompanyProfileData();
+    this.getOpportunitiesForCompanyProfileByCompanyId();
+  }
+
+  handleEditOpportunity = () => {
     return "/company/manage-profile";
   };
 
-  handleClickDelete = () => {
+  handleDeleteOpportunity = () => {
     return "....";
   };
 
   render() {
-    console.log(this.state);
+    const { companyData, opportunitiesArray } = this.state;
     return (
-      <Container text style={{ marginTop: "4em" }} border={{}} align="center">
-        <Dropdown clearable text="Your Profile" options={options} selection />
-        <Card centered style={{ background: "#bce0fd" }}>
-          <Card.Content textAlign="center">
-            <Image
-              size="tiny"
-              src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS_fNsF06WAgkNbqeLtIKBcnA1zZ_gPPXPmdchvEliAAyxmYVKM4w"
-              alt="Company Logo"
+      <React.Fragment>
+        <Divider horizontal>
+          <Menu compact>
+            <Dropdown
+              clearable
+              text="Your Profile"
+              options={options}
+              selection
             />
-            <Header as="h3">{this.state.companyName}</Header>
-            <Header as="h3">Location</Header>
-          </Card.Content>
-        </Card>
-        <Grid centered>
-          <Segment basic>
-            <a href={`mailto: ${this.state.contact}`}>
-              <Button primary size="large">
-                Contact
-              </Button>
-            </a>
-          </Segment>
+          </Menu>
+        </Divider>
+        <Segment centered style={{ background: "#bce0fd" }}>
+          <Image
+            centered
+            size="tiny"
+            src={companyData.logo_url}
+            alt="Company Logo"
+          />
+          <Header textAlign="center" as="h3">
+            {companyData.company_name}
+          </Header>
+          <Header textAlign="center" as="h3">
+            Location: {companyData.location}
+          </Header>
+        </Segment>
+
+        <Segment centered basic>
+          <a href={`mailto: ${companyData.email}`}>
+            <Button primary size="large">
+              Contact
+            </Button>
+          </a>
+        </Segment>
+        <Segment>
+          <Header as="h3">About Company</Header>
+
+          <p>{companyData.company_description}</p>
+        </Segment>
+        <Grid stackable>
+          <Grid.Row columns={3} stretched>
+            {opportunitiesArray.map(opportunity => (
+              <Grid.Column key={opportunity.opportunity_id}>
+                <OpportunityCard
+                  opportunity={opportunity}
+                  options={true}
+                  handleDeleteOpportunity={this.handleDeleteOpportunity}
+                  handleEditOpportunity={this.handleEditOpportunity}
+                />
+
+                <br></br>
+              </Grid.Column>
+            ))}
+            <Divider></Divider>
+          </Grid.Row>
         </Grid>
-        <Card centered>
-          <Card.Content>
-            <Card.Header>
-              <Header as="h3">About Company</Header>
-            </Card.Header>
-
-            <Card.Description>
-              <p>{this.state.aboutCompany}</p>
-            </Card.Description>
-          </Card.Content>
-        </Card>
-
-        <Card centered>
-          <Card.Header>
-            <Segment basic style={{ background: "#f1f9ff" }}>
-              <Grid columns={2}>
-                <Grid.Column>
-                  <Header as="h3">Opportunity Title</Header>
-                </Grid.Column>
-                <Grid.Column>
-                  <Header as="h5">{this.state.opportunityTitle}</Header>
-                </Grid.Column>
-                <Grid.Column>
-                  <Header as="h3">
-                    Contact Name
-                    <Header as="h5">{this.state.contactName}</Header>
-                  </Header>
-                </Grid.Column>
-                <Grid.Column>
-                  <Header as="h3">
-                    Expiring Date
-                    <Header as="h6">{this.state.date}</Header>
-                  </Header>
-                </Grid.Column>
-              </Grid>
-            </Segment>
-          </Card.Header>
-          <Card.Description>
-            <Segment basic>
-              <p>{this.state.opportunityDescription}</p>
-            </Segment>
-          </Card.Description>
-          <Card.Content extra style={{ background: "#bce0fd" }}>
-            <Grid columns={2}>
-              <Grid.Column>
-                <Button onClick={this.handleClickEdit} primary>
-                  Edit
-                </Button>
-              </Grid.Column>
-              <Grid.Column>
-                <Button onClick={this.handleClickDelete} secondary>
-                  Delete
-                </Button>
-              </Grid.Column>
-            </Grid>
-          </Card.Content>
-        </Card>
-      </Container>
+      </React.Fragment>
     );
   }
 }

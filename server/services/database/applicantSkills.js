@@ -7,20 +7,42 @@ const pool = new Pool(config);
 //need to install pg-format https://www.wlaurance.com/2018/09/node-postgres-insert-multiple-rows/   to insert multiple entries
 // Using pg-format to insert multiple rows with Node Postgres
 
-const newApplicantSkills = ({ skills, applicantId }) => {
-	const SkillsAndIdArray = skills.map((skill) => [skill, applicantId]);
-	const query = format(
-		"INSERT INTO applicant_skills (skill_id, applicant_id) VALUES %L",
-		SkillsAndIdArray
-	);
-	return new Promise((resolve, reject) => {
-		pool.query(query, (error, result) => {
-			if (error) {
-				reject(error);
-			}
-			resolve(result.rows);
-		});
-	});
+const newApplicantSkills = ({ skills, profileID }) => {
+  const SkillsAndIdArray = skills.map(skill => [skill, profileID]);
+  const query = format(
+    "INSERT INTO applicant_skills (skill_id, applicant_id) VALUES %L",
+    SkillsAndIdArray
+  );
+  return new Promise((resolve, reject) => {
+    pool.query(query, (error, result) => {
+      if (error) {
+        reject(error);
+      }
+
+      resolve(result.rows);
+    });
+  });
 };
 
-module.exports = { newApplicantSkills };
+const getSkillsForApplicantProfile = id => {
+  return new Promise((resolve, reject) => {
+    pool.query(
+      `SELECT
+    skills.name AS skill
+  FROM 
+    skills
+    INNER JOIN  applicant_skills ON applicant_skills.skill_id = skills.skill_id
+    INNER JOIN  applicant_profile ON applicant_profile.applicant_id = applicant_skills.applicant_id
+    WHERE applicant_profile.user_id = '${id}'
+  `,
+      (error, result) => {
+        if (error) {
+          reject(error);
+        } else {
+          resolve(result.rows);
+        }
+      }
+    );
+  });
+};
+module.exports = { newApplicantSkills, getSkillsForApplicantProfile };

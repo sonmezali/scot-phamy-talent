@@ -3,17 +3,19 @@ import {
   Grid,
   Header,
   Input,
+  Message,
   Dropdown,
   Form,
   Icon,
-  Card,
-  Image,
   Divider
 } from "semantic-ui-react";
 import { getOpportunitiesForList, getSkillsList } from "../api/opportunities";
 import { getSkills } from "../api/skills";
 import { getCities } from "../api/cities";
+import OpportunityTypeFilters from "./OpportunityTypeFilters";
 import filterOpportunities from "../utils/filterOpportunities";
+import OpportunityCard from "./OpportunityCard";
+import { Link } from "react-router-dom";
 
 class OpportunitiesList extends Component {
   state = {
@@ -75,18 +77,12 @@ class OpportunitiesList extends Component {
     this.getAllSkills();
   }
   // handlers
-  handleItemClick = name => this.setState({ selectedJobType: name });
+  handelSelectJobType = name => this.setState({ selectedJobType: name });
 
   handleSelectSkill = (e, data) => {
     const selectedSkill = data.value;
     this.setState({
       selectedSkills: selectedSkill
-    });
-  };
-  handleSelectOpportunity = e => {
-    const selectedOpportunityId = e.target.name;
-    this.setState({
-      selectedOpportunity: selectedOpportunityId
     });
   };
   handleSelectCity = (e, data) => {
@@ -113,176 +109,92 @@ class OpportunitiesList extends Component {
       opportunitiesList,
       selectedSkills
     } = this.state;
+    const filteredOpportunities = filterOpportunities({
+      selectedCity,
+      searchKeyWord,
+      selectedJobType,
+      opportunitiesList,
+      selectedSkills
+    });
     return (
       <div>
         <Form>
-          <Form.Field
-            control={Input}
+          <Input
+            fluid
+            style={{ color: "rgb(22, 135, 219)" }}
             placeholder="What are you looking for ?"
             value={searchKeyWord}
             name="search"
-            iconPosition="right"
+            icon="search"
             onChange={this.handleChangeSearchKeyWord}
-          >
-            <Icon name="search" color="blue" />
-            <input />
-          </Form.Field>
-
-          <Header as="h4">
-            <Icon name="map marker alternate" size="large" color="blue" />
-            <Header.Content>
-              Location{" "}
-              <Dropdown
-                inline
-                header="Location"
-                options={cities}
-                multiple
-                onChange={this.handleSelectCity}
-                placeholder="Search city"
-              />
-            </Header.Content>
-          </Header>
-          <Header as="h4">
-            <Icon name="check" size="large" color="blue" />
-            <Header.Content>
-              Skills{" "}
-              <Dropdown
-                inline
-                header="SKills"
-                onChange={this.handleSelectSkill}
-                options={skills}
-                onClose={this.filteringOpportunitiesBySkills}
-                multiple
-                placeholder="Select skills"
-              />
-            </Header.Content>
-          </Header>
+          />
+          <br />
+          <Grid stackable columns={2}>
+            <Grid.Column>
+              <Header as="h4">
+                <Icon name="map marker alternate" size="large" color="blue" />
+                <Header.Content>
+                  Location{" "}
+                  <Dropdown
+                    inline
+                    header="Location"
+                    options={cities}
+                    multiple
+                    onChange={this.handleSelectCity}
+                    placeholder="Search city"
+                  />
+                </Header.Content>
+              </Header>
+            </Grid.Column>
+            <Grid.Column>
+              <Header as="h4">
+                <Icon name="check" size="large" color="blue" />
+                <Header.Content>
+                  Skills{" "}
+                  <Dropdown
+                    inline
+                    header="SKills"
+                    onChange={this.handleSelectSkill}
+                    options={skills}
+                    onClose={this.filteringOpportunitiesBySkills}
+                    multiple
+                    placeholder="Select skills"
+                  />
+                </Header.Content>
+              </Header>
+            </Grid.Column>
+          </Grid>
         </Form>
         <Header textAlign="left">Job Type</Header>
 
-        <Grid columns={3} centered>
-          <Grid.Row>
-            <Grid.Column
-              textAlign="center"
-              onClick={() => this.handleItemClick("Full time")}
-              style={
-                this.state.selectedJobType === "Full time"
-                  ? { backgroundColor: "lightGrey" }
-                  : null
-              }
-            >
-              <Icon name="briefcase" size="large" color="blue" />
-              <Header as="h4"> Full time</Header>
-            </Grid.Column>
-            <Grid.Column
-              textAlign="center"
-              onClick={() => this.handleItemClick("Volunteer")}
-              style={
-                this.state.selectedJobType === "Volunteer"
-                  ? { backgroundColor: "lightGrey" }
-                  : null
-              }
-            >
-              <Icon name="hand paper" size="large" color="blue" />
-              <Header as="h4"> Volunteer</Header>
-            </Grid.Column>
-            <Grid.Column
-              textAlign="center"
-              onClick={() => this.handleItemClick("Internship")}
-              style={
-                this.state.selectedJobType === "Internship"
-                  ? { backgroundColor: "lightGrey" }
-                  : null
-              }
-            >
-              <Icon name="handshake outline" size="large" color="blue" />
-              <Header as="h4"> Internship</Header>
-            </Grid.Column>
-          </Grid.Row>
-          <Grid.Row>
-            <Grid.Column
-              textAlign="center"
-              onClick={() => this.handleItemClick("Part time")}
-              style={
-                this.state.selectedJobType === "Part time"
-                  ? { backgroundColor: "lightGrey" }
-                  : null
-              }
-            >
-              <Icon name="chart pie" size="large" color="blue" />
-              <Header as="h4"> Part time</Header>
-            </Grid.Column>
-            <Grid.Column
-              textAlign="center"
-              onClick={() => this.handleItemClick("Apprenticeship")}
-              style={
-                this.state.selectedJobType === "Apprenticeship"
-                  ? { backgroundColor: "lightGrey" }
-                  : null
-              }
-            >
-              <Icon name="certificate" size="large" color="blue" />
-              <Header as="h5"> Apprenticeship</Header>
-            </Grid.Column>
-            <Grid.Column
-              textAlign="center"
-              onClick={() => this.handleItemClick("Work Experience")}
-              style={
-                this.state.selectedJobType === "Work Experience"
-                  ? { backgroundColor: "lightGrey" }
-                  : null
-              }
-            >
-              <Icon name="chart pie" size="large" color="blue" />
-              <Header as="h4"> Work experience</Header>
-            </Grid.Column>
-          </Grid.Row>
-        </Grid>
-        <Divider>
-          <br></br>
-        </Divider>
+        <OpportunityTypeFilters
+          handelSelectJobType={this.handelSelectJobType}
+          selectedJobType={selectedJobType}
+        />
+        <Divider />
         <br />
-        <Grid>
-          {filterOpportunities({
-            selectedCity,
-            searchKeyWord,
-            selectedJobType,
-            opportunitiesList,
-            selectedSkills
-          }).map((opportunity, index) => (
-            <Card
-              centered
-              key={index}
-              raised
-              color="blue"
-              onClick={this.handleSelectOpportunity}
-              name={opportunity.opportunity_id}
-            >
-              <Card.Content>
-                <Image
-                  floated="right"
-                  size="mini"
-                  name={opportunity.opportunity_id}
-                >
-                  <Icon
-                    name="ellipsis vertical"
-                    color="blue"
-                    onClick={this.handleSelectOpportunity}
-                  ></Icon>
-                </Image>
-                <Card.Header>{opportunity.opportunity_title}</Card.Header>
-                <Card.Content textAlign="left">
-                  contact Person: {opportunity.contact_person}
-                </Card.Content>
-                <Card.Meta textAlign="left">
-                  Expire at:{opportunity.date}{" "}
-                </Card.Meta>
-              </Card.Content>
-              <Card.Content>
-                <Card.Description>{opportunity.description}</Card.Description>
-              </Card.Content>
-            </Card>
-          ))}
+        {!filteredOpportunities.length ? (
+          <Message negative>
+            <Message.Header>
+              No matching opportunities to display.
+            </Message.Header>
+            <p> Please change your search criteria and try again</p>
+          </Message>
+        ) : null}
+        <Grid stackable>
+          <Grid.Row columns={3} stretched>
+            {filteredOpportunities.map(opportunity => (
+              <Grid.Column
+                key={opportunity.opportunity_id}
+                as={Link}
+                to={`/opportunities/${opportunity.opportunity_id}`}
+              >
+                <OpportunityCard opportunity={opportunity} />
+                <br></br>
+              </Grid.Column>
+            ))}
+            <Divider></Divider>
+          </Grid.Row>
         </Grid>
       </div>
     );

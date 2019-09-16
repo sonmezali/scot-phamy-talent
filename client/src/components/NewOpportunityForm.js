@@ -8,8 +8,10 @@ import {
   Modal,
   Grid,
   Header,
-  Divider
+  Divider,
+  Message
 } from "semantic-ui-react";
+import validateCreateOpportunityForm from "../utils/cerateOpportunityValidation";
 import { getCities } from "../api/cities";
 import { getSkills } from "../api/skills";
 import { createNewOpportunity } from "../api/opportunities";
@@ -25,21 +27,22 @@ class NewOpportunityForm extends Component {
       email: "",
       city: null,
       date: "",
-      type: "",
+      type: null,
       skills: [],
       company_id: 1 // hardCoded
     },
     cities: [],
-    skills: [],
-    success: null,
-    open: false
+    skillsArray: [],
+    success: "",
+    open: false,
+    formErrors: {}
   };
   close = () => this.setState({ open: false });
   //Getting data
   getAllSkills = () => {
     getSkills().then(response => {
       this.setState({
-        skills: response.map(skill => ({
+        skillsArray: response.map(skill => ({
           key: skill.skill_id,
           text: skill.name,
           value: skill.skill_id
@@ -85,15 +88,25 @@ class NewOpportunityForm extends Component {
 
   handlePost = e => {
     e.preventDefault();
-    createNewOpportunity(this.state.formEntries).then(res => {
-      this.setState({ success: res.success });
-      if (res.success === true) {
-        this.setState({ open: true });
-        this.clearForm();
-      }
-    });
+    const { type, skills, city } = this.state.formEntries;
+    const form = { type, skills, city };
+    const result = validateCreateOpportunityForm(form);
+    const { valid } = result;
+
+    if (valid) {
+      createNewOpportunity(this.state.formEntries).then(res => {
+        this.setState({ success: res.success });
+        if (this.state.success) {
+          this.setState({ open: true });
+          this.clearForm();
+        } else {
+          return this.setState({ open: true, success: false });
+        }
+      });
+    } else {
+      return this.setState({ formErrors: result });
+    }
   };
-  handleClose = () => this.setState({ modalOpen: false });
   handleChange = e => {
     const property = e.target.name;
     const value = e.target.value;
@@ -122,9 +135,30 @@ class NewOpportunityForm extends Component {
   };
 
   render() {
+    const {
+      name,
+      description,
+      contactPerson,
+      telephone,
+      email,
+      city,
+      date,
+      type,
+      skills
+    } = this.state.formEntries;
+    const { cities, skillsArray, success, open, formErrors } = this.state;
+    const {
+      handleChange,
+      close,
+      handlePost,
+      handleSelectCity,
+      handleSelectOppType,
+      handleSelectSkill,
+      clearForm
+    } = this;
     return (
       <div style={{ margin: "10px" }}>
-        <Form>
+        <Form onSubmit={handlePost}>
           <Grid centered stackable columns={1}>
             <Grid.Row mobile={16} tablet={8} computer={4}>
               <Grid.Column width={15}>
@@ -145,9 +179,9 @@ class NewOpportunityForm extends Component {
                   iconPosition="left"
                   placeholder="Title"
                   required
-                  value={this.state.formEntries.name}
+                  value={name}
                   name="name"
-                  onChange={this.handleChange}
+                  onChange={handleChange}
                 >
                   <input />
                   <Icon name="pencil alternate" />
@@ -157,9 +191,9 @@ class NewOpportunityForm extends Component {
                   control={TextArea}
                   placeholder="opportunity Details"
                   name="description"
-                  value={this.state.formEntries.description}
+                  value={description}
                   required
-                  onChange={this.handleChange}
+                  onChange={handleChange}
                 />
               </Grid.Column>
             </Grid.Row>
@@ -176,9 +210,9 @@ class NewOpportunityForm extends Component {
                     placeholder="Contact Person"
                     iconPosition="left"
                     name="contactPerson"
-                    value={this.state.formEntries.contactPerson}
+                    value={contactPerson}
                     required
-                    onChange={this.handleChange}
+                    onChange={handleChange}
                   >
                     <Icon name="user" />
                     <input />
@@ -190,9 +224,9 @@ class NewOpportunityForm extends Component {
                     placeholder="Telephone"
                     iconPosition="left"
                     name="telephone"
-                    value={this.state.formEntries.telephone}
+                    value={telephone}
                     required
-                    onChange={this.handleChange}
+                    onChange={handleChange}
                   >
                     <Icon name="phone" />
                     <input />
@@ -204,9 +238,9 @@ class NewOpportunityForm extends Component {
                     iconPosition="left"
                     name="email"
                     type="email"
-                    value={this.state.formEntries.email}
+                    value={email}
                     required
-                    onChange={this.handleChange}
+                    onChange={handleChange}
                   >
                     <Icon name="at" />
                     <input />
@@ -228,10 +262,15 @@ class NewOpportunityForm extends Component {
                     search
                     selection
                     required
-                    value={this.state.formEntries.city}
-                    options={this.state.cities}
-                    onChange={this.handleSelectCity}
+                    value={city}
+                    options={cities}
+                    onChange={handleSelectCity}
                   />
+                  {formErrors.validateSelectCity === false ? (
+                    <Message negative>
+                      Please Select This Opportunity Location
+                    </Message>
+                  ) : null}
                   <Form.Field
                     control={Input}
                     label="Expiry Date"
@@ -239,9 +278,9 @@ class NewOpportunityForm extends Component {
                     placeholder="Expiry date"
                     iconPosition="left"
                     required
-                    value={this.state.formEntries.date}
+                    value={date}
                     name="date"
-                    onChange={this.handleChange}
+                    onChange={handleChange}
                   >
                     <Icon name="calendar alternate" />
                     <input />
@@ -251,48 +290,48 @@ class NewOpportunityForm extends Component {
                     options={opportunityType}
                     search
                     selection
-                    value={this.state.formEntries.type}
+                    value={type}
                     required
                     placeholder="Select Opportunity Type"
-                    onChange={this.handleSelectOppType}
-                  />{" "}
+                    onChange={handleSelectOppType}
+                  />
+                  {formErrors.validateSelectSkills === false ? (
+                    <Message negative>
+                      Please Select The Type Of Opportunity
+                    </Message>
+                  ) : null}
                 </Form.Group>
                 <Form.Dropdown
                   label="Skills"
-                  onChange={this.handleSelectSkill}
-                  options={this.state.skills}
+                  onChange={handleSelectSkill}
+                  options={skillsArray}
                   name="skills"
                   multiple
                   selection
                   required
-                  value={this.state.formEntries.skills}
+                  value={skills}
                   placeholder="Select Skills"
                 />
+                {formErrors.validateSelectType === false ? (
+                  <Message negative>
+                    Please Select Skills Needed for This Opportunity at Least
+                    One skill
+                  </Message>
+                ) : null}
               </Grid.Column>
             </Grid.Row>
             <Form.Group>
-              <Form.Button fluid basic onClick={this.clearForm}>
+              <Form.Button fluid basic onClick={clearForm}>
                 Cancel
               </Form.Button>
-              <Form.Button
-                lapel="Submit"
-                primary
-                fluid
-                onClick={this.handlePost}
-              >
+              <Form.Button lapel="Submit" primary fluid>
                 Post Opportunity
               </Form.Button>
             </Form.Group>
 
             <Grid.Row width={16}>
-              {this.state.success === true && (
-                <Modal
-                  open={this.state.open}
-                  onClose={this.close}
-                  closeIcon
-                  basic
-                  size="small"
-                >
+              {success === true && (
+                <Modal open={open} onClose={close} closeIcon basic size="small">
                   <Modal.Header>
                     {" "}
                     Opportunity Submitted successfully
@@ -306,29 +345,24 @@ class NewOpportunityForm extends Component {
                       icon="checkmark"
                       labelPosition="right"
                       content="OK"
-                      onClick={this.close}
+                      onClick={close}
                     />
                   </Modal.Actions>
                 </Modal>
               )}
-              {this.state.success === false && (
-                <Modal
-                  basic
-                  open={this.state.open}
-                  onClose={this.close}
-                  closeIcon
-                >
+              {success === false && (
+                <Modal basic open={open} onClose={close} closeIcon>
                   <Modal.Header> Something went Wrong</Modal.Header>
                   <Modal.Content>
                     <p>check Your Data</p>
                   </Modal.Content>
                   <Modal.Actions>
                     <Button
-                      positive
+                      negative
                       icon="checkmark"
                       labelPosition="right"
                       content="OK"
-                      onClick={this.close}
+                      onClick={close}
                     />
                   </Modal.Actions>
                 </Modal>

@@ -68,5 +68,66 @@ const getOpportunitiesForList = () => {
     );
   });
 };
+const getOpportunityById = id => {
+  return new Promise((resolve, reject) => {
+    pool.query(
+      `SELECT
+  opportunities.opportunity_id,
+  opportunities.name AS opportunity_Title,
+  opportunities.contact_person, 
+  opportunities.description,
+  opportunities.telephone,
+  opportunities.email,
+  opportunities.date, 
+  opportunities.Type,
+  cities.city AS location,
+  company_profile.name As company_name,
+  opportunities.company_id,
+  company_profile.user_id AS user_id
 
-module.exports = { createOpportunity, getOpportunitiesForList };
+  FROM
+    opportunities
+    INNER JOIN cities ON opportunities.city = cities.id
+    INNER JOIN company_profile ON opportunities.company_id = company_profile.company_id
+    WHERE opportunities.opportunity_id =${id}
+  `,
+      (error, result) => {
+        if (error) {
+          reject(error);
+        } else {
+          resolve(result.rows);
+        }
+      }
+    );
+  });
+};
+const getOpportunitiesForCompanyProfileByCompanyId = id => {
+  return new Promise((resolve, reject) => {
+    pool.query(
+      `SELECT 
+    opportunities.opportunity_id,
+  opportunities.name AS opportunity_Title,
+  opportunities.contact_person, 
+  opportunities.description
+  FROM
+    opportunities
+    WHERE 
+    opportunities.company_id = ${id}
+    `,
+      (error, result) => {
+        if (error) {
+          reject(error);
+        } else {
+          resolve(result.rows);
+        }
+      }
+    );
+  });
+};
+
+module.exports = {
+  createOpportunity,
+  getOpportunitiesForList,
+  getOpportunityById,
+  getOpportunitiesForCompanyProfileByCompanyId
+};
