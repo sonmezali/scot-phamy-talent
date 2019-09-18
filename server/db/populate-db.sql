@@ -60,6 +60,18 @@ INSERT INTO users
     (ROLE, email, PASSWORD)
 VALUES
     ('applicant', 'adn@cyf.org', 'password');
+    INSERT INTO users
+    (ROLE, email, PASSWORD)
+VALUES
+    ('applicant', 'adn@cyf.org', 'password');
+    INSERT INTO users
+    (ROLE, email, PASSWORD)
+VALUES
+    ('applicant', 'adn@cyf.org', 'password');
+    INSERT INTO users
+    (ROLE, email, PASSWORD)
+VALUES
+    ('applicant', 'adn@cyf.org', 'password');
 
 INSERT INTO users
     (ROLE, email, PASSWORD)
@@ -74,7 +86,19 @@ VALUES
 INSERT INTO applicant_profile
     (name, city, application_status, about, cvLink, right_to_work, user_id)
 VALUES
-    ('Irina', 2, 'approved', 'cyf mentor', 'wwwfb', 'no', 2);
+    ('Irina', 1, 'approved', 'cyf mentor', 'wwwfb', 'no', 1);
+    INSERT INTO applicant_profile
+    (name, city, application_status, about, cvLink, right_to_work, user_id)
+VALUES
+    ('Sana', 2, 'approved', 'Nurse', 'wwwfb', 'no', 2);
+    INSERT INTO applicant_profile
+    (name, city, application_status, about, cvLink, right_to_work, user_id)
+VALUES
+    ('Med', 2, 'approved', 'cyf mentor', 'wwwfb', 'no', 3);
+    INSERT INTO applicant_profile
+    (name, city, application_status, about, cvLink, right_to_work, user_id)
+VALUES
+    ('Jack', 2, 'approved', 'Full-stack developper', 'wwwfb', 'no', 4);
 
 INSERT INTO company_profile
     (name, description, logo_url, location, industry, user_id
