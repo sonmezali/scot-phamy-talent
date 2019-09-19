@@ -51,17 +51,12 @@ const options = [
 
 class ApplicantProfile extends React.Component {
   state = {
-    userId: null,
+    userId: this.props.location.state.userId,
     applicantData: {},
     skills: [],
     isLoading: true
   };
-  // Get data from db
-  componentWillMount() {
-    const loggedInUser = getLoggedInUserData().user;
-    const userId = loggedInUser.user_id;
-    this.setState({ userId: userId });
-  }
+
   componentDidMount() {
     this.getApplicantData();
     this.getApplicantSkills();

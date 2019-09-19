@@ -23,7 +23,7 @@ const Routes = () => {
       <Container>
         <Route path="/" exact component={Home} />
         <Route path="/company-profile" exact component={CompanyProfile} />
-        <Route path="/company-profile/:id" component={CompanyProfile} />
+        <Route path="/company-profile/id" component={CompanyProfile} />
         <Route path="/about" component={About} />
         <Route path="/login" component={Login} />
         <Route path="/applicant-profile" component={ApplicantProfile} />
@@ -32,7 +32,7 @@ const Routes = () => {
         <Route path="/applicant-register" component={ApplicantRegister} />
         <Route path="/company-register" component={CompanyRegister} />
         <Route path="/opportunities" exact component={OpportunitiesList} />
-        <Route path="/opportunities/:id" component={OpportunityView} />
+        <Route path="/opportunities/id" component={OpportunityView} />
         <Route path="/applicants-list" component={ApplicantsList} />
       </Container>
     </Router>

@@ -1,6 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { Sidebar, Menu, Icon } from "semantic-ui-react";
+import { getLoggedInUserData } from "../utils/storage";
 
 export default ({
   visible,
@@ -70,7 +71,12 @@ export default ({
         onClick={handleItemClick}
         as={Link}
         active={activeItem === "My Profile"}
-        to="/applicant-profile"
+        to={{
+          pathname: "/applicant-profile",
+          state: {
+            userId: getLoggedInUserData() && getLoggedInUserData().user.user_id
+          }
+        }}
       >
         <Icon name="address card outline"></Icon>
         My Profile
@@ -81,7 +87,12 @@ export default ({
         active={activeItem === "My profile"}
         onClick={handleItemClick}
         as={Link}
-        to="/company-profile"
+        to={{
+          pathname: "/company-profile/id",
+          state: {
+            userId: getLoggedInUserData() && getLoggedInUserData().user.user_id
+          }
+        }}
       >
         <Icon name="cubes" />
         My Profile

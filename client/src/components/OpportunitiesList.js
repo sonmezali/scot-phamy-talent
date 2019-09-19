@@ -187,7 +187,10 @@ class OpportunitiesList extends Component {
               <Grid.Column
                 key={opportunity.opportunity_id}
                 as={Link}
-                to={`/opportunities/${opportunity.opportunity_id}`}
+                to={{
+                  pathname: `/opportunities/id`,
+                  state: { opportunityId: opportunity.opportunity_id }
+                }}
               >
                 <OpportunityCard opportunity={opportunity} />
                 <br></br>

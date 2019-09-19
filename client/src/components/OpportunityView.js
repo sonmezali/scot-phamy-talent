@@ -16,23 +16,14 @@ import { Link } from "react-router-dom";
 import { getLoggedInUserData } from "../utils/storage";
 
 export default class OpportunityView extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      opportunityId: null,
-      opportunity: [],
-      skills: [],
-      isLoading: true,
-      isEditing: false
-    };
-  }
-  //Get data and Id
-  componentWillMount() {
-    const { pathname } = window.location;
-    this.setState({
-      opportunityId: pathname && pathname.replace("/opportunities/", "")
-    });
-  }
+  state = {
+    opportunityId: this.props.location.state.opportunityId,
+    opportunity: [],
+    skills: [],
+    isLoading: true,
+    isEditing: false
+  };
+
   getOpportunity = () => {
     getOpportunityById(this.state.opportunityId).then(data =>
       this.setState({ opportunity: data[0] })
@@ -55,10 +46,7 @@ export default class OpportunityView extends Component {
     this.getSkills();
   }
 
-  //Handlers
-
   render() {
-    const loggedInUser = getLoggedInUserData().user;
     const { opportunity, isLoading } = this.state;
     return (
       <React.Fragment>
@@ -72,8 +60,9 @@ export default class OpportunityView extends Component {
           </Segment>
         ) : (
           <React.Fragment>
-            {loggedInUser.role === "company" &&
-            loggedInUser.user_id === opportunity.user_id ? (
+            {getLoggedInUserData() &&
+            getLoggedInUserData().user.role === "company" &&
+            getLoggedInUserData().user.user_id === opportunity.user_id ? (
               <Grid>
                 <Grid.Column floated="right" width={3}>
                   <Dropdown item size="large" icon="options">
@@ -115,7 +104,12 @@ export default class OpportunityView extends Component {
                 </Grid.Row>
               </Grid>
             </Segment>
-            <Link to={`/company-profile/${opportunity.company_id}`}>
+            <Link
+              to={{
+                pathname: "/company-profile",
+                state: { userId: opportunity.user_id }
+              }}
+            >
               <Header as="h2" color="blue">
                 <Icon name="building outline"></Icon>
                 Company Name:{opportunity.company_name}
