@@ -7,6 +7,17 @@ const {
 } = require("../services/database/applicantProfile");
 const { newApplicantSkills } = require("../services/database/applicantSkills");
 
+router.get("/", (req, res) => {
+  applicantProfileDb
+    .getAllApplicantsProfile()
+    .then(data => {
+      res.send(data);
+    })
+    .catch(err => {
+      console.error(err);
+      res.send(500);
+    });
+});
 router.get("/:id", (req, res) => {
   const { id } = req.params;
   applicantProfileDb

@@ -2,6 +2,8 @@ import React, { Component } from "react";
 import { Menu, Icon, Dropdown } from "semantic-ui-react";
 import { Link } from "react-router-dom";
 import SideBarMenu from "./SideBar";
+import { getLoggedInUserData, removeUserData } from "../utils/storage";
+
 class NavBar extends Component {
   state = {
     visible: false,
@@ -25,8 +27,7 @@ class NavBar extends Component {
   //logOut function
   logout = event => {
     event.preventDefault();
-    localStorage.removeItem("token");
-    localStorage.removeItem("user");
+    removeUserData();
     document.location.reload();
   };
 
@@ -53,7 +54,7 @@ class NavBar extends Component {
           <Menu.Item position="left">
             <Menu.Header as="h4">{activeItem}</Menu.Header>
           </Menu.Item>
-          {localStorage.getItem("token") ? (
+          {getLoggedInUserData() ? (
             <Menu.Item
               name="Logout"
               active={activeItem === "Logout"}

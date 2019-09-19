@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { Button, Form, Grid, Header, List, Message } from "semantic-ui-react";
 import { Link } from "react-router-dom";
 import { signApi } from "../api/auth";
+import { getLoggedInUserData, saveLoggedInUserData } from "../utils/storage";
 
 export default class Login extends Component {
   state = {
@@ -9,23 +10,21 @@ export default class Login extends Component {
     password: "",
     error: null
   };
-
-  handleEmailChange = event => {
-    this.setState({ email: event.target.value });
+  //handlers
+  handleChange = event => {
+    const { target } = event;
+    const { name, value } = target;
+    this.setState(function(prevState) {
+      const signInEntries = prevState;
+      signInEntries[name] = value;
+      return { state: signInEntries };
+    });
   };
-
-  handlePassChange = event => {
-    this.setState({ password: event.target.value });
-  };
-
   singIn = () => {
     signApi(this.state.email, this.state.password)
-      .then(data => {
-        const token = data.token;
-
-        localStorage.setItem("token", token);
-        localStorage.setItem("user", JSON.stringify(data.user));
-        document.location.reload(); //refresh the page for token
+      .then(userData => {
+        saveLoggedInUserData(userData);
+        document.location.reload();
       })
       .catch(err => {
         this.setState({ error: true });
@@ -33,8 +32,9 @@ export default class Login extends Component {
   };
 
   render() {
-    const token = localStorage.getItem("token");
-    if (token) {
+    const { email, password, error } = this.state;
+    const { singIn, handleSubmit, handleChange } = this;
+    if (getLoggedInUserData()) {
       return <Message positive>You are Log in. WELCOME!</Message>;
     } else
       return (
@@ -47,15 +47,16 @@ export default class Login extends Component {
             <Header as="h2" color="blue" textAlign="center">
               Login to your account
             </Header>
-            <Form onSubmit={this.handleSubmit} size="large">
+            <Form onSubmit={handleSubmit} size="large">
               <p align="left">Email</p>
               <Form.Input
                 fluid
                 icon="user"
                 iconPosition="left"
                 placeholder="E-mail address"
-                value={this.state.email}
-                onChange={this.handleEmailChange}
+                name="email"
+                value={email}
+                onChange={handleChange}
               />
 
               <p align="left">Password</p>
@@ -65,21 +66,22 @@ export default class Login extends Component {
                 iconPosition="left"
                 placeholder="Password"
                 type="password"
-                value={this.state.password}
-                onSubmit={this.handleSubmit}
-                onChange={this.handlePassChange}
+                name="password"
+                value={password}
+                onSubmit={handleSubmit}
+                onChange={handleChange}
               />
 
               <Button
-                onClick={this.singIn}
-                value={this.state.error}
+                onClick={singIn}
+                value={error}
                 color="blue"
                 fluid
                 size="large"
               >
                 Login
               </Button>
-              {this.state.error ? <div>Wrong Info. Try Again</div> : null}
+              {error ? <div>Wrong Info. Try Again</div> : null}
             </Form>
             <List divided horizontal>
               <List.Item>
