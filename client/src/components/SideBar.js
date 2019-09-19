@@ -43,6 +43,16 @@ export default ({
         <Icon name="clipboard list"></Icon>
         Opportunity List
       </Menu.Item>
+      <Menu.Item
+        name="ApplicantsList"
+        active={activeItem === "ApplicantsList"}
+        onClick={handleItemClick}
+        as={Link}
+        to="/applicants-list"
+      >
+        <Icon name="clipboard list"></Icon>
+        Applicants List
+      </Menu.Item>
 
       <Menu.Item
         name="Opportunity"

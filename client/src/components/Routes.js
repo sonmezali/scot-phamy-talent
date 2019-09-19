@@ -14,6 +14,7 @@ import CompanyProfile from "./CompanyProfile";
 import OpportunitiesList from "./OpportunitiesList";
 import CompanyRegister from "./CompanyRegister";
 import OpportunityView from "./OpportunityView";
+import ApplicantsList from "./ApplicantsList";
 
 const Routes = () => {
   return (
@@ -32,6 +33,7 @@ const Routes = () => {
         <Route path="/company-register" component={CompanyRegister} />
         <Route path="/opportunities" exact component={OpportunitiesList} />
         <Route path="/opportunities/:id" component={OpportunityView} />
+        <Route path="/applicants-list" component={ApplicantsList} />
       </Container>
     </Router>
   );
