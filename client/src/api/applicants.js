@@ -1,8 +1,14 @@
-const getAllApplicants = () => {
+export const getAllApplicants = () => {
   return fetch("/api/applicantProfile")
     .then(res => res.json())
     .catch(err => {
       console.error(err);
     });
 };
-export default getAllApplicants;
+export const getSkillsByApplicantId = id => {
+  return fetch(`/api/applicantSkills/${id}`)
+    .then(res => res.json())
+    .catch(err => {
+      console.error(err);
+    });
+};
