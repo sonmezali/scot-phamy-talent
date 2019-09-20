@@ -54,31 +54,33 @@ export default ({
         <Icon name="clipboard list"></Icon>
         Applicants List
       </Menu.Item>
-      <Menu.Item
-        name="Opportunity"
-        onClick={handleItemClick}
-        as={Link}
-        active={activeItem === "Opportunity"}
-        to="/create-opportunity"
-      >
-        <Icon name="idea"></Icon>
-        Create Opportunity
-      </Menu.Item>
-      {getLoggedInUserData() &&
-      getLoggedInUserData().user.role === "applicant" ? (
+
+      {getLoggedInUserData() && getLoggedInUserData().user.role === "company" && (
         <Menu.Item
-          name="My Profile"
+          name="Opportunity"
           onClick={handleItemClick}
           as={Link}
-          active={activeItem === "My Profile"}
-          to={`/applicant-profile/${id}`}
+          active={activeItem === "Opportunity"}
+          to="/create-opportunity"
         >
-          <Icon name="address card outline"></Icon>
-          My Profile
+          <Icon name="idea"></Icon>
+          Create Opportunity
         </Menu.Item>
-      ) : null}
+      )}
       {getLoggedInUserData() &&
-      getLoggedInUserData().user.role === "company" ? (
+        getLoggedInUserData().user.role === "applicant" && (
+          <Menu.Item
+            name="My Profile"
+            onClick={handleItemClick}
+            as={Link}
+            active={activeItem === "My Profile"}
+            to={`/applicant-profile/${id}`}
+          >
+            <Icon name="address card outline"></Icon>
+            My Profile
+          </Menu.Item>
+        )}
+      {getLoggedInUserData() && getLoggedInUserData().user.role === "company" && (
         <Menu.Item
           name="My Company"
           active={activeItem === "My Company"}
@@ -89,7 +91,7 @@ export default ({
           <Icon name="cubes" />
           My Company
         </Menu.Item>
-      ) : null}
+      )}
     </Sidebar>
   );
 };
