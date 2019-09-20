@@ -55,7 +55,10 @@ const options = [
 
 class CompanyProfile extends React.Component {
   state = {
-    userId: this.props.location.state.userId,
+    userId:
+      (window.location.pathname.includes("/company-profile/") &&
+        window.location.pathname.replace("/company-profile/", "")) ||
+      null,
     companyData: {},
     opportunitiesArray: []
   };
@@ -90,7 +93,10 @@ class CompanyProfile extends React.Component {
   };
 
   render() {
-    const { companyData, opportunitiesArray } = this.state;
+    const { companyData, opportunitiesArray, userId } = this.state;
+    if (userId === null || !userId) {
+      return null;
+    }
     return (
       <React.Fragment>
         <Divider horizontal>
@@ -107,7 +113,7 @@ class CompanyProfile extends React.Component {
           <Image
             centered
             size="tiny"
-            // src={companyData.logo_url}
+            src={companyData.logo_url}
             alt="Company Logo"
           />
           <Header textAlign="center" as="h3">
