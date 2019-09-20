@@ -5,7 +5,7 @@ const {
   getSkillsForApplicantProfile
 } = require("../services/database/applicantSkills");
 
-router.get("/:id", (req, res) => {
+router.get("/:id/skills", (req, res) => {
   const { id } = req.params;
   getSkillsForApplicantProfile(id)
     .then(data => {
