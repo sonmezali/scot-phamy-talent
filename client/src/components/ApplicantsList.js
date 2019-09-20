@@ -47,7 +47,6 @@ export default class ApplicantsList extends React.Component {
     });
   };
   render() {
-    console.log(this.state.selectedSkills);
     return (
       <div>
         <Form>
