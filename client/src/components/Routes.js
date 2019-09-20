@@ -15,15 +15,22 @@ import OpportunitiesList from "./OpportunitiesList";
 import CompanyRegister from "./CompanyRegister";
 import OpportunityView from "./OpportunityView";
 import ApplicantsList from "./ApplicantsList";
-
+import { protect } from "../utils/authentication";
 const Routes = () => {
   return (
     <Router>
       <NavBar />
       <Container>
         <Route path="/" exact component={Home} />
-        <Route path="/company-profile" exact component={CompanyProfile} />
-        <Route path="/company-profile/id" component={CompanyProfile} />
+        <Route
+          path="/company-profile"
+          exact
+          component={protect(CompanyProfile, "company")}
+        />
+        <Route
+          path="/company-profile/:id"
+          component={protect(CompanyProfile)}
+        />
         <Route path="/about" component={About} />
         <Route path="/login" component={Login} />
         <Route path="/applicant-profile" component={ApplicantProfile} />
