@@ -33,7 +33,15 @@ const Routes = () => {
         />
         <Route path="/about" component={About} />
         <Route path="/login" component={Login} />
-        <Route path="/applicant-profile" component={ApplicantProfile} />
+        <Route
+          path="/applicant-profile"
+          exact
+          component={protect(ApplicantProfile, "applicant")}
+        />
+        <Route
+          path="/applicant-profile/:id"
+          component={protect(ApplicantProfile)}
+        />
         <Route path="/create-opportunity" component={NewOpportunityForm} />
         <Route path="/main-register" component={MainRegister} />
         <Route path="/applicant-register" component={ApplicantRegister} />
