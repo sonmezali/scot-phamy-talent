@@ -86,14 +86,14 @@ export default ({
       {getLoggedInUserData() &&
       getLoggedInUserData().user.role === "company" ? (
         <Menu.Item
-          name="My profile"
-          active={activeItem === "My profile"}
+          name="My Company"
+          active={activeItem === "My Company"}
           onClick={handleItemClick}
           as={Link}
           to={`/company-profile/${id}`}
         >
           <Icon name="cubes" />
-          My Profile
+          My Company
         </Menu.Item>
       ) : null}
     </Sidebar>
