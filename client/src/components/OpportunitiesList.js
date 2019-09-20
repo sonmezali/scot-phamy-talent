@@ -7,6 +7,8 @@ import {
   Dropdown,
   Form,
   Icon,
+  Modal,
+  Button,
   Divider
 } from "semantic-ui-react";
 import { getOpportunitiesForList, getSkillsList } from "../api/opportunities";
@@ -16,6 +18,7 @@ import OpportunityTypeFilters from "./OpportunityTypeFilters";
 import filterOpportunities from "../utils/filterOpportunities";
 import OpportunityCard from "./OpportunityCard";
 import { Link } from "react-router-dom";
+import { getLoggedInUserData } from "../utils/storage";
 
 class OpportunitiesList extends Component {
   state = {
@@ -26,7 +29,8 @@ class OpportunitiesList extends Component {
     selectedOpportunity: "",
     cities: [],
     skills: [],
-    selectedSkills: []
+    selectedSkills: [],
+    askToLogIn: false
   };
   // Get data
   getAllSkills = () => {
@@ -97,6 +101,12 @@ class OpportunitiesList extends Component {
       ...this.state,
       searchKeyWord: searchKeyWord
     });
+  };
+  handleClose = () => {
+    this.setState({ askToLogIn: false });
+  };
+  handleClickOnOpportunity = e => {
+    !getLoggedInUserData() && this.setState({ askToLogIn: true });
   };
 
   render() {
@@ -187,10 +197,11 @@ class OpportunitiesList extends Component {
               <Grid.Column
                 key={opportunity.opportunity_id}
                 as={Link}
-                to={{
-                  pathname: `/opportunities/id`,
-                  state: { opportunityId: opportunity.opportunity_id }
-                }}
+                to={
+                  getLoggedInUserData() &&
+                  `/opportunities/${opportunity.opportunity_id}`
+                }
+                onClick={this.handleClickOnOpportunity}
               >
                 <OpportunityCard opportunity={opportunity} />
                 <br></br>
@@ -199,6 +210,31 @@ class OpportunitiesList extends Component {
             <Divider></Divider>
           </Grid.Row>
         </Grid>
+        {this.state.askToLogIn && (
+          <Modal
+            open={this.state.askToLogIn}
+            onClose={this.handleClose}
+            closeIcon
+            basic
+            size="small"
+          >
+            <Modal.Header>
+              {" "}
+              Log In First to View the opportunity Details{" "}
+            </Modal.Header>
+            <Modal.Actions>
+              <Button
+                color="blue"
+                icon="sign in"
+                labelPosition="right"
+                content="Sign In"
+                onClick={this.handleClose}
+                as={Link}
+                to="/"
+              />
+            </Modal.Actions>
+          </Modal>
+        )}
       </div>
     );
   }
