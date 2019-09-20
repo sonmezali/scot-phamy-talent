@@ -9,6 +9,7 @@ export default ({
   handleSidebarHide,
   handleItemClick
 }) => {
+  const id = getLoggedInUserData() && getLoggedInUserData().user.user_id;
   return (
     <Sidebar
       as={Menu}
@@ -82,21 +83,19 @@ export default ({
         My Profile
       </Menu.Item>
 
-      <Menu.Item
-        name="My profile"
-        active={activeItem === "My profile"}
-        onClick={handleItemClick}
-        as={Link}
-        to={{
-          pathname: "/company-profile/id",
-          state: {
-            userId: getLoggedInUserData() && getLoggedInUserData().user.user_id
-          }
-        }}
-      >
-        <Icon name="cubes" />
-        My Profile
-      </Menu.Item>
+      {getLoggedInUserData() &&
+      getLoggedInUserData().user.role === "company" ? (
+        <Menu.Item
+          name="My profile"
+          active={activeItem === "My profile"}
+          onClick={handleItemClick}
+          as={Link}
+          to={`/company-profile/${id}`}
+        >
+          <Icon name="cubes" />
+          My Profile
+        </Menu.Item>
+      ) : null}
     </Sidebar>
   );
 };
