@@ -106,42 +106,51 @@ export default class ApplicantsList extends React.Component {
     return (
       <div>
         <Form>
-          <Grid.Column>
-            <Header as="h4">
-              <Icon name="check" size="large" color="blue" />
-              <Header.Content>
-                Skills{" "}
-                <Dropdown
-                  onChange={this.handleSelectSkill}
-                  options={skills}
-                  multiple
-                  placeholder="Select skills"
-                />
-              </Header.Content>
-            </Header>
-          </Grid.Column>
-          <Grid.Column>
-            <Header as="h4">
-              <Icon name="check" size="large" color="blue" />
-              <Header.Content>
-                City{" "}
-                <Dropdown
-                  onChange={this.handleSelectCity}
-                  options={cities}
-                  multiple
-                  placeholder="Select City"
-                />
-              </Header.Content>
-            </Header>
-          </Grid.Column>
+          <Grid columns={2} relaxed="very">
+            <Grid.Column>
+              <Header as="h4">
+                <Icon name="check" size="large" color="blue" />
+                <Header.Content>
+                  Skills{" "}
+                  <Dropdown
+                    onChange={this.handleSelectSkill}
+                    options={skills}
+                    multiple
+                    placeholder="Select skills"
+                  />
+                </Header.Content>
+              </Header>
+            </Grid.Column>
+            <Grid.Column>
+              <Header as="h4">
+                <Icon name="map marker alternate" size="large" color="blue" />
+                <Header.Content>
+                  City{" "}
+                  <Dropdown
+                    onChange={this.handleSelectCity}
+                    options={cities}
+                    multiple
+                    placeholder="Select City"
+                  />
+                </Header.Content>
+              </Header>
+            </Grid.Column>
+          </Grid>
         </Form>
-        {filteredApplicantsList({
-          applicantsList,
-          selectedSkills,
-          selectedCity
-        }).map(applicant => (
-          <ApplicantsCard {...applicant} key={applicant.applicant_id} />
-        ))}
+        <Grid stackable>
+          <Grid.Row columns={3} stretched>
+            {filteredApplicantsList({
+              applicantsList,
+              selectedSkills,
+              selectedCity
+            }).map(applicant => (
+              <Grid.Column>
+                <ApplicantsCard {...applicant} key={applicant.applicant_id} />
+                <br></br>
+              </Grid.Column>
+            ))}
+          </Grid.Row>
+        </Grid>
       </div>
     );
   }

@@ -1,5 +1,5 @@
 import React from "react";
-import { Icon, Card } from "semantic-ui-react";
+import { Grid, Icon, Card } from "semantic-ui-react";
 
 export default ({ applicant_name, city, skills }) => (
   <Card centered raised color="blue">
