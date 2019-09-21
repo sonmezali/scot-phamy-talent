@@ -17,11 +17,12 @@ export default ({
       icon="labeled"
       inverted
       vertical
+      color={"blue"}
       onHide={handleSidebarHide}
       visible={visible}
       width="thin"
       style={{
-        top: "40px"
+        top: "39px"
       }}
     >
       <Menu.Item
