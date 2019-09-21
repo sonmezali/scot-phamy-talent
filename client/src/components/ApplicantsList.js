@@ -2,12 +2,42 @@ import React, { Component } from "react";
 import { getAllApplicants, getSkillsByApplicantId } from "../api/applicants";
 import ApplicantsCard from "./ApplicantsCard";
 import { getSkills } from "../api/skills";
+import { getCities } from "../api/cities";
 import { Grid, Header, Dropdown, Form, Icon } from "semantic-ui-react";
+import {
+  filterBySkills,
+  filterByCity,
+  filteredByCityAndSkills
+} from "../utils/filterOpportunities";
+const filteredApplicantsList = ({
+  applicantsList,
+  selectedSkills,
+  selectedCity
+}) => {
+  const skills = selectedSkills && selectedSkills.length;
+  const cities = selectedCity && selectedCity.length;
+  if (skills && !cities) {
+    return filterBySkills(applicantsList, selectedSkills);
+  }
+  if (!skills && cities) {
+    return filterByCity(applicantsList, selectedCity);
+  }
+  if (skills && cities) {
+    return filteredByCityAndSkills(
+      applicantsList,
+      selectedCity,
+      selectedSkills
+    );
+  }
+  return applicantsList;
+};
 export default class ApplicantsList extends React.Component {
   state = {
     applicantsList: [],
     skills: [],
-    selectedSkills: []
+    selectedSkills: [],
+    selectedCity: [],
+    cities: []
   };
   getAllSkills = () => {
     getSkills().then(response => {
@@ -21,8 +51,20 @@ export default class ApplicantsList extends React.Component {
       });
     });
   };
-
+  getAllCities = () => {
+    getCities().then(response => {
+      this.setState({
+        cities: response.map(city => ({
+          key: city.id,
+          text: city.city,
+          value: city.city,
+          content: city.city
+        }))
+      });
+    });
+  };
   componentDidMount() {
+    this.getAllCities();
     this.getAllSkills();
     getAllApplicants().then(res => {
       res.map(applicant => {
@@ -33,7 +75,7 @@ export default class ApplicantsList extends React.Component {
           this.setState({
             applicantsList: [
               ...this.state.applicantsList,
-              { skills, ...applicant }
+              { skills, ...applicant, location: applicant.city }
             ]
           });
         });
@@ -46,7 +88,21 @@ export default class ApplicantsList extends React.Component {
       selectedSkills: selectedSkill
     });
   };
+  handleSelectCity = (e, data) => {
+    const city = data.value;
+    this.setState({
+      selectedCity: city
+    });
+  };
   render() {
+    const {
+      selectedSkills,
+      applicantsList,
+      skills,
+      cities,
+      selectedCity
+    } = this.state;
+
     return (
       <div>
         <Form>
@@ -56,19 +112,34 @@ export default class ApplicantsList extends React.Component {
               <Header.Content>
                 Skills{" "}
                 <Dropdown
-                  inline
-                  header="SKills"
                   onChange={this.handleSelectSkill}
-                  options={this.state.skills}
-                  onClose={this.filteringOpportunitiesBySkills}
+                  options={skills}
                   multiple
                   placeholder="Select skills"
                 />
               </Header.Content>
             </Header>
           </Grid.Column>
+          <Grid.Column>
+            <Header as="h4">
+              <Icon name="check" size="large" color="blue" />
+              <Header.Content>
+                City{" "}
+                <Dropdown
+                  onChange={this.handleSelectCity}
+                  options={cities}
+                  multiple
+                  placeholder="Select City"
+                />
+              </Header.Content>
+            </Header>
+          </Grid.Column>
         </Form>
-        {this.state.applicantsList.map(applicant => (
+        {filteredApplicantsList({
+          applicantsList,
+          selectedSkills,
+          selectedCity
+        }).map(applicant => (
           <ApplicantsCard {...applicant} key={applicant.applicant_id} />
         ))}
       </div>

@@ -14,6 +14,7 @@ export const filterBySkills = (data = [], selectedSkills = []) => {
   }
   return data;
 };
+
 export const filterByCity = (data = [], selectedCity = []) => {
   const filteredCity =
     data.length &&
