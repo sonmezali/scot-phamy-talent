@@ -12,7 +12,7 @@ import {
 import { getSkills } from "../api/skills";
 import { getCities } from "../api/cities";
 import { createNewApplicantUserAndProfile } from "../api/applicantProfile";
-import validateForm from "../utils/formValidation";
+import { validateApplicantRegisterForm } from "../utils/formValidation";
 import {
   ValidatedFormInput,
   ValidatedFormDropDown,
@@ -98,7 +98,7 @@ class ApplicantRegister extends Component {
   };
   handleSubmit = e => {
     e.preventDefault();
-    const result = validateForm(this.state.applicantEntries);
+    const result = validateApplicantRegisterForm(this.state.applicantEntries);
     const { valid } = result;
     if (valid) {
       createNewApplicantUserAndProfile(this.state.applicantEntries).then(
