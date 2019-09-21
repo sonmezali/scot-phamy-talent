@@ -50,7 +50,7 @@ const Routes = () => {
         <Route path="/applicant-register" component={ApplicantRegister} />
         <Route path="/company-register" component={CompanyRegister} />
         <Route path="/opportunities" exact component={OpportunitiesList} />
-        <Route path="/opportunities/id" component={OpportunityView} />
+        <Route path="/opportunities/:id" component={OpportunityView} />
         <Route path="/applicants-list" component={ApplicantsList} />
       </Container>
     </Router>
