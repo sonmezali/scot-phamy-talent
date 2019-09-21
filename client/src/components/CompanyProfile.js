@@ -13,6 +13,7 @@ import {
 import { getCompanyProfile } from "../api/companyProfile";
 import { getOpportunitiesByCompanyId } from "../api/opportunities";
 import OpportunityCard from "./OpportunityCard";
+import { getLoggedInUserData } from "../utils/storage";
 const options = [
   {
     key: 1,
@@ -142,7 +143,11 @@ class CompanyProfile extends React.Component {
               <Grid.Column key={opportunity.opportunity_id}>
                 <OpportunityCard
                   opportunity={opportunity}
-                  options={true}
+                  options={
+                    getLoggedInUserData().user.user_id == this.state.userId
+                      ? true
+                      : false
+                  }
                   handleDeleteOpportunity={this.handleDeleteOpportunity}
                   handleEditOpportunity={this.handleEditOpportunity}
                 />

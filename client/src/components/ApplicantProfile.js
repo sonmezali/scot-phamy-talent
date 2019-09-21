@@ -51,7 +51,10 @@ const options = [
 
 class ApplicantProfile extends React.Component {
   state = {
-    userId: this.props.location.state.userId,
+    userId:
+      (window.location.pathname.includes("/applicant-profile/") &&
+        window.location.pathname.replace("/applicant-profile/", "")) ||
+      null,
     applicantData: {},
     skills: [],
     isLoading: true

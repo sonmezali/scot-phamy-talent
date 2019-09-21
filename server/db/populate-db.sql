@@ -104,7 +104,7 @@ INSERT INTO company_profile
     (name, description, logo_url, location, industry, user_id
     )
 VALUES
-    ('CYF', 'Tech company','http://codeyourfuture.io/wp-content/uploads/2019/03/cyf_brand.png', 1, 'Technology', 3);
+    ('CYF', 'Tech company','http://codeyourfuture.io/wp-content/uploads/2019/03/cyf_brand.png', 1, 'Technology', 6);
 
 INSERT INTO opportunities
     (name, description, contact_Person, telephone, email, city, date, TYPE, company_id)

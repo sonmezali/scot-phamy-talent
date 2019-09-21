@@ -34,7 +34,6 @@ export default ({
         <Icon name="home"></Icon>
         Home
       </Menu.Item>
-
       <Menu.Item
         name="Opportunities"
         active={activeItem === "Opportunities"}
@@ -55,7 +54,6 @@ export default ({
         <Icon name="clipboard list"></Icon>
         Applicants List
       </Menu.Item>
-
       <Menu.Item
         name="Opportunity"
         onClick={handleItemClick}
@@ -66,23 +64,19 @@ export default ({
         <Icon name="idea"></Icon>
         Create Opportunity
       </Menu.Item>
-
-      <Menu.Item
-        name="My Profile"
-        onClick={handleItemClick}
-        as={Link}
-        active={activeItem === "My Profile"}
-        to={{
-          pathname: "/applicant-profile",
-          state: {
-            userId: getLoggedInUserData() && getLoggedInUserData().user.user_id
-          }
-        }}
-      >
-        <Icon name="address card outline"></Icon>
-        My Profile
-      </Menu.Item>
-
+      {getLoggedInUserData() &&
+      getLoggedInUserData().user.role === "applicant" ? (
+        <Menu.Item
+          name="My Profile"
+          onClick={handleItemClick}
+          as={Link}
+          active={activeItem === "My Profile"}
+          to={`/applicant-profile/${id}`}
+        >
+          <Icon name="address card outline"></Icon>
+          My Profile
+        </Menu.Item>
+      ) : null}
       {getLoggedInUserData() &&
       getLoggedInUserData().user.role === "company" ? (
         <Menu.Item
