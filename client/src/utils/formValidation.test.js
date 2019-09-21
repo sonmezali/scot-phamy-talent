@@ -1,11 +1,14 @@
-import validateForm from "./formValidation";
+import {
+  validateApplicantRegisterForm,
+  validateCompanyRegisterForm
+} from "./formValidation";
 describe("form to be valid", () => {
   it("should be 8 characters length", () => {
     const formData = {
       password: ""
     };
 
-    const result = validateForm(formData);
+    const result = validateApplicantRegisterForm(formData);
     expect(result.valid).toEqual(false);
     expect(result.validPassword).toEqual(false);
   });
@@ -15,7 +18,7 @@ describe("form to be valid", () => {
       password: "abcdefghij"
     };
 
-    const result = validateForm(formData);
+    const result = validateApplicantRegisterForm(formData);
     expect(result.valid).toEqual(false);
     expect(result.validPassword).toEqual(false);
   });
@@ -26,7 +29,7 @@ describe("form to be valid", () => {
       password: "ABCDEFGHIJ"
     };
 
-    const result = validateForm(formData);
+    const result = validateApplicantRegisterForm(formData);
     expect(result.valid).toEqual(false);
     expect(result.validPassword).toEqual(false);
   });
@@ -36,7 +39,7 @@ describe("form to be valid", () => {
       password: "abcdEfghj"
     };
 
-    const result = validateForm(formData);
+    const result = validateApplicantRegisterForm(formData);
     expect(result.valid).toEqual(false);
     expect(result.validPassword).toEqual(false);
   });
@@ -48,7 +51,7 @@ describe("form to be valid", () => {
       city: null
     };
 
-    const result = validateForm(formData);
+    const result = validateApplicantRegisterForm(formData);
     expect(result.valid).toEqual(false);
     expect(result.validPassword).toEqual(true);
     expect(result.validConfirmPassword).toEqual(true);
@@ -62,7 +65,7 @@ describe("form to be valid", () => {
       skills: []
     };
 
-    const result = validateForm(formData);
+    const result = validateApplicantRegisterForm(formData);
     expect(result.valid).toEqual(false);
     expect(result.validPassword).toEqual(true);
     expect(result.validConfirmPassword).toEqual(true);
@@ -78,7 +81,7 @@ describe("form to be valid", () => {
       rightToWork: ""
     };
 
-    const result = validateForm(formData);
+    const result = validateApplicantRegisterForm(formData);
     expect(result.valid).toEqual(false);
     expect(result.validPassword).toEqual(true);
     expect(result.validConfirmPassword).toEqual(true);
@@ -95,12 +98,98 @@ describe("form to be valid", () => {
       rightToWork: "Yes"
     };
 
-    const result = validateForm(formData);
+    const result = validateApplicantRegisterForm(formData);
     expect(result.valid).toEqual(true);
     expect(result.validPassword).toEqual(true);
     expect(result.validConfirmPassword).toEqual(true);
     expect(result.cityIsSelected).toEqual(true);
     expect(result.skillsIsSelected).toEqual(true);
     expect(result.skillsIsSelected).toEqual(true);
+  });
+});
+describe("form to be valid", () => {
+  it("should be 8 characters length", () => {
+    const formData = {
+      password: ""
+    };
+
+    const result = validateCompanyRegisterForm(formData);
+    expect(result.valid).toEqual(false);
+    expect(result.validPassword).toEqual(false);
+  });
+
+  it("should fail if Password NotMatching", () => {
+    const formData = {
+      password: "abcdefghij"
+    };
+
+    const result = validateCompanyRegisterForm(formData);
+    expect(result.valid).toEqual(false);
+    expect(result.validPassword).toEqual(false);
+  });
+
+  it(`should fail if there is capital letter and matching password 
+  and length is 8 characters But there is no LowerCase letter `, () => {
+    const formData = {
+      password: "ABCDEFGHIJ"
+    };
+
+    const result = validateCompanyRegisterForm(formData);
+    expect(result.valid).toEqual(false);
+    expect(result.validPassword).toEqual(false);
+  });
+
+  it("should not pass if Length & match & uppercase & Lowercase & but no number", () => {
+    const formData = {
+      password: "abcdEfghj"
+    };
+
+    const result = validateCompanyRegisterForm(formData);
+    expect(result.valid).toEqual(false);
+    expect(result.validPassword).toEqual(false);
+  });
+
+  it("should not pass length & match & lowercase & uppercase & number but no city selected ", () => {
+    const formData = {
+      password: "abcdEfghj1",
+      confirmPassword: "abcdEfghj1",
+      city: null
+    };
+
+    const result = validateCompanyRegisterForm(formData);
+    expect(result.valid).toEqual(false);
+    expect(result.validPassword).toEqual(true);
+    expect(result.validConfirmPassword).toEqual(true);
+    expect(result.cityIsSelected).toEqual(false);
+  });
+  it("should not pass length & match & lowercase & uppercase & number & city selected  but no industry", () => {
+    const formData = {
+      password: "abcdEfghj1",
+      confirmPassword: "abcdEfghj1",
+      city: "Glasgow",
+      industry: null
+    };
+
+    const result = validateCompanyRegisterForm(formData);
+    expect(result.valid).toEqual(false);
+    expect(result.validPassword).toEqual(true);
+    expect(result.validConfirmPassword).toEqual(true);
+    expect(result.cityIsSelected).toEqual(true);
+    expect(result.industryIsSelected).toEqual(false);
+  });
+  it("should pass if all items are selected ", () => {
+    const formData = {
+      password: "abcdEfghj1",
+      confirmPassword: "abcdEfghj1",
+      city: "Glasgow",
+      industry: ["v", "b", "v"]
+    };
+
+    const result = validateCompanyRegisterForm(formData);
+    expect(result.valid).toEqual(true);
+    expect(result.validPassword).toEqual(true);
+    expect(result.validConfirmPassword).toEqual(true);
+    expect(result.cityIsSelected).toEqual(true);
+    expect(result.industryIsSelected).toEqual(true);
   });
 });
