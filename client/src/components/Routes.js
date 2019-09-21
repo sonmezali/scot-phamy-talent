@@ -42,7 +42,10 @@ const Routes = () => {
           path="/applicant-profile/:id"
           component={protect(ApplicantProfile)}
         />
-        <Route path="/create-opportunity" component={NewOpportunityForm} />
+        <Route
+          path="/create-opportunity"
+          component={protect(NewOpportunityForm, "company")}
+        />
         <Route path="/main-register" component={MainRegister} />
         <Route path="/applicant-register" component={ApplicantRegister} />
         <Route path="/company-register" component={CompanyRegister} />
