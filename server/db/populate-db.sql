@@ -59,24 +59,24 @@ VALUES
 INSERT INTO users
     (ROLE, email, PASSWORD)
 VALUES
-    ('applicant', 'adn@cyf.org', 'password');
+    ('applicant', 'applicant1@cyf.org', 'password');
     INSERT INTO users
     (ROLE, email, PASSWORD)
 VALUES
-    ('applicant', 'adn@cyf.org', 'password');
+    ('applicant', 'applicant2@cyf.org', 'password');
     INSERT INTO users
     (ROLE, email, PASSWORD)
 VALUES
-    ('applicant', 'adn@cyf.org', 'password');
+    ('applicant', 'applicant3@cyf.org', 'password');
     INSERT INTO users
     (ROLE, email, PASSWORD)
 VALUES
-    ('applicant', 'adn@cyf.org', 'password');
+    ('applicant', 'applicant4@cyf.org', 'password');
 
 INSERT INTO users
     (ROLE, email, PASSWORD)
 VALUES
-    ('company', 'nhgj@cyf.org', 'password');
+    ('company', 'company@cyf.org', 'password');
 
 INSERT INTO cities
     (city)
@@ -104,7 +104,7 @@ INSERT INTO company_profile
     (name, description, logo_url, location, industry, user_id
     )
 VALUES
-    ('CYF', 'Tech company','http://codeyourfuture.io/wp-content/uploads/2019/03/cyf_brand.png', 1, 'Technology', 3);
+    ('CYF', 'Tech company','http://codeyourfuture.io/wp-content/uploads/2019/03/cyf_brand.png', 1, 'Technology', 6);
 
 INSERT INTO opportunities
     (name, description, contact_Person, telephone, email, city, date, TYPE, company_id)
@@ -175,4 +175,16 @@ INSERT INTO applicant_skills
     (applicant_id, skill_id)
 VALUES
     (1, 1);
+    INSERT INTO applicant_skills
+    (applicant_id, skill_id)
+VALUES
+    (2, 2);
+    INSERT INTO applicant_skills
+    (applicant_id, skill_id)
+VALUES
+    (2, 1);
+    INSERT INTO applicant_skills
+    (applicant_id, skill_id)
+VALUES
+    (3, 3);
 

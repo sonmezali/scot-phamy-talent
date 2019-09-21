@@ -51,17 +51,15 @@ const options = [
 
 class ApplicantProfile extends React.Component {
   state = {
-    userId: null,
+    userId:
+      (window.location.pathname.includes("/applicant-profile/") &&
+        window.location.pathname.replace("/applicant-profile/", "")) ||
+      null,
     applicantData: {},
     skills: [],
     isLoading: true
   };
-  // Get data from db
-  componentWillMount() {
-    const loggedInUser = getLoggedInUserData().user;
-    const userId = loggedInUser.user_id;
-    this.setState({ userId: userId });
-  }
+
   componentDidMount() {
     this.getApplicantData();
     this.getApplicantSkills();

@@ -13,6 +13,7 @@ import {
 import { getCompanyProfile } from "../api/companyProfile";
 import { getOpportunitiesByCompanyId } from "../api/opportunities";
 import OpportunityCard from "./OpportunityCard";
+import { getLoggedInUserData } from "../utils/storage";
 const options = [
   {
     key: 1,
@@ -55,36 +56,35 @@ const options = [
 
 class CompanyProfile extends React.Component {
   state = {
+    userId:
+      (window.location.pathname.includes("/company-profile/") &&
+        window.location.pathname.replace("/company-profile/", "")) ||
+      null,
     companyData: {},
     opportunitiesArray: []
   };
 
-  componentWillMount() {
-    const { pathname } = window.location;
-    this.setState({
-      companyId: pathname && pathname.replace("/company-profile/", "")
-    });
-  }
-
   getOpportunitiesForCompanyProfileByCompanyId = () => {
-    const { companyId } = this.state; // will get company id from company login
-    getOpportunitiesByCompanyId(companyId).then(opportunities =>
+    const { userId } = this.state; // will get company id from company login
+    getOpportunitiesByCompanyId(userId).then(opportunities =>
       this.setState({
         opportunitiesArray: opportunities
       })
     );
   };
+
   getCompanyProfileData = () => {
-    const { companyId } = this.state; // will get company id from company login
-    getCompanyProfile(companyId).then(companyData => {
+    const { userId } = this.state; // will get company id from company login
+    getCompanyProfile(userId).then(companyData => {
       this.setState({ companyData: companyData });
     });
   };
+
   componentDidMount() {
     this.getCompanyProfileData();
     this.getOpportunitiesForCompanyProfileByCompanyId();
   }
-
+  // Handlers
   handleEditOpportunity = () => {
     return "/company/manage-profile";
   };
@@ -94,7 +94,10 @@ class CompanyProfile extends React.Component {
   };
 
   render() {
-    const { companyData, opportunitiesArray } = this.state;
+    const { companyData, opportunitiesArray, userId } = this.state;
+    if (userId === null || !userId) {
+      return null;
+    }
     return (
       <React.Fragment>
         <Divider horizontal>
@@ -107,7 +110,7 @@ class CompanyProfile extends React.Component {
             />
           </Menu>
         </Divider>
-        <Segment centered style={{ background: "#bce0fd" }}>
+        <Segment style={{ background: "#bce0fd" }}>
           <Image
             centered
             size="tiny"
@@ -140,7 +143,11 @@ class CompanyProfile extends React.Component {
               <Grid.Column key={opportunity.opportunity_id}>
                 <OpportunityCard
                   opportunity={opportunity}
-                  options={true}
+                  options={
+                    getLoggedInUserData().user.user_id == this.state.userId
+                      ? true
+                      : false
+                  }
                   handleDeleteOpportunity={this.handleDeleteOpportunity}
                   handleEditOpportunity={this.handleEditOpportunity}
                 />

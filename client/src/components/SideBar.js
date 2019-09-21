@@ -1,6 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { Sidebar, Menu, Icon } from "semantic-ui-react";
+import { getLoggedInUserData } from "../utils/storage";
 
 export default ({
   visible,
@@ -9,6 +10,7 @@ export default ({
   handleItemClick,
   user
 }) => {
+  const id = getLoggedInUserData() && getLoggedInUserData().user.user_id;
   return (
     <Sidebar
       as={Menu}
@@ -16,11 +18,12 @@ export default ({
       icon="labeled"
       inverted
       vertical
+      color={"blue"}
       onHide={handleSidebarHide}
       visible={visible}
       width="thin"
       style={{
-        top: "40px"
+        top: "39px"
       }}
     >
       <Menu.Item
@@ -33,7 +36,6 @@ export default ({
         <Icon name="home"></Icon>
         Home
       </Menu.Item>
-
       <Menu.Item
         name="Opportunities"
         active={activeItem === "Opportunities"}
@@ -44,39 +46,52 @@ export default ({
         <Icon name="clipboard list"></Icon>
         Opportunity List
       </Menu.Item>
-
       <Menu.Item
-        name="Opportunity"
+        name="ApplicantsList"
+        active={activeItem === "ApplicantsList"}
         onClick={handleItemClick}
         as={Link}
-        active={activeItem === "Opportunity"}
-        to="/create-opportunity"
+        to="/applicants-list"
       >
-        <Icon name="idea"></Icon>
-        Create Opportunity
+        <Icon name="clipboard list"></Icon>
+        Applicants List
       </Menu.Item>
-      {user && user.role === "applicant" && (
+
+      {getLoggedInUserData() && getLoggedInUserData().user.role === "company" && (
         <Menu.Item
-          name="My Profile"
+          name="Opportunity"
           onClick={handleItemClick}
           as={Link}
-          active={activeItem === "My Profile"}
-          to="/applicant-profile"
+          active={activeItem === "Opportunity"}
+          to="/create-opportunity"
         >
-          <Icon name="address card outline"></Icon>
-          My Profile
+          <Icon name="idea"></Icon>
+          Create Opportunity
         </Menu.Item>
       )}
-      {user && user.role === "company" && (
+      {getLoggedInUserData() &&
+        getLoggedInUserData().user.role === "applicant" && (
+          <Menu.Item
+            name="My Profile"
+            onClick={handleItemClick}
+            as={Link}
+            active={activeItem === "My Profile"}
+            to={`/applicant-profile/${id}`}
+          >
+            <Icon name="address card outline"></Icon>
+            My Profile
+          </Menu.Item>
+        )}
+      {getLoggedInUserData() && getLoggedInUserData().user.role === "company" && (
         <Menu.Item
-          name="My profile"
-          active={activeItem === "My profile"}
+          name="My Company"
+          active={activeItem === "My Company"}
           onClick={handleItemClick}
           as={Link}
-          to="/company-profile"
+          to={`/company-profile/${id}`}
         >
           <Icon name="cubes" />
-          My Profile
+          My Company
         </Menu.Item>
       )}
     </Sidebar>

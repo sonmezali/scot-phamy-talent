@@ -16,23 +16,17 @@ import { Link } from "react-router-dom";
 import { getLoggedInUserData } from "../utils/storage";
 
 export default class OpportunityView extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      opportunityId: null,
-      opportunity: [],
-      skills: [],
-      isLoading: true,
-      isEditing: false
-    };
-  }
-  //Get data and Id
-  componentWillMount() {
-    const { pathname } = window.location;
-    this.setState({
-      opportunityId: pathname && pathname.replace("/opportunities/", "")
-    });
-  }
+  state = {
+    opportunityId:
+      (window.location.pathname.includes("/opportunities/") &&
+        window.location.pathname.replace("/opportunities/", "")) ||
+      null,
+    opportunity: [],
+    skills: [],
+    isLoading: true,
+    isEditing: false
+  };
+
   getOpportunity = () => {
     getOpportunityById(this.state.opportunityId).then(data =>
       this.setState({ opportunity: data[0] })
@@ -55,10 +49,7 @@ export default class OpportunityView extends Component {
     this.getSkills();
   }
 
-  //Handlers
-
   render() {
-    const loggedInUser = getLoggedInUserData().user;
     const { opportunity, isLoading } = this.state;
     return (
       <React.Fragment>
@@ -72,8 +63,9 @@ export default class OpportunityView extends Component {
           </Segment>
         ) : (
           <React.Fragment>
-            {loggedInUser.role === "company" &&
-            loggedInUser.user_id === opportunity.user_id ? (
+            {getLoggedInUserData() &&
+            getLoggedInUserData().user.role === "company" &&
+            getLoggedInUserData().user.user_id === opportunity.user_id ? (
               <Grid>
                 <Grid.Column floated="right" width={3}>
                   <Dropdown item size="large" icon="options">
@@ -115,48 +107,43 @@ export default class OpportunityView extends Component {
                 </Grid.Row>
               </Grid>
             </Segment>
-            <Link to={`/company-profile/${opportunity.company_id}`}>
+            <Link to={`/company-profile/${opportunity.user_id}`}>
               <Header as="h2" color="blue">
                 <Icon name="building outline"></Icon>
                 Company Name:{opportunity.company_name}
               </Header>
             </Link>
-            {getLoggedInUserData() ? (
-              <Item.Group>
-                <Item.Description as="h4" color="blue">
-                  <Icon name="address card outline" color="blue"></Icon>
-                  <span style={{ color: "rgb(92, 175, 239)" }}>
-                    Contact Name:{" "}
-                  </span>{" "}
-                  {opportunity.contact_person}
-                </Item.Description>
 
-                <Item.Description as="h4" color="blue">
-                  <Icon name="phone square" color="blue"></Icon>
-                  <span style={{ color: "rgb(92, 175, 239)" }}>
-                    Phone Number:{" "}
-                  </span>
-                  {opportunity.telephone}
-                </Item.Description>
-                <Item.Description as="h4">
-                  <Icon name="mail" color="blue"></Icon>
-                  <span style={{ color: "rgb(92, 175, 239)" }}>
-                    Email:{" "}
-                  </span>{" "}
-                  {opportunity.email} {"  "}
-                  <a href={`mailto: ${opportunity.email}`}>
-                    <Icon name="send" color="blue"></Icon>
-                  </a>
-                </Item.Description>
-              </Item.Group>
-            ) : (
-              <Item.Content as={Link} to="/login">
-                <br></br>
-                Sign In for More Details.....
-              </Item.Content>
-            )}
+            <Item.Group>
+              <Item.Description as="h4" color="blue">
+                <Icon name="address card outline" color="blue"></Icon>
+                <span style={{ color: "rgb(92, 175, 239)" }}>
+                  Contact Name:{" "}
+                </span>{" "}
+                {opportunity.contact_person}
+              </Item.Description>
+
+              <Item.Description as="h4" color="blue">
+                <Icon name="phone square" color="blue"></Icon>
+                <span style={{ color: "rgb(92, 175, 239)" }}>
+                  Phone Number:{" "}
+                </span>
+                {opportunity.telephone}
+              </Item.Description>
+              <Item.Description as="h4">
+                <Icon name="mail" color="blue"></Icon>
+                <span style={{ color: "rgb(92, 175, 239)" }}>Email: </span>{" "}
+                {opportunity.email} {"  "}
+                <a href={`mailto: ${opportunity.email}`}>
+                  <Icon name="send" color="blue"></Icon>
+                </a>
+              </Item.Description>
+            </Item.Group>
             <Item.Description
-              style={{ backgroundColor: "rgb(137, 193, 236)", padding: "12px" }}
+              style={{
+                backgroundColor: "rgb(137, 193, 236)",
+                padding: "12px"
+              }}
             >
               <span>
                 <strong>opportunity Description:</strong>

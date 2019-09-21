@@ -43,7 +43,7 @@ class NavBar extends Component {
     } = this;
     return (
       <React.Fragment>
-        <Menu size="mini" inverted>
+        <Menu size="mini" inverted color="blue">
           <Menu.Item>
             <Icon
               size="large"
