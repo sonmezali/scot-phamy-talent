@@ -1,4 +1,60 @@
-const filterOpportunities = ({
+export const filterBySkills = (data = [], selectedSkills = []) => {
+  const filteredSkills =
+    data.length &&
+    data.filter(item => {
+      const filterSkills =
+        selectedSkills.length &&
+        selectedSkills.filter(skill => {
+          return item.skills.includes(skill);
+        });
+      return filterSkills && filterSkills.length;
+    });
+  if (selectedSkills.length) {
+    return filteredSkills;
+  }
+  return data;
+};
+
+export const filterByCity = (data = [], selectedCity = []) => {
+  const filteredCity =
+    data.length &&
+    data.filter(item => {
+      const filteredCity =
+        selectedCity.length &&
+        selectedCity.filter(city => {
+          return item.location.includes(city);
+        });
+      return filteredCity && filteredCity.length;
+    });
+  if (selectedCity.length) {
+    return filteredCity;
+  }
+  return data;
+};
+export const filteredByCityAndSkills = (
+  data = [],
+  selectedCity = [],
+  selectedSkills = []
+) => {
+  const skills = selectedSkills && selectedSkills.length;
+  const cities = selectedCity && selectedCity.length;
+  const filteredBySkillsAndCities = data.filter(item => {
+    const filterSkills = selectedSkills.filter(skill => {
+      return item.skills.includes(skill);
+    });
+    const filteredCity = selectedCity.filter(city => {
+      return item.location.includes(city);
+    });
+    return (
+      filteredCity && filteredCity.length && filterSkills && filterSkills.length
+    );
+  });
+  if (skills && cities) {
+    return filteredBySkillsAndCities;
+  }
+  return data;
+};
+export const filterOpportunities = ({
   selectedCity,
   searchKeyWord,
   selectedJobType,
@@ -108,12 +164,7 @@ const filterOpportunities = ({
     !selectedSkills.length &&
     !searchKeyWord
   ) {
-    return opportunitiesList.filter(opportunity => {
-      const filteredCity = selectedCity.filter(city => {
-        return opportunity.location.includes(city);
-      });
-      return filteredCity && filteredCity.length;
-    });
+    return filterByCity(opportunitiesList, selectedCity);
   }
   // Search by Location and skills
   if (
@@ -122,20 +173,11 @@ const filterOpportunities = ({
     selectedSkills.length &&
     !searchKeyWord
   ) {
-    return opportunitiesList.filter(opportunity => {
-      const filterSkills = selectedSkills.filter(skill => {
-        return opportunity.skills.includes(skill);
-      });
-      const filteredCity = selectedCity.filter(city => {
-        return opportunity.location.includes(city);
-      });
-      return (
-        filteredCity &&
-        filteredCity.length &&
-        filterSkills &&
-        filterSkills.length
-      );
-    });
+    return filteredByCityAndSkills(
+      opportunitiesList,
+      selectedCity,
+      selectedSkills
+    );
   }
   // Location and Job type
   if (
@@ -162,13 +204,7 @@ const filterOpportunities = ({
     selectedSkills.length &&
     !searchKeyWord
   ) {
-    return opportunitiesList.filter(opportunity => {
-      const filterSkills = selectedSkills.filter(skill => {
-        return opportunity.skills.includes(skill);
-      });
-
-      return filterSkills && filterSkills.length;
-    });
+    return filterBySkills(opportunitiesList, selectedSkills);
   }
   // Search by skills and Job type
   if (
@@ -331,4 +367,3 @@ const filterOpportunities = ({
   }
   return opportunitiesList;
 };
-export default filterOpportunities;

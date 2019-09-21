@@ -15,7 +15,7 @@ import { getOpportunitiesForList, getSkillsList } from "../api/opportunities";
 import { getSkills } from "../api/skills";
 import { getCities } from "../api/cities";
 import OpportunityTypeFilters from "./OpportunityTypeFilters";
-import filterOpportunities from "../utils/filterOpportunities";
+import { filterOpportunities } from "../utils/filterOpportunities";
 import OpportunityCard from "./OpportunityCard";
 import { Link } from "react-router-dom";
 import { getLoggedInUserData } from "../utils/storage";
