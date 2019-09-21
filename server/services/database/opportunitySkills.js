@@ -45,7 +45,7 @@ const getSkillsForOpportunitiesList = id => {
 const deleteOpportunitySkillsForOpportunityByCompany = id => {
   return new Promise((resolve, reject) => {
     pool.query(
-      `DELETE FROM opportunity_skills WHERE opportunity_id = ${id} RETURNING opportunity_id`,
+      `DELETE FROM opportunity_skills WHERE opportunity_id = ${id} `,
       (error, result) => {
         if (error) {
           reject(error);
