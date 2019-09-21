@@ -10,11 +10,12 @@ const validatePasswordContainNumber = password => /[0-9]/.test(password);
 const validateSelectedCity = city => city !== null;
 
 const validateSelectedSkills = skills => skills && skills.length > 0;
+const validateSelectedIndustry = industries => industries !== null;
 
 const validateCheckedRightToWork = rightToWork =>
   rightToWork === "Yes" || rightToWork === "No";
 
-const validateForm = form => {
+const validateApplicantRegisterForm = form => {
   const { password, confirmPassword, city, skills, rightToWork } = form;
   const passwordLength = validatePasswordLength(password);
   const passwordIsMatching = validatePasswordMatching(
@@ -51,4 +52,37 @@ const validateForm = form => {
   };
 };
 
-export default validateForm;
+const validateCompanyRegisterForm = form => {
+  const { password, confirmPassword, city, industry } = form;
+  const passwordLength = validatePasswordLength(password);
+  const passwordIsMatching = validatePasswordMatching(
+    password,
+    confirmPassword
+  );
+  const passwordContainUppercase = validatePasswordContainUppercase(password);
+  const passwordContainLowerCase = validatePasswordContainLowercase(password);
+  const passwordContainNumber = validatePasswordContainNumber(password);
+  const cityIsSelected = validateSelectedCity(city);
+  const industryIsSelected = validateSelectedIndustry(industry);
+  const validPassword =
+    !!passwordLength &&
+    !!passwordContainUppercase &&
+    !!passwordContainLowerCase &&
+    !!passwordContainNumber;
+  const validConfirmPassword = !!passwordIsMatching;
+
+  const valid =
+    !!validPassword &&
+    !!validConfirmPassword &&
+    !!cityIsSelected &&
+    !!industryIsSelected;
+  return {
+    validPassword,
+    validConfirmPassword,
+    cityIsSelected,
+    industryIsSelected,
+    valid
+  };
+};
+
+export { validateApplicantRegisterForm, validateCompanyRegisterForm };
