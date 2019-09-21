@@ -59,24 +59,24 @@ VALUES
 INSERT INTO users
     (ROLE, email, PASSWORD)
 VALUES
-    ('applicant', 'adn@cyf.org', 'password');
+    ('applicant', 'applicant1@cyf.org', 'password');
     INSERT INTO users
     (ROLE, email, PASSWORD)
 VALUES
-    ('applicant', 'adn@cyf.org', 'password');
+    ('applicant', 'applicant2@cyf.org', 'password');
     INSERT INTO users
     (ROLE, email, PASSWORD)
 VALUES
-    ('applicant', 'adn@cyf.org', 'password');
+    ('applicant', 'applicant3@cyf.org', 'password');
     INSERT INTO users
     (ROLE, email, PASSWORD)
 VALUES
-    ('applicant', 'adn@cyf.org', 'password');
+    ('applicant', 'applicant4@cyf.org', 'password');
 
 INSERT INTO users
     (ROLE, email, PASSWORD)
 VALUES
-    ('company', 'nhgj@cyf.org', 'password');
+    ('company', 'company@cyf.org', 'password');
 
 INSERT INTO cities
     (city)

@@ -105,10 +105,10 @@ export default class OpportunityView extends Component {
               </Grid>
             </Segment>
             <Link
-              to={{
-                pathname: "/company-profile",
-                state: { userId: opportunity.user_id }
-              }}
+              to={
+                getLoggedInUserData() &&
+                `/company-profile/${opportunity.user_id}`
+              }
             >
               <Header as="h2" color="blue">
                 <Icon name="building outline"></Icon>
