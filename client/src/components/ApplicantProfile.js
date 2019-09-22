@@ -124,7 +124,9 @@ class ApplicantProfile extends React.Component {
               <Header as="h3">
                 <Icon name="check" size="mini" color="white" />
                 Skills:
-                {skills.map(skill => skill)}
+                {skills.map(skill => (
+                  <li>>{skill}</li>
+                ))}
               </Header>
             </Grid>
             <br></br>
