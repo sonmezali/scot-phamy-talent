@@ -1,8 +1,6 @@
 const { Pool } = require("pg");
 const config = require("../../config");
 const pool = new Pool(config);
-// const { newOpportunitySkills } = require("./opportunitySkills");
-
 const createOpportunity = ({
   name,
   description,
@@ -12,7 +10,7 @@ const createOpportunity = ({
   city,
   date,
   type,
-  company_id,
+  company_id
 }) => {
   return new Promise((resolve, reject) => {
     pool.query(
@@ -29,14 +27,14 @@ const createOpportunity = ({
         city,
         date,
         type,
-        company_id,
+        company_id
       ],
       (error, result) => {
         if (error) {
           return reject(error);
         }
         resolve(result.rows);
-      },
+      }
     );
   });
 };
@@ -64,11 +62,11 @@ const getOpportunitiesForList = () => {
         } else {
           resolve(result.rows);
         }
-      },
+      }
     );
   });
 };
-const getOpportunityById = (id) => {
+const getOpportunityById = id => {
   return new Promise((resolve, reject) => {
     pool.query(
       `SELECT
@@ -97,11 +95,11 @@ const getOpportunityById = (id) => {
         } else {
           resolve(result.rows);
         }
-      },
+      }
     );
   });
 };
-const getOpportunitiesForCompanyProfileByCompanyId = (id) => {
+const getOpportunitiesForCompanyProfileByCompanyId = id => {
   return new Promise((resolve, reject) => {
     pool.query(
       `SELECT 
@@ -121,7 +119,21 @@ const getOpportunitiesForCompanyProfileByCompanyId = (id) => {
         } else {
           resolve(result.rows);
         }
-      },
+      }
+    );
+  });
+};
+const deleteOpportunityByCompany = id => {
+  return new Promise((resolve, reject) => {
+    pool.query(
+      `DELETE FROM opportunities WHERE opportunity_id = ${id}`,
+      (error, result) => {
+        if (error) {
+          reject(error);
+        } else {
+          resolve(result.row);
+        }
+      }
     );
   });
 };
@@ -131,4 +143,5 @@ module.exports = {
   getOpportunitiesForList,
   getOpportunityById,
   getOpportunitiesForCompanyProfileByCompanyId,
+  deleteOpportunityByCompany
 };

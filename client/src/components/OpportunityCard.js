@@ -1,10 +1,11 @@
 import React from "react";
 import { Icon, Card, Button, Divider } from "semantic-ui-react";
 import moment from "moment";
+
 export default ({
   opportunity,
-  options,
-  handleDeleteOpportunity,
+  cardButtons,
+  ConfirmDelete,
   handleEditOpportunity
 }) => (
   <Card centered raised color="blue">
@@ -28,14 +29,18 @@ export default ({
       >
         {opportunity.description}
       </Card.Description>
-      {options && (
+      {cardButtons && (
         <Card.Content extra>
           <Divider></Divider>
           <div className="ui two buttons">
             <Button basic color="green" onClick={handleEditOpportunity}>
               Edit
             </Button>
-            <Button basic color="red" onClick={handleDeleteOpportunity}>
+            <Button
+              basic
+              color="red"
+              onClick={() => ConfirmDelete(opportunity.opportunity_id)}
+            >
               Delete
             </Button>
           </div>

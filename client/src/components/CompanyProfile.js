@@ -6,14 +6,20 @@ import {
   Header,
   Menu,
   Dropdown,
+  Modal,
   Image,
+  Icon,
   Grid,
   Segment
 } from "semantic-ui-react";
 import { getCompanyProfile } from "../api/companyProfile";
-import { getOpportunitiesByCompanyId } from "../api/opportunities";
+import {
+  getOpportunitiesByCompanyId,
+  deleteOpportunityAndConnectedSkills
+} from "../api/opportunities";
 import OpportunityCard from "./OpportunityCard";
 import { getLoggedInUserData } from "../utils/storage";
+
 const options = [
   {
     key: 1,
@@ -61,7 +67,10 @@ class CompanyProfile extends React.Component {
         window.location.pathname.replace("/company-profile/", "")) ||
       null,
     companyData: {},
-    opportunitiesArray: []
+    opportunitiesArray: [],
+    openDeleteMsg: false,
+    askDeletePermission: false,
+    selectedId: null
   };
 
   getOpportunitiesForCompanyProfileByCompanyId = () => {
@@ -89,8 +98,20 @@ class CompanyProfile extends React.Component {
     return "/company/manage-profile";
   };
 
-  handleDeleteOpportunity = () => {
-    return "....";
+  ConfirmDelete = id => {
+    this.setState({
+      selectedId: id,
+      askDeletePermission: true,
+      openDeleteMsg: true
+    });
+  };
+  handleDeleteOpportunity = id => {
+    deleteOpportunityAndConnectedSkills(id).then(data => {
+      if (data.deleted) {
+        this.setState({ openDeleteMsg: false });
+        return this.getOpportunitiesForCompanyProfileByCompanyId();
+      }
+    });
   };
 
   render() {
@@ -143,13 +164,15 @@ class CompanyProfile extends React.Component {
               <Grid.Column key={opportunity.opportunity_id}>
                 <OpportunityCard
                   opportunity={opportunity}
-                  options={
+                  cardButtons={
                     getLoggedInUserData().user.user_id == this.state.userId
                       ? true
                       : false
                   }
-                  handleDeleteOpportunity={this.handleDeleteOpportunity}
-                  handleEditOpportunity={this.handleEditOpportunity}
+                  ConfirmDelete={this.ConfirmDelete}
+                  handleEditOpportunity={this.handleEditOpportunity(
+                    opportunity.opportunity_id
+                  )}
                 />
 
                 <br></br>
@@ -158,6 +181,39 @@ class CompanyProfile extends React.Component {
             <Divider></Divider>
           </Grid.Row>
         </Grid>
+        {this.state.askDeletePermission && (
+          <Modal
+            open={this.state.openDeleteMsg}
+            onClose={this.handleClose}
+            closeIcon
+            basic
+            size="small"
+          >
+            <Header
+              icon="warning sign"
+              color="yellow"
+              content="Are You Sure You Want To Delete Opportunity"
+            />
+            <Modal.Actions>
+              <Button
+                color="green"
+                onClick={() => this.setState({ openDeleteMsg: false })}
+                inverted
+              >
+                No
+              </Button>
+              <Button
+                color="red"
+                inverted
+                onClick={() =>
+                  this.handleDeleteOpportunity(this.state.selectedId)
+                }
+              >
+                <Icon name="remove" /> Delete
+              </Button>
+            </Modal.Actions>
+          </Modal>
+        )}
       </React.Fragment>
     );
   }

@@ -4,10 +4,12 @@ const {
   createOpportunity,
   getOpportunitiesForList,
   getOpportunityById,
-  getOpportunitiesForCompanyProfileByCompanyId
+  getOpportunitiesForCompanyProfileByCompanyId,
+  deleteOpportunityByCompany
 } = require("../services/database/opportunities");
 const {
-  newOpportunitySkills
+  newOpportunitySkills,
+  deleteOpportunitySkillsForOpportunityByCompany
 } = require("../services/database/opportunitySkills");
 
 /**
@@ -80,4 +82,11 @@ router.get("/", (req, res) => {
     });
 });
 
+router.delete("/:opportunityId", (req, res) => {
+  const { opportunityId } = req.params;
+  deleteOpportunitySkillsForOpportunityByCompany(opportunityId)
+    .then(() => deleteOpportunityByCompany(opportunityId))
+    .then(() => res.send({ deleted: true }))
+    .catch(err => res.status(500).send(err));
+});
 module.exports = router;

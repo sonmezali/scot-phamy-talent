@@ -21,12 +21,13 @@ router.post("/", (req, res) => {
     description,
     industry,
     logo_url,
+    city,
     role,
     email,
     password
   } = req.body;
 
-  const user = { email: email, password: password, role: "company" };
+  const user = { email, password, role };
 
   createUser(user)
     .then(userData => {
@@ -38,8 +39,7 @@ router.post("/", (req, res) => {
         description,
         industry,
         logo_url,
-        role,
-        email,
+        city,
         password,
         user_id
       };
