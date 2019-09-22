@@ -2,59 +2,92 @@ import React, { Component } from "react";
 import {
   Form,
   Input,
-  Dropdown,
   Button,
   TextArea,
-  Message,
+  Modal,
+  Icon,
   Grid,
   Header
 } from "semantic-ui-react";
+import { getCities } from "../api/cities";
 
+import { validateCompanyRegisterForm } from "../utils/formValidation";
 import { companyRegister } from "../api/companies";
 import { industryList } from "../utils/constants";
+import {
+  ValidatedFormInput,
+  ValidatedFormDropDown
+} from "./ValidatedFormFields";
 
 class CompanyRegister extends Component {
   state = {
     companyProfile: {
+      role: "company",
       name: "",
       description: "",
-      industry: [],
+      industry: null,
       logo_url: "",
       email: "",
       password: "",
+      confirmPassword: "",
+      city: null,
       user_id: ""
     },
+    formErrors: {},
+    successServerStatus: false,
+    openSubmitStatusMsg: false,
+    citiesData: [],
     error: null,
     success: null
   };
-
+  handleSelectCity = (e, data) => {
+    const selectedCity = data.value;
+    this.setState({
+      companyProfile: { ...this.state.companyProfile, city: selectedCity }
+    });
+  };
+  getAllCities = () => {
+    getCities().then(response => {
+      this.setState({
+        citiesData: response.map(city => ({
+          key: city.id,
+          text: city.city,
+          value: city.id
+        }))
+      });
+    });
+  };
+  componentDidMount() {
+    this.getAllCities();
+  }
   handleSubmit = e => {
     e.preventDefault();
-
-    companyRegister(this.state.companyProfile)
-      .then(data => {
-        if (data.success) {
-          this.setState({
-            companyProfile: {
-              name: "",
-              description: "",
-              industry: [],
-              logo_url: "",
-              email: "",
-              password: ""
-            },
-            success: true
-          });
+    const result = validateCompanyRegisterForm(this.state.companyProfile);
+    const { valid } = result;
+    if (valid) {
+      companyRegister(this.state.companyProfile).then(res => {
+        this.setState({ successServerStatus: res.success });
+        if (this.state.successServerStatus) {
+          this.setState({ openSubmitStatusMsg: true });
         } else {
-          this.setState({});
+          return this.setState({
+            successServerStatus: false,
+            openSubmitStatusMsg: true
+          });
         }
-        this.resetForm(data.success);
-      })
-      .catch(err => {
-        this.setState({ success: false, error: err || "error" });
       });
+    } else {
+      return this.setState({
+        formErrors: result
+      });
+    }
   };
 
+  handleCloseFail = () => this.setState({ openSubmitStatusMsg: false });
+  handleCloseSuccess = () => {
+    this.setState({ openSubmitStatusMsg: false });
+    this.resetForm();
+  };
   handleIndustry = (event, data) => {
     const { value: selectedIndustries } = data;
     this.setState({
@@ -65,23 +98,31 @@ class CompanyRegister extends Component {
     });
   };
 
-  resetForm = success => {
+  resetForm = e => {
     this.setState({
       companyProfile: {
+        role: "company",
         name: "",
         description: "",
-        industry: [],
+        industry: null,
         logo_url: "",
         email: "",
-        password: ""
+        password: "",
+        confirmPassword: "",
+        city: null,
+        user_id: ""
       },
-      success: success
+      formErrors: {},
+      successServerStatus: false,
+      openSubmitStatusMsg: false,
+      citiesData: []
     });
   };
+
   handleChange = event => {
     const { target } = event;
-    const { name: property } = target;
-    const { value } = target;
+    const { name: property, value } = target;
+
     this.setState(function(prevState) {
       const newEntries = prevState.companyProfile;
       newEntries[property] = value;
@@ -89,6 +130,24 @@ class CompanyRegister extends Component {
     });
   };
   render() {
+    const {
+      name,
+      description,
+      industry,
+      logo_url,
+      email,
+      password,
+      city,
+      confirmPassword
+    } = this.state.companyProfile;
+    const {
+      formErrors,
+      successServerStatus,
+      openSubmitStatusMsg,
+      citiesData,
+      error,
+      success
+    } = this.state;
     return (
       <div>
         <Form onSubmit={this.handleSubmit}>
@@ -107,7 +166,7 @@ class CompanyRegister extends Component {
                   control={Input}
                   placeholder="Company Name"
                   required
-                  value={this.state.companyProfile.name}
+                  value={name}
                   name="name"
                   onChange={this.handleChange}
                 >
@@ -119,54 +178,89 @@ class CompanyRegister extends Component {
                   placeholder="Email"
                   name="email"
                   type="email"
-                  value={this.state.companyProfile.email}
+                  value={email}
                   required
                   onChange={this.handleChange}
                 >
                   <input />
                 </Form.Field>
-                <Form.Field
-                  label="Password"
+                <ValidatedFormInput
                   control={Input}
+                  label="Password"
+                  value={password}
                   type="password"
+                  valid={formErrors.validPassword}
+                  validationMessage="Password Must Have At Least 8 Character And Contain At Least One UpperCase , LowerCase,Number"
                   placeholder="Password"
+                  iconPosition="left"
                   name="password"
-                  value={this.state.companyProfile.password}
                   required
                   onChange={this.handleChange}
                 >
+                  <Icon name="lock" color="blue" />
                   <input />
-                </Form.Field>
+                </ValidatedFormInput>
+                <ValidatedFormInput
+                  control={Input}
+                  label="Confirm Password"
+                  value={confirmPassword}
+                  type="Password"
+                  placeholder="Confirm Password"
+                  iconPosition="left"
+                  valid={formErrors.validConfirmPassword}
+                  validationMessage="Passwords Are Not Matching"
+                  name="confirmPassword"
+                  required
+                  onChange={this.handleChange}
+                >
+                  <Icon name="undo alternate" color="blue" />
+                  <input />
+                </ValidatedFormInput>
                 <Form.Field
                   floated="left"
                   label="Company Description"
                   control={TextArea}
                   placeholder="Company Description"
                   name="description"
-                  value={this.state.companyProfile.description}
+                  value={description}
                   required
                   onChange={this.handleChange}
                 ></Form.Field>
-                <Form.Field>
-                  <label> Select Industry</label>
-                  <Dropdown
-                    label="Industry"
-                    options={industryList}
-                    search
-                    selection
-                    value={this.state.companyProfile.industry}
-                    required
-                    placeholder="Select Industry"
-                    onChange={this.handleIndustry}
-                  />
-                </Form.Field>
+                <ValidatedFormDropDown
+                  label="Industry"
+                  name="industry"
+                  options={industryList}
+                  search
+                  selection
+                  value={industry}
+                  valid={formErrors.industryIsSelected}
+                  validationMessage="Industry Is Not Selected"
+                  required
+                  placeholder="Select Industry"
+                  onChange={this.handleIndustry}
+                />
+
+                <ValidatedFormDropDown
+                  label="Location"
+                  name="city"
+                  placeholder="Select city"
+                  search
+                  selection
+                  valid={formErrors.cityIsSelected}
+                  validationMessage="Location Is Not Selected"
+                  required
+                  value={city}
+                  options={citiesData}
+                  onChange={this.handleSelectCity}
+                />
+
                 <Form.Field
                   label="Logo URL"
                   control={Input}
                   type="text"
                   placeholder="Enter your Company logo URL"
                   name="logo_url"
-                  value={this.state.companyProfile.logo_url}
+                  value={logo_url}
                   onChange={this.handleChange}
                 >
                   <input />
@@ -176,22 +270,52 @@ class CompanyRegister extends Component {
                 </Button>
               </Grid.Column>
             </Grid.Row>
-            <Grid.Row width={15}>
-              {this.state.success === true && (
-                <Message positive>
-                  <Message.Header>
-                    Company Profile Created successfully
-                  </Message.Header>
-                </Message>
-              )}
-              {this.state.success === false && (
-                <Message negative>
-                  <Message.Header>Something went Wrong</Message.Header>
-                  <p>check Your Form</p>
-                </Message>
-              )}
-            </Grid.Row>
           </Grid>
+          {this.state.successServerStatus === true && (
+            <Modal
+              open={this.state.openSubmitStatusMsg}
+              onClose={this.handleCloseSuccess}
+              closeIcon
+              basic
+              size="small"
+            >
+              <Modal.Header> Request Submitted successfully</Modal.Header>
+              <Modal.Content>
+                <p>Waiting For approval</p>
+              </Modal.Content>
+              <Modal.Actions>
+                <Button
+                  positive
+                  icon="checkmark"
+                  labelPosition="right"
+                  content="OK"
+                  onClick={this.handleCloseSuccess}
+                />
+              </Modal.Actions>
+            </Modal>
+          )}
+          {this.state.successServerStatus === false && (
+            <Modal
+              basic
+              open={this.state.openSubmitStatusMsg}
+              onClose={this.handleCloseFail}
+              closeIcon
+            >
+              <Modal.Header> Something went Wrong</Modal.Header>
+              <Modal.Content>
+                <p>check Your Data</p>
+              </Modal.Content>
+              <Modal.Actions>
+                <Button
+                  negative
+                  icon="checkmark"
+                  labelPosition="right"
+                  content="OK"
+                  onClick={this.handleCloseFail}
+                />
+              </Modal.Actions>
+            </Modal>
+          )}
         </Form>
       </div>
     );
