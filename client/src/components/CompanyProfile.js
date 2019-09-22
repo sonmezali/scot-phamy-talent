@@ -1,11 +1,9 @@
 import React from "react";
-import { Link } from "react-router-dom";
+
 import {
   Divider,
   Button,
   Header,
-  Menu,
-  Dropdown,
   Modal,
   Image,
   Icon,
@@ -19,46 +17,7 @@ import {
 } from "../api/opportunities";
 import OpportunityCard from "./OpportunityCard";
 import { getLoggedInUserData } from "../utils/storage";
-
-const options = [
-  {
-    key: 1,
-    text: (
-      <Menu.Item as={Link} to="/company/manage-profile">
-        Edit Profile
-      </Menu.Item>
-    ),
-    value: 1
-  },
-  {
-    key: 2,
-    text: (
-      <Menu.Item as={Link} to="/company/manage-profile">
-        Delete Profile
-      </Menu.Item>
-    ),
-    value: 2
-  },
-  {
-    key: 3,
-    text: (
-      <Menu.Item as={Link} to="/company/manage-profile">
-        Change Password
-      </Menu.Item>
-    ),
-    value: 3
-  },
-
-  {
-    key: 4,
-    text: (
-      <Menu.Item as={Link} to="/company/manage-opportunities">
-        Add Opportunity
-      </Menu.Item>
-    ),
-    value: 4
-  }
-];
+import ProfileOptionsButton from "./ProfileOptionsButton";
 
 class CompanyProfile extends React.Component {
   state = {
@@ -121,16 +80,16 @@ class CompanyProfile extends React.Component {
     }
     return (
       <React.Fragment>
-        <Divider horizontal>
-          <Menu compact>
-            <Dropdown
-              clearable
-              text="Your Profile"
-              options={options}
-              selection
+        {getLoggedInUserData() &&
+          getLoggedInUserData().user.role === "company" && (
+            <ProfileOptionsButton
+              changePassword
+              deleteOption
+              edit
+              createOpportunity
+              linkToCreateOpportunity={"/create-opportunity"}
             />
-          </Menu>
-        </Divider>
+          )}
         <Segment style={{ background: "#bce0fd" }}>
           <Image
             centered
@@ -165,7 +124,8 @@ class CompanyProfile extends React.Component {
                 <OpportunityCard
                   opportunity={opportunity}
                   cardButtons={
-                    getLoggedInUserData().user.user_id == this.state.userId
+                    Number(getLoggedInUserData().user.user_id) ===
+                    Number(this.state.userId)
                       ? true
                       : false
                   }

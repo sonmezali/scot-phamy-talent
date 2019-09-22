@@ -5,49 +5,15 @@ import {
   Header,
   Segment,
   Divider,
-  Dropdown,
-  Menu,
-  Icon,
   Image,
   Grid
 } from "semantic-ui-react";
-import { Link } from "react-router-dom";
 import {
   getApplicantProfileByUserId,
   getSkillsList
 } from "../api/applicantProfile";
 import { getLoggedInUserData } from "../utils/storage";
-
-const options = [
-  {
-    key: 1,
-    text: (
-      <Menu.Item as={Link} to="/applicant/manage-profile">
-        <Icon name="edit" />
-        Edit Profile
-      </Menu.Item>
-    ),
-    value: 1
-  },
-  {
-    key: 2,
-    text: (
-      <Menu.Item as={Link} to="/applicant/delete-profile">
-        <Icon name="delete" /> Delete Profile
-      </Menu.Item>
-    ),
-    value: 2
-  },
-  {
-    key: 3,
-    text: (
-      <Menu.Item as={Link} to="/applicant/change-password">
-        <Icon name="expeditedssl" /> Change Password
-      </Menu.Item>
-    ),
-    value: 3
-  }
-];
+import ProfileOptionsButton from "./ProfileOptionsButton";
 
 class ApplicantProfile extends React.Component {
   state = {
@@ -83,11 +49,10 @@ class ApplicantProfile extends React.Component {
     const { applicantData, skills } = this.state;
     return (
       <div>
-        <Divider horizontal>
-          <Menu compact>
-            <Dropdown text="Your Profile" options={options} simple item />
-          </Menu>
-        </Divider>
+        {getLoggedInUserData() &&
+          getLoggedInUserData().user.role === "applicant" && (
+            <ProfileOptionsButton deleteOption edit changePassword />
+          )}
         <Container></Container>
         <Segment inverted color="blue">
           <Segment inverted color="blue"></Segment>
