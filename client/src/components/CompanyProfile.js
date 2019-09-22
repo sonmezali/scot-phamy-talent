@@ -136,7 +136,7 @@ class CompanyProfile extends React.Component {
             centered
             circular
             size="tiny"
-            src={
+            src={companyData &&
               companyData.logo_url
                 ? companyData.logo_url
                 : "https://react.semantic-ui.com/images/wireframe/square-image.png"
