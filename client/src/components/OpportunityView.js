@@ -3,10 +3,12 @@ import { getOpportunityById, getSkillsList } from "../api/opportunities";
 import {
   Header,
   Grid,
+  Modal,
   Segment,
   Icon,
   Item,
   Dimmer,
+  Button,
   Dropdown,
   Loader,
   Image
@@ -14,6 +16,7 @@ import {
 import moment from "moment";
 import { Link } from "react-router-dom";
 import { getLoggedInUserData } from "../utils/storage";
+import { deleteOpportunityAndConnectedSkills } from "../api/opportunities";
 
 export default class OpportunityView extends Component {
   state = {
@@ -24,7 +27,9 @@ export default class OpportunityView extends Component {
     opportunity: [],
     skills: [],
     isLoading: true,
-    isEditing: false
+    isEditing: false,
+    openDeleteMsg: false,
+    askDeletePermission: false
   };
 
   getOpportunity = () => {
@@ -48,7 +53,11 @@ export default class OpportunityView extends Component {
     this.getOpportunity();
     this.getSkills();
   }
-
+  handleDeleteOpportunity = id => {
+    deleteOpportunityAndConnectedSkills(id).then(data => {
+      return window.history.go(-1);
+    });
+  };
   render() {
     const { opportunity, isLoading } = this.state;
     return (
@@ -68,18 +77,35 @@ export default class OpportunityView extends Component {
             getLoggedInUserData().user.user_id === opportunity.user_id ? (
               <Grid>
                 <Grid.Column floated="right" width={3}>
-                  <Dropdown item size="large" icon="options">
-                    <Dropdown.Menu direction="left">
-                      <Dropdown.Item name="Edit">
-                        <Icon size-="large" name="edit outline"></Icon>
-                        Edit
-                      </Dropdown.Item>
-                      <Dropdown.Item name="Delete">
-                        <Icon size-="large" name="delete"></Icon>
-                        Delete
-                      </Dropdown.Item>
-                    </Dropdown.Menu>
-                  </Dropdown>
+                  <Header>
+                    <Header.Content>
+                      Options{" "}
+                      <Dropdown item size="large" icon="options">
+                        <Dropdown.Menu direction="left">
+                          <Dropdown.Item name="Edit">
+                            <Icon size-="large" name="edit outline"></Icon>
+                            Edit
+                          </Dropdown.Item>
+                          <Dropdown.Item
+                            name="Delete"
+                            onClick={() =>
+                              this.setState({
+                                askDeletePermission: true,
+                                openDeleteMsg: true
+                              })
+                            }
+                          >
+                            <Icon
+                              size-="large"
+                              color={"red"}
+                              name="delete"
+                            ></Icon>
+                            Delete
+                          </Dropdown.Item>
+                        </Dropdown.Menu>
+                      </Dropdown>
+                    </Header.Content>
+                  </Header>
                 </Grid.Column>
               </Grid>
             ) : null}
@@ -152,6 +178,39 @@ export default class OpportunityView extends Component {
               {opportunity.description}
             </Item.Description>
           </React.Fragment>
+        )}
+        {this.state.askDeletePermission && (
+          <Modal
+            open={this.state.openDeleteMsg}
+            onClose={this.handleClose}
+            closeIcon
+            basic
+            size="small"
+          >
+            <Header
+              icon="warning sign"
+              color="yellow"
+              content="Are You Sure You Want To Delete Opportunity"
+            />
+            <Modal.Actions>
+              <Button
+                color="green"
+                onClick={() => this.setState({ openDeleteMsg: false })}
+                inverted
+              >
+                No
+              </Button>
+              <Button
+                color="red"
+                inverted
+                onClick={() =>
+                  this.handleDeleteOpportunity(this.state.opportunityId)
+                }
+              >
+                <Icon name="remove" /> Delete
+              </Button>
+            </Modal.Actions>
+          </Modal>
         )}
       </React.Fragment>
     );

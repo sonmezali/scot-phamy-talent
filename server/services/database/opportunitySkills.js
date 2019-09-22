@@ -42,5 +42,22 @@ const getSkillsForOpportunitiesList = id => {
     );
   });
 };
-
-module.exports = { newOpportunitySkills, getSkillsForOpportunitiesList };
+const deleteOpportunitySkillsForOpportunityByCompany = id => {
+  return new Promise((resolve, reject) => {
+    pool.query(
+      `DELETE FROM opportunity_skills WHERE opportunity_id = ${id} `,
+      (error, result) => {
+        if (error) {
+          reject(error);
+        } else {
+          resolve(result.row);
+        }
+      }
+    );
+  });
+};
+module.exports = {
+  newOpportunitySkills,
+  getSkillsForOpportunitiesList,
+  deleteOpportunitySkillsForOpportunityByCompany
+};
