@@ -146,7 +146,6 @@ class NewOpportunityForm extends Component {
   };
 
   render() {
-    console.log(this.state.formEntries);
     const {
       name,
       description,
