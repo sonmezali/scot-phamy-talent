@@ -12,11 +12,8 @@ import {
   Grid
 } from "semantic-ui-react";
 import { Link } from "react-router-dom";
-import {
-  getApplicantProfileByUserId,
-  getSkillsList
-} from "../api/applicantProfile";
-import { getLoggedInUserData } from "../utils/storage";
+import { getApplicantProfileByUserId } from "../api/applicantProfile";
+import { getSkillsByApplicantId } from "../api/applicants";
 
 const options = [
   {
@@ -70,7 +67,7 @@ class ApplicantProfile extends React.Component {
     });
   };
   getApplicantSkills = () => {
-    getSkillsList(this.state.userId).then(data => {
+    getSkillsByApplicantId(this.state.userId).then(data => {
       const skillsArray = data.map(skill => skill.skill);
       this.setState({
         skills: skillsArray,
@@ -88,47 +85,82 @@ class ApplicantProfile extends React.Component {
             <Dropdown text="Your Profile" options={options} simple item />
           </Menu>
         </Divider>
-        <Container></Container>
+
         <Segment inverted color="blue">
-          <Segment inverted color="blue"></Segment>
           <Grid centered>
             <Segment circular centered>
               <Image
                 src="https://www.bsn.eu/wp-content/uploads/2016/12/user-icon-image-placeholder-300-grey.jpg"
                 size="mini"
                 circular
-                centered
+                left
               />
             </Segment>
           </Grid>
           <Segment inverted color="blue" padded="very">
             <Grid centered>
-              <Header as="h1">{applicantData.applicant_name}</Header>
-            </Grid>
-            <Grid centered>
-              <Header as="h3">{applicantData.city}</Header>
+              <Header as="h1">
+                Applicant Name: {applicantData.applicant_name}
+              </Header>
             </Grid>
           </Segment>
         </Segment>
+        <Grid left stackable columns={2}>
+          <Grid.Column>
+            <Header as="h3">
+              <Icon name="briefcase" size="mini" color="white" />
+              About: {applicantData.about}
+            </Header>
+            <br></br>
+            <Grid left>
+              <Header as="h3">
+                <Icon name="map marker alternate" size="mini" color="white" />
+                City: {applicantData.city}
+              </Header>
+            </Grid>
+            <br></br>
+            <br></br>
+            <Grid left>
+              <Header as="h3">
+                <Icon name="check" size="mini" color="white" />
+                Skills:
+                {skills.map(skill => skill)}
+              </Header>
+            </Grid>
+            <br></br>
+            <br></br>
+            <Grid left>
+              <Header as="h3">
+                <Icon name="mail" size="mini" color="red" />
+                Email: {applicantData.email}
+              </Header>
+            </Grid>
+            <br></br>
+            <br></br>
+            <Grid left>
+              <Header as="h3">
+                <Icon name="linkify" size="mini" color="blue" />
+                CV Link: {applicantData.cvlink}
+              </Header>
+            </Grid>
+            <br></br>
+            <br></br>
+            <Grid left>
+              <Header as="h3">
+                <Icon name="legal" size="mini" color="red" />
+                Right to work: {applicantData.right_to_work ? "yes" : "No"}
+              </Header>
+            </Grid>
+          </Grid.Column>
+        </Grid>
+
         <Grid centered>
           <Segment basic>
             <a href={`mailto: ${applicantData.email}`}>
               <Button primary>Contact</Button>
             </a>
-
-            <Segment basic>{applicantData.about}</Segment>
           </Segment>
         </Grid>
-        <Segment style={{ background: "LightSkyBlue " }}>
-          <Grid centered padded>
-            {" "}
-            <Header as="h2">Skills</Header>
-          </Grid>
-          <Divider />
-          {skills.map(skill => (
-            <Button basic>{skill}</Button>
-          ))}
-        </Segment>
       </div>
     );
   }
