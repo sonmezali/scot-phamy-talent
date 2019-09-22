@@ -36,9 +36,7 @@ class CompanyRegister extends Component {
     formErrors: {},
     successServerStatus: false,
     openSubmitStatusMsg: false,
-    citiesData: [],
-    error: null,
-    success: null
+    citiesData: []
   };
   handleSelectCity = (e, data) => {
     const selectedCity = data.value;
@@ -144,9 +142,7 @@ class CompanyRegister extends Component {
       formErrors,
       successServerStatus,
       openSubmitStatusMsg,
-      citiesData,
-      error,
-      success
+      citiesData
     } = this.state;
     return (
       <div>
@@ -271,9 +267,9 @@ class CompanyRegister extends Component {
               </Grid.Column>
             </Grid.Row>
           </Grid>
-          {this.state.successServerStatus === true && (
+          {successServerStatus === true && (
             <Modal
-              open={this.state.openSubmitStatusMsg}
+              open={openSubmitStatusMsg}
               onClose={this.handleCloseSuccess}
               closeIcon
               basic
@@ -294,10 +290,10 @@ class CompanyRegister extends Component {
               </Modal.Actions>
             </Modal>
           )}
-          {this.state.successServerStatus === false && (
+          {successServerStatus === false && (
             <Modal
               basic
-              open={this.state.openSubmitStatusMsg}
+              open={openSubmitStatusMsg}
               onClose={this.handleCloseFail}
               closeIcon
             >
