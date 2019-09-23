@@ -68,20 +68,22 @@ class ApplicantProfile extends React.Component {
           </Grid>
           <Segment inverted color="blue" padded="very">
             <Grid centered>
-              <Header as="h1">{applicantData.applicant_name}</Header>
+              <Header as="h1">
+                {applicantData && applicantData.applicant_name}
+              </Header>
             </Grid>
             <Grid centered>
-              <Header as="h3">{applicantData.city}</Header>
+              <Header as="h3">{applicantData && applicantData.city}</Header>
             </Grid>
           </Segment>
         </Segment>
         <Grid centered>
           <Segment basic>
-            <a href={`mailto: ${applicantData.email}`}>
+            <a href={`mailto: ${applicantData && applicantData.email}`}>
               <Button primary>Contact</Button>
             </a>
 
-            <Segment basic>{applicantData.about}</Segment>
+            <Segment basic>{applicantData && applicantData.about}</Segment>
           </Segment>
         </Grid>
         <Segment style={{ background: "LightSkyBlue " }}>
