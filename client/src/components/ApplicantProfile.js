@@ -14,7 +14,7 @@ import {
 } from "../api/applicantProfile";
 import { getLoggedInUserData } from "../utils/storage";
 import ProfileOptionsButton from "./ProfileOptionsButton";
-
+git;
 class ApplicantProfile extends React.Component {
   state = {
     userId:
@@ -54,6 +54,7 @@ class ApplicantProfile extends React.Component {
             <ProfileOptionsButton deleteOption edit changePassword />
           )}
         <Container></Container>
+
         <Segment inverted color="blue">
           <Segment inverted color="blue"></Segment>
           <Grid centered>
