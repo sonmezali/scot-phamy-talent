@@ -11,10 +11,10 @@ export default ({
 }) => {
   return (
     <Grid>
-      <Grid.Column floated="right" width={3}>
+      <Grid.Column floated="right" width={5}>
         <Header>
+          Option{" "}
           <Header.Content>
-            Options{" "}
             <Dropdown item size="large" icon="options">
               <Dropdown.Menu direction="left">
                 {edit && (
