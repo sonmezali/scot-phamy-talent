@@ -2,18 +2,15 @@ const { Pool } = require("pg");
 const config = require("../../config");
 const pool = new Pool(config);
 
-const getCompanyIdForCreateOpportunity = id => {
+const getAllCompanies = () => {
   return new Promise((resolve, reject) => {
-    pool.query(
-      `SELECT company_id FROM company_profile where user_id=${id}`,
-      (error, result) => {
-        if (error) {
-          reject(error);
-        } else {
-          resolve(result.rows);
-        }
+    pool.query("SELECT * FROM company_profile", (error, result) => {
+      if (error) {
+        reject(error);
+      } else {
+        resolve(result.rows);
       }
-    );
+    });
   });
 };
 
@@ -40,4 +37,4 @@ const registerCompany = ({
   });
 };
 
-module.exports = { registerCompany, getCompanyIdForCreateOpportunity };
+module.exports = { registerCompany, getAllCompanies };

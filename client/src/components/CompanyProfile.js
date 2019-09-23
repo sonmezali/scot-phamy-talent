@@ -1,11 +1,9 @@
 import React from "react";
-import { Link } from "react-router-dom";
+
 import {
   Divider,
   Button,
   Header,
-  Menu,
-  Dropdown,
   Modal,
   Image,
   Icon,
@@ -19,46 +17,7 @@ import {
 } from "../api/opportunities";
 import OpportunityCard from "./OpportunityCard";
 import { getLoggedInUserData } from "../utils/storage";
-
-const options = [
-  {
-    key: 1,
-    text: (
-      <Menu.Item as={Link} to="/company/manage-profile">
-        Edit Profile
-      </Menu.Item>
-    ),
-    value: 1
-  },
-  {
-    key: 2,
-    text: (
-      <Menu.Item as={Link} to="/company/manage-profile">
-        Delete Profile
-      </Menu.Item>
-    ),
-    value: 2
-  },
-  {
-    key: 3,
-    text: (
-      <Menu.Item as={Link} to="/company/manage-profile">
-        Change Password
-      </Menu.Item>
-    ),
-    value: 3
-  },
-
-  {
-    key: 4,
-    text: (
-      <Menu.Item as={Link} to="/company/manage-opportunities">
-        Add Opportunity
-      </Menu.Item>
-    ),
-    value: 4
-  }
-];
+import ProfileOptionsButton from "./ProfileOptionsButton";
 
 class CompanyProfile extends React.Component {
   state = {
@@ -115,44 +74,50 @@ class CompanyProfile extends React.Component {
   };
 
   render() {
-    const { companyData, opportunitiesArray, userId } = this.state;
+    const {
+      companyData,
+      opportunitiesArray,
+      userId,
+      openDeleteMsg,
+      askDeletePermission,
+      selectedId
+    } = this.state;
     if (userId === null || !userId) {
       return null;
     }
     return (
       <React.Fragment>
-        <Divider horizontal>
-          <Menu compact>
-            <Dropdown
-              clearable
-              text="Your Profile"
-              options={options}
-              selection
+        {getLoggedInUserData() &&
+          getLoggedInUserData().user.role === "company" && (
+            <ProfileOptionsButton
+              changePassword
+              deleteOption
+              edit
+              createOpportunity
+              linkToCreateOpportunity={"/create-opportunity"}
             />
-          </Menu>
-        </Divider>
+          )}
         <Segment style={{ background: "#bce0fd" }}>
           <Image
             centered
-            circular
             size="tiny"
-            src={companyData &&
-              companyData.logo_url
+            src={
+              companyData && companyData.logo_url
                 ? companyData.logo_url
                 : "https://react.semantic-ui.com/images/wireframe/square-image.png"
             }
             alt="Company Logo"
           />
           <Header textAlign="center" as="h3">
-            {companyData.company_name}
+            {companyData && companyData.company_name}
           </Header>
           <Header textAlign="center" as="h3">
-            Location: {companyData.location}
+            Location: {companyData && companyData.location}
           </Header>
         </Segment>
 
         <Segment centered basic>
-          <a href={`mailto: ${companyData.email}`}>
+          <a href={`mailto: ${companyData && companyData.email}`}>
             <Button primary size="large">
               Contact
             </Button>
@@ -161,34 +126,36 @@ class CompanyProfile extends React.Component {
         <Segment>
           <Header as="h3">About Company</Header>
 
-          <p>{companyData.company_description}</p>
+          <p>{companyData && companyData.company_description}</p>
         </Segment>
         <Grid stackable>
           <Grid.Row columns={3} stretched>
-            {opportunitiesArray.map(opportunity => (
-              <Grid.Column key={opportunity.opportunity_id}>
-                <OpportunityCard
-                  opportunity={opportunity}
-                  cardButtons={
-                    getLoggedInUserData().user.user_id == this.state.userId
-                      ? true
-                      : false
-                  }
-                  ConfirmDelete={this.ConfirmDelete}
-                  handleEditOpportunity={this.handleEditOpportunity(
-                    opportunity.opportunity_id
-                  )}
-                />
+            {opportunitiesArray &&
+              opportunitiesArray.map(opportunity => (
+                <Grid.Column key={opportunity.opportunity_id}>
+                  <OpportunityCard
+                    opportunity={opportunity}
+                    cardButtons={
+                      Number(getLoggedInUserData().user.user_id) ===
+                      Number(userId)
+                        ? true
+                        : false
+                    }
+                    ConfirmDelete={this.ConfirmDelete}
+                    handleEditOpportunity={this.handleEditOpportunity(
+                      opportunity.opportunity_id
+                    )}
+                  />
 
-                <br></br>
-              </Grid.Column>
-            ))}
+                  <br></br>
+                </Grid.Column>
+              ))}
             <Divider></Divider>
           </Grid.Row>
         </Grid>
-        {this.state.askDeletePermission && (
+        {askDeletePermission && (
           <Modal
-            open={this.state.openDeleteMsg}
+            open={openDeleteMsg}
             onClose={this.handleClose}
             closeIcon
             basic
@@ -210,9 +177,7 @@ class CompanyProfile extends React.Component {
               <Button
                 color="red"
                 inverted
-                onClick={() =>
-                  this.handleDeleteOpportunity(this.state.selectedId)
-                }
+                onClick={() => this.handleDeleteOpportunity(selectedId)}
               >
                 <Icon name="remove" /> Delete
               </Button>

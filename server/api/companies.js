@@ -1,14 +1,11 @@
 const express = require("express");
 const router = express.Router();
-const {
-  registerCompany,
-  getCompanyIdForCreateOpportunity
-} = require("../services/database/companies");
+const companyRegister = require("../services/database/companies");
 const { createUser } = require("../services/database/users");
 
-router.get("/:id", (req, res) => {
-  const { id } = req.params;
-  getCompanyIdForCreateOpportunity(id)
+router.get("/", (req, res) => {
+  companyRegister
+    .getAllCompanies()
     .then(data => {
       res.send(data);
     })
@@ -48,7 +45,7 @@ router.post("/", (req, res) => {
       };
     })
     .then(companyProfile => {
-      return registerCompany(companyProfile);
+      return companyRegister.registerCompany(companyProfile);
     })
     .then(data => {
       res.send({ success: true });
