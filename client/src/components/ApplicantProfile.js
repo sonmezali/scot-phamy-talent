@@ -91,14 +91,6 @@ class ApplicantProfile extends React.Component {
             <br></br>
             <Grid left>
               <Header as="h3">
-                Skills:
-                {skills && skills.map(skill => <li>{skill}</li>)}
-              </Header>
-            </Grid>
-            <br></br>
-            <br></br>
-            <Grid left>
-              <Header as="h3">
                 <Icon name="mail" size="mini" color="red" />
                 Email: {applicantData && applicantData.email}
               </Header>
