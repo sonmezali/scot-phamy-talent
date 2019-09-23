@@ -29,7 +29,7 @@ class NewOpportunityForm extends Component {
       date: "",
       type: null,
       skills: [],
-      company_id: 1 // hardCoded
+      company_id: null
     },
     cities: [],
     skillsArray: [],
