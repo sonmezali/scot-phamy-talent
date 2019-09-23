@@ -1,5 +1,13 @@
 import React from "react";
-import { Button, Header, Segment, Image, Grid, Icon } from "semantic-ui-react";
+import {
+  Button,
+  Header,
+  Segment,
+  Image,
+  Grid,
+  Icon,
+  Divider
+} from "semantic-ui-react";
 import { getApplicantProfileByUserId } from "../api/applicantProfile";
 import { getLoggedInUserData } from "../utils/storage";
 import ProfileOptionsButton from "./ProfileOptionsButton";
@@ -44,13 +52,14 @@ class ApplicantProfile extends React.Component {
             <ProfileOptionsButton deleteOption edit changePassword />
           )}
         <Segment inverted color="blue">
+          <Segment inverted color="blue"></Segment>
           <Grid centered>
             <Segment circular centered>
               <Image
                 src="https://www.bsn.eu/wp-content/uploads/2016/12/user-icon-image-placeholder-300-grey.jpg"
                 size="mini"
                 circular
-                left
+                centered
               />
             </Segment>
           </Grid>
@@ -59,6 +68,9 @@ class ApplicantProfile extends React.Component {
               <Header as="h1">
                 Applicant Name: {applicantData && applicantData.applicant_name}
               </Header>
+            </Grid>
+            <Grid centered>
+              <Header as="h3">{applicantData && applicantData.city}</Header>
             </Grid>
           </Segment>
         </Segment>
@@ -116,8 +128,20 @@ class ApplicantProfile extends React.Component {
             <a href={`mailto: ${applicantData && applicantData.email}`}>
               <Button primary>Contact</Button>
             </a>
+
+            <Segment basic>{applicantData && applicantData.about}</Segment>
           </Segment>
         </Grid>
+        <Segment style={{ background: "LightSkyBlue " }}>
+          <Grid centered padded>
+            {" "}
+            <Header as="h2">Skills</Header>
+          </Grid>
+          <Divider />
+          {skills.map(skill => (
+            <Button basic>{skill}</Button>
+          ))}
+        </Segment>
       </div>
     );
   }

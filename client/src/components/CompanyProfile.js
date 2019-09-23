@@ -100,7 +100,6 @@ class CompanyProfile extends React.Component {
         <Segment style={{ background: "#bce0fd" }}>
           <Image
             centered
-            circular
             size="tiny"
             src={
               companyData && companyData.logo_url

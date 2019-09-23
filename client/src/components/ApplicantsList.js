@@ -1,11 +1,10 @@
 import React from "react";
 import { getAllApplicants, getSkillsByApplicantId } from "../api/applicants";
+import { Link } from "react-router-dom";
 import ApplicantsCard from "./ApplicantsCard";
 import { getSkills } from "../api/skills";
 import { getCities } from "../api/cities";
-import { Link } from "react-router-dom";
 import { Grid, Header, Dropdown, Form, Icon } from "semantic-ui-react";
-
 import {
   filterBySkills,
   filterByCity,
@@ -39,8 +38,7 @@ export default class ApplicantsList extends React.Component {
     skills: [],
     selectedSkills: [],
     selectedCity: [],
-    cities: [],
-    askToLogIn: false
+    cities: []
   };
   getAllSkills = () => {
     getSkills().then(response => {
