@@ -93,8 +93,13 @@ class CompanyProfile extends React.Component {
         <Segment style={{ background: "#bce0fd" }}>
           <Image
             centered
+            circular
             size="tiny"
-            src={companyData.logo_url}
+            src={companyData &&
+              companyData.logo_url
+                ? companyData.logo_url
+                : "https://react.semantic-ui.com/images/wireframe/square-image.png"
+            }
             alt="Company Logo"
           />
           <Header textAlign="center" as="h3">

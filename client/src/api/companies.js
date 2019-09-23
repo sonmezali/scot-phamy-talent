@@ -5,3 +5,7 @@ export const companyRegister = profile => {
     headers: { "Content-Type": "application/json" }
   }).then(res => res.json());
 };
+
+export const getCompanyIdForCompanyRegister = id => {
+  return fetch(`/api/companies/${id}`).then(res => res.json());
+};

@@ -3,7 +3,9 @@ import { getAllApplicants, getSkillsByApplicantId } from "../api/applicants";
 import ApplicantsCard from "./ApplicantsCard";
 import { getSkills } from "../api/skills";
 import { getCities } from "../api/cities";
+import { Link } from "react-router-dom";
 import { Grid, Header, Dropdown, Form, Icon } from "semantic-ui-react";
+
 import {
   filterBySkills,
   filterByCity,
@@ -37,7 +39,8 @@ export default class ApplicantsList extends React.Component {
     skills: [],
     selectedSkills: [],
     selectedCity: [],
-    cities: []
+    cities: [],
+    askToLogIn: false
   };
   getAllSkills = () => {
     getSkills().then(response => {
@@ -145,8 +148,12 @@ export default class ApplicantsList extends React.Component {
               selectedSkills,
               selectedCity
             }).map(applicant => (
-              <Grid.Column>
-                <ApplicantsCard {...applicant} key={applicant.applicant_id} />
+              <Grid.Column
+                key={applicant.applicant_id}
+                as={Link}
+                to={`/applicant-profile/${applicant.applicant_id}`}
+              >
+                <ApplicantsCard {...applicant} />
                 <br></br>
               </Grid.Column>
             ))}
