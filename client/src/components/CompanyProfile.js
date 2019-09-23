@@ -94,14 +94,14 @@ class CompanyProfile extends React.Component {
           <Image
             centered
             size="tiny"
-            src={companyData.logo_url}
+            src={companyData && companyData.logo_url}
             alt="Company Logo"
           />
           <Header textAlign="center" as="h3">
-            {companyData.company_name}
+            {companyData && companyData.company_name}
           </Header>
           <Header textAlign="center" as="h3">
-            Location: {companyData.location}
+            Location: {companyData && companyData.location}
           </Header>
         </Segment>
 
@@ -115,7 +115,7 @@ class CompanyProfile extends React.Component {
         <Segment>
           <Header as="h3">About Company</Header>
 
-          <p>{companyData.company_description}</p>
+          <p>{companyData && companyData.company_description}</p>
         </Segment>
         <Grid stackable>
           <Grid.Row columns={3} stretched>
@@ -134,7 +134,6 @@ class CompanyProfile extends React.Component {
                     opportunity.opportunity_id
                   )}
                 />
-
                 <br></br>
               </Grid.Column>
             ))}
