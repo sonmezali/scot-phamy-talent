@@ -74,7 +74,14 @@ class CompanyProfile extends React.Component {
   };
 
   render() {
-    const { companyData, opportunitiesArray, userId } = this.state;
+    const {
+      companyData,
+      opportunitiesArray,
+      userId,
+      openDeleteMsg,
+      askDeletePermission,
+      selectedId
+    } = this.state;
     if (userId === null || !userId) {
       return null;
     }
@@ -93,20 +100,25 @@ class CompanyProfile extends React.Component {
         <Segment style={{ background: "#bce0fd" }}>
           <Image
             centered
+            circular
             size="tiny"
-            src={companyData.logo_url}
+            src={
+              companyData && companyData.logo_url
+                ? companyData.logo_url
+                : "https://react.semantic-ui.com/images/wireframe/square-image.png"
+            }
             alt="Company Logo"
           />
           <Header textAlign="center" as="h3">
-            {companyData.company_name}
+            {companyData && companyData.company_name}
           </Header>
           <Header textAlign="center" as="h3">
-            Location: {companyData.location}
+            Location: {companyData && companyData.location}
           </Header>
         </Segment>
 
         <Segment centered basic>
-          <a href={`mailto: ${companyData.email}`}>
+          <a href={`mailto: ${companyData && companyData.email}`}>
             <Button primary size="large">
               Contact
             </Button>
@@ -115,35 +127,36 @@ class CompanyProfile extends React.Component {
         <Segment>
           <Header as="h3">About Company</Header>
 
-          <p>{companyData.company_description}</p>
+          <p>{companyData && companyData.company_description}</p>
         </Segment>
         <Grid stackable>
           <Grid.Row columns={3} stretched>
-            {opportunitiesArray.map(opportunity => (
-              <Grid.Column key={opportunity.opportunity_id}>
-                <OpportunityCard
-                  opportunity={opportunity}
-                  cardButtons={
-                    Number(getLoggedInUserData().user.user_id) ===
-                    Number(this.state.userId)
-                      ? true
-                      : false
-                  }
-                  ConfirmDelete={this.ConfirmDelete}
-                  handleEditOpportunity={this.handleEditOpportunity(
-                    opportunity.opportunity_id
-                  )}
-                />
+            {opportunitiesArray &&
+              opportunitiesArray.map(opportunity => (
+                <Grid.Column key={opportunity.opportunity_id}>
+                  <OpportunityCard
+                    opportunity={opportunity}
+                    cardButtons={
+                      Number(getLoggedInUserData().user.user_id) ===
+                      Number(userId)
+                        ? true
+                        : false
+                    }
+                    ConfirmDelete={this.ConfirmDelete}
+                    handleEditOpportunity={this.handleEditOpportunity(
+                      opportunity.opportunity_id
+                    )}
+                  />
 
-                <br></br>
-              </Grid.Column>
-            ))}
+                  <br></br>
+                </Grid.Column>
+              ))}
             <Divider></Divider>
           </Grid.Row>
         </Grid>
-        {this.state.askDeletePermission && (
+        {askDeletePermission && (
           <Modal
-            open={this.state.openDeleteMsg}
+            open={openDeleteMsg}
             onClose={this.handleClose}
             closeIcon
             basic
@@ -165,9 +178,7 @@ class CompanyProfile extends React.Component {
               <Button
                 color="red"
                 inverted
-                onClick={() =>
-                  this.handleDeleteOpportunity(this.state.selectedId)
-                }
+                onClick={() => this.handleDeleteOpportunity(selectedId)}
               >
                 <Icon name="remove" /> Delete
               </Button>

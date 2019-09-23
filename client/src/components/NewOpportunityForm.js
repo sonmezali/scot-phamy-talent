@@ -16,6 +16,8 @@ import { getCities } from "../api/cities";
 import { getSkills } from "../api/skills";
 import { createNewOpportunity } from "../api/opportunities";
 import { opportunityType } from "../utils/constants";
+import { getCompanyIdForCompanyRegister } from "../api/companies";
+import { getLoggedInUserData } from "../utils/storage";
 
 class NewOpportunityForm extends Component {
   state = {
@@ -29,7 +31,7 @@ class NewOpportunityForm extends Component {
       date: "",
       type: null,
       skills: [],
-      company_id: 1 // hardCoded
+      company_id: null
     },
     cities: [],
     skillsArray: [],
@@ -37,8 +39,15 @@ class NewOpportunityForm extends Component {
     open: false,
     formErrors: {}
   };
-  close = () => this.setState({ open: false });
+
   //Getting data
+  getCompanyId = () => {
+    const id = getLoggedInUserData().user.user_id;
+    getCompanyIdForCompanyRegister(id).then(res => {
+      const company_id = res[0].company_id;
+      this.setState({ formEntries: { company_id: company_id } });
+    });
+  };
   getAllSkills = () => {
     getSkills().then(response => {
       this.setState({
@@ -65,6 +74,7 @@ class NewOpportunityForm extends Component {
   componentDidMount() {
     this.getAllCities();
     this.getAllSkills();
+    this.getCompanyId();
   }
   //Handlers
   handleSelectSkill = (e, data) => {
@@ -116,6 +126,7 @@ class NewOpportunityForm extends Component {
       return { formEntries: newEntries };
     });
   };
+  close = () => this.setState({ open: false });
   //clear form Entries  after Success
   clearForm = e => {
     this.setState({
