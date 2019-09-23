@@ -14,7 +14,6 @@ import {
 } from "../api/applicantProfile";
 import { getLoggedInUserData } from "../utils/storage";
 import ProfileOptionsButton from "./ProfileOptionsButton";
-git;
 class ApplicantProfile extends React.Component {
   state = {
     userId:
