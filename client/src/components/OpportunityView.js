@@ -9,7 +9,6 @@ import {
   Item,
   Dimmer,
   Button,
-  Dropdown,
   Loader,
   Image
 } from "semantic-ui-react";
@@ -17,6 +16,7 @@ import moment from "moment";
 import { Link } from "react-router-dom";
 import { getLoggedInUserData } from "../utils/storage";
 import { deleteOpportunityAndConnectedSkills } from "../api/opportunities";
+import ProfileOptionsButton from "./ProfileOptionsButton";
 
 export default class OpportunityView extends Component {
   state = {
@@ -73,42 +73,19 @@ export default class OpportunityView extends Component {
         ) : (
           <React.Fragment>
             {getLoggedInUserData() &&
-            getLoggedInUserData().user.role === "company" &&
-            getLoggedInUserData().user.user_id === opportunity.user_id ? (
-              <Grid>
-                <Grid.Column floated="right" width={3}>
-                  <Header>
-                    <Header.Content>
-                      Options{" "}
-                      <Dropdown item size="large" icon="options">
-                        <Dropdown.Menu direction="left">
-                          <Dropdown.Item name="Edit">
-                            <Icon size-="large" name="edit outline"></Icon>
-                            Edit
-                          </Dropdown.Item>
-                          <Dropdown.Item
-                            name="Delete"
-                            onClick={() =>
-                              this.setState({
-                                askDeletePermission: true,
-                                openDeleteMsg: true
-                              })
-                            }
-                          >
-                            <Icon
-                              size-="large"
-                              color={"red"}
-                              name="delete"
-                            ></Icon>
-                            Delete
-                          </Dropdown.Item>
-                        </Dropdown.Menu>
-                      </Dropdown>
-                    </Header.Content>
-                  </Header>
-                </Grid.Column>
-              </Grid>
-            ) : null}
+              getLoggedInUserData().user.role === "company" &&
+              getLoggedInUserData().user.user_id === opportunity.user_id && (
+                <ProfileOptionsButton
+                  edit
+                  deleteOption
+                  clickToDelete={() =>
+                    this.setState({
+                      askDeletePermission: true,
+                      openDeleteMsg: true
+                    })
+                  }
+                />
+              )}
             <Segment style={{ backgroundColor: "rgb(137, 193, 236)" }}>
               <Header textAlign="center" as="h1">
                 {" "}

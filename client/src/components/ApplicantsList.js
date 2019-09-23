@@ -1,5 +1,6 @@
-import React, { Component } from "react";
+import React from "react";
 import { getAllApplicants, getSkillsByApplicantId } from "../api/applicants";
+import { Link } from "react-router-dom";
 import ApplicantsCard from "./ApplicantsCard";
 import { getSkills } from "../api/skills";
 import { getCities } from "../api/cities";
@@ -68,17 +69,18 @@ export default class ApplicantsList extends React.Component {
     this.getAllSkills();
     getAllApplicants().then(res => {
       res.map(applicant => {
-        getSkillsByApplicantId(applicant.applicant_id).then(skillsData => {
-          const skills =
-            skillsData && skillsData.map(result => result && result.skill);
-
-          this.setState({
-            applicantsList: [
-              ...this.state.applicantsList,
-              { skills, ...applicant, location: applicant.city }
-            ]
-          });
-        });
+        return getSkillsByApplicantId(applicant.applicant_id).then(
+          skillsData => {
+            const skills =
+              skillsData && skillsData.map(result => result && result.skill);
+            this.setState({
+              applicantsList: [
+                ...this.state.applicantsList,
+                { skills, ...applicant, location: applicant.city }
+              ]
+            });
+          }
+        );
       });
     });
   }
@@ -144,8 +146,12 @@ export default class ApplicantsList extends React.Component {
               selectedSkills,
               selectedCity
             }).map(applicant => (
-              <Grid.Column>
-                <ApplicantsCard {...applicant} key={applicant.applicant_id} />
+              <Grid.Column
+                key={applicant.applicant_id}
+                as={Link}
+                to={`/applicant-profile/${applicant.applicant_id}`}
+              >
+                <ApplicantsCard {...applicant} />
                 <br></br>
               </Grid.Column>
             ))}
