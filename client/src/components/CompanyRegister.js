@@ -267,7 +267,7 @@ class CompanyRegister extends Component {
               </Grid.Column>
             </Grid.Row>
           </Grid>
-          {successServerStatus === true && (
+          {successServerStatus && (
             <Modal
               open={openSubmitStatusMsg}
               onClose={this.handleCloseSuccess}
@@ -290,7 +290,7 @@ class CompanyRegister extends Component {
               </Modal.Actions>
             </Modal>
           )}
-          {successServerStatus === false && (
+          {!successServerStatus && (
             <Modal
               basic
               open={openSubmitStatusMsg}
