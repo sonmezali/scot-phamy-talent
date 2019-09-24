@@ -45,4 +45,37 @@ const getSkillsForApplicantProfile = id => {
     );
   });
 };
-module.exports = { newApplicantSkills, getSkillsForApplicantProfile };
+const getSkillsForEditApplicantProfile = id => {
+  return new Promise((resolve, reject) => {
+    pool.query(
+      `SELECT skill_id FROM applicant_skills WHERE applicant_id=${id}`,
+      (error, result) => {
+        if (error) {
+          reject(error);
+        } else {
+          resolve(result.rows);
+        }
+      }
+    );
+  });
+};
+const deleteApplicantSkillsForApplicantByapplicantProfileID = id => {
+  return new Promise((resolve, reject) => {
+    pool.query(
+      `DELETE FROM applicant_skills WHERE applicant_id = ${id} `,
+      (error, result) => {
+        if (error) {
+          reject(error);
+        } else {
+          resolve(result.row);
+        }
+      }
+    );
+  });
+};
+module.exports = {
+  newApplicantSkills,
+  getSkillsForApplicantProfile,
+  getSkillsForEditApplicantProfile,
+  deleteApplicantSkillsForApplicantByapplicantProfileID
+};
