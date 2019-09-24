@@ -12,14 +12,12 @@ router.put("/:id", (req, res) => {
   const { id } = req.params;
   const { name, about, city, cvLink, skills, rightToWork } = req.body;
   const updatedData = { id, name, about, city, cvLink, rightToWork };
-  console.log("", updatedData);
   editApplicantProfile(updatedData)
     .then(() => id)
     .then(result => {
       deleteApplicantSkillsForApplicantByapplicantProfileID(result);
     })
     .then(data => {
-      console.log("sssss", id);
       return id;
     })
     .then(data => {
@@ -27,6 +25,6 @@ router.put("/:id", (req, res) => {
       newApplicantSkills({ skills, profileID });
     })
     .then(data => res.send({ success: true }))
-    .catch(err => console.log(err));
+    .catch(err => res.send({ success: false }));
 });
 module.exports = router;

@@ -132,7 +132,6 @@ export default class EditApplicantProfile extends Component {
       }
     });
   render() {
-    console.log("asdas", this.state.editedApplicantEntries);
     const {
       name,
       about,
