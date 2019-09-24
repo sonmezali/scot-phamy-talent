@@ -6,7 +6,7 @@ export const getAllApplicants = () => {
     });
 };
 export const getSkillsByApplicantId = id => {
-  return fetch(`/api/applicantSkills/${id}/skills`)
+  return fetch(`/api/applicantSkills/${id}`)
     .then(res => res.json())
     .catch(err => {
       console.error(err);
