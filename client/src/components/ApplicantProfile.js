@@ -6,7 +6,8 @@ import {
   Image,
   Grid,
   Icon,
-  Divider
+  Divider,
+  Message
 } from "semantic-ui-react";
 import { getApplicantProfileByUserId } from "../api/applicantProfile";
 import { getLoggedInUserData } from "../utils/storage";
@@ -45,7 +46,8 @@ class ApplicantProfile extends React.Component {
 
   render() {
     const { applicantData, skills } = this.state;
-    return (
+    console.log(applicantData);
+    return applicantData.application_status === "approved" ? (
       <div>
         {getLoggedInUserData() &&
           getLoggedInUserData().user.role === "applicant" && (
@@ -131,6 +133,10 @@ class ApplicantProfile extends React.Component {
           </Segment>
         </Grid>
       </div>
+    ) : (
+      <Message warning compact>
+        You Account Is Pending For Approval
+      </Message>
     );
   }
 }
