@@ -17,7 +17,7 @@ router.get("/getSkillsId/:id", (req, res) => {
       res.status(500);
     });
 });
-router.get("/:id", (req, res) => {
+router.get("/:id/skills", (req, res) => {
   const { id } = req.params;
   getSkillsForApplicantProfile(id)
     .then(data => {
