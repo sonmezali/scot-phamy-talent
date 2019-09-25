@@ -2,6 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { Sidebar, Menu, Icon } from "semantic-ui-react";
 import { getLoggedInUserData } from "../utils/storage";
+import AdminProfiles from "./AdminProfiles";
 
 export default ({
   visible,
@@ -10,6 +11,8 @@ export default ({
   handleItemClick
 }) => {
   const id = getLoggedInUserData() && getLoggedInUserData().user.user_id;
+  const admin =
+    getLoggedInUserData() && getLoggedInUserData().user.role === "moderator";
   return (
     <Sidebar
       as={Menu}
@@ -25,6 +28,18 @@ export default ({
         top: "39px"
       }}
     >
+      {admin && (
+        <Menu.Item
+          name="Home"
+          onClick={handleItemClick}
+          as={Link}
+          active={activeItem === "Home"}
+          to="/admin-Profiles"
+        >
+          <Icon name="user plus"></Icon>
+          Admin Profiles
+        </Menu.Item>
+      )}
       <Menu.Item
         name="Home"
         onClick={handleItemClick}
@@ -55,7 +70,6 @@ export default ({
         <Icon name="clipboard list"></Icon>
         Applicants List
       </Menu.Item>
-
       {getLoggedInUserData() && getLoggedInUserData().user.role === "company" && (
         <Menu.Item
           name="Opportunity"
