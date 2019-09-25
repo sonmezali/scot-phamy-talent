@@ -2,7 +2,6 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { Sidebar, Menu, Icon } from "semantic-ui-react";
 import { getLoggedInUserData } from "../utils/storage";
-import AdminProfiles from "./AdminProfiles";
 
 export default ({
   visible,
