@@ -21,8 +21,7 @@ router.put("/:id", (req, res) => {
       return id;
     })
     .then(data => {
-      const profileID = data;
-      newApplicantSkills({ skills, profileID });
+      newApplicantSkills({ skills, profileID: data });
     })
     .then(data => res.send({ success: true }))
     .catch(err => res.send({ success: false }));
