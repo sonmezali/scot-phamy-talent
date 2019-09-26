@@ -1,5 +1,6 @@
 import React, { Component } from "react";
-import { Card, Progress } from "semantic-ui-react";
+import { Card } from "semantic-ui-react";
+import { Link } from "react-router-dom";
 import { getOpportunitiesForList, getSkillsList } from "../api/opportunities";
 import { getSkillsByApplicantId } from "../api/applicants";
 import { getLoggedInUserData } from "../utils/storage";
@@ -62,11 +63,15 @@ class MatchingApplicantsAndOppotunities extends Component {
             (matching / opportunity.skills.length) *
             100
           ).toFixed(2);
-          {
-            /* console.log("percentage", percentage * 100); */
-          }
           return (
-            <Card>
+            <Card
+              key={opportunity.opportunity_id}
+              as={Link}
+              to={
+                getLoggedInUserData() &&
+                `/opportunities/${opportunity.opportunity_id}`
+              }
+            >
               <Card.Content>
                 <Card.Header>{opportunity.opportunity_title}</Card.Header>
                 <Card.Description>{opportunity.description}</Card.Description>
