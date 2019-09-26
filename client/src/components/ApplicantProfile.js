@@ -1,5 +1,5 @@
 import React from "react";
-
+import { Message } from "semantic-ui-react";
 import { getApplicantProfileByUserId } from "../api/applicantProfile";
 import { getLoggedInUserData } from "../utils/storage";
 import ProfileOptionsButton from "./ProfileOptionsButton";
@@ -41,7 +41,7 @@ class ApplicantProfile extends React.Component {
   };
   render() {
     const { applicantData, skills, isEditProfile, userId } = this.state;
-    return (
+    return applicantData.application_status === "approved" ? (
       <div>
         {getLoggedInUserData() &&
           getLoggedInUserData().user.role === "applicant" &&
@@ -62,6 +62,14 @@ class ApplicantProfile extends React.Component {
           />
         )}
       </div>
+    ) : (
+      <Message
+        size="massive"
+        warning
+        compact
+        content="
+          You Account Is Pending For Approval"
+      />
     );
   }
 }
