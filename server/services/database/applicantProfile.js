@@ -65,13 +65,13 @@ const createApplicantProfile = ({
   city,
   cvLink,
   rightToWork,
-  profile_picture,
+  profilePicLink,
   userId
 }) => {
   return new Promise((resolve, reject) => {
     pool.query(
       "INSERT INTO applicant_profile (name,about,city,cvLink,right_to_work,profile_picture,user_id ) VALUES($1,$2,$3,$4,$5,$6,$7) RETURNING applicant_id",
-      [name, about, city, cvLink, rightToWork, profile_picture, userId],
+      [name, about, city, cvLink, rightToWork, profilePicLink, userId],
       (error, result) => {
         if (error) {
           return reject(error);
