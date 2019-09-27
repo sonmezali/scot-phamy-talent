@@ -7,6 +7,7 @@ const getApplicantProfile = id => {
     pool.query(
       `SELECT
   applicant_profile.applicant_id,
+  applicant_profile.user_id,
   applicant_profile.name AS applicant_name,
   applicant_profile.about AS about,
   applicant_profile.cvLink,
@@ -78,7 +79,23 @@ const createApplicantProfile = ({
     );
   });
 };
+const deleteApplicantProfile = id => {
+  return new Promise((resolve, reject) => {
+    pool.query(
+      `DELETE FROM applicant_profile WHERE applicant_id = ${id} `,
+      (error, result) => {
+        if (error) {
+          reject(error);
+        } else {
+          resolve(result.rows);
+        }
+      }
+    );
+  });
+};
+
 module.exports = {
+  deleteApplicantProfile,
   getApplicantProfile,
   getAllApplicantsProfile,
   createApplicantProfile

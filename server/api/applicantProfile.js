@@ -1,14 +1,19 @@
 const express = require("express");
 const router = express.Router();
+const { createUser, deleteUser } = require("../services/database/users");
 const {
   getAllApplicantsProfile,
   getApplicantProfile
 } = require("../services/database/applicantProfile");
-const { createUser } = require("../services/database/users");
+
 const {
-  createApplicantProfile
+  createApplicantProfile,
+  deleteApplicantProfile
 } = require("../services/database/applicantProfile");
-const { newApplicantSkills } = require("../services/database/applicantSkills");
+const {
+  newApplicantSkills,
+  deleteSkillsForApplicantProfile
+} = require("../services/database/applicantSkills");
 
 router.get("/", (req, res) => {
   getAllApplicantsProfile()
@@ -81,6 +86,20 @@ router.post("/", (req, res) => {
     })
     .then(data => res.send({ success: true }))
     .catch(err => {});
+});
+router.delete("/", (req, res) => {
+  const { applicantId, userId } = req.query;
+  deleteSkillsForApplicantProfile(applicantId)
+    .then(() => {
+      deleteApplicantProfile(applicantId).then(() => {
+        deleteUser(userId).then(() => {
+          res.status(200).send({ success: true });
+        });
+      });
+    })
+    .catch(err => {
+      res.status(500).send({ err, success: false });
+    });
 });
 
 module.exports = router;
