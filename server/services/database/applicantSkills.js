@@ -45,4 +45,23 @@ const getSkillsForApplicantProfile = id => {
     );
   });
 };
-module.exports = { newApplicantSkills, getSkillsForApplicantProfile };
+const deleteSkillsForApplicantProfile = id => {
+  return new Promise((resolve, reject) => {
+    pool.query(
+      `DELETE FROM applicant_skills WHERE applicant_id = ${id} `,
+      (error, result) => {
+        if (error) {
+          reject(error);
+        } else {
+          resolve(result.rows);
+        }
+      }
+    );
+  });
+};
+
+module.exports = {
+  newApplicantSkills,
+  getSkillsForApplicantProfile,
+  deleteSkillsForApplicantProfile
+};

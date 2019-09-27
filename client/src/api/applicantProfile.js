@@ -16,3 +16,12 @@ export const createNewApplicantUserAndProfile = applicantEntry => {
 export const getSkillsList = id => {
   return fetch(`/api/applicantSkills/${id}`).then(res => res.json());
 };
+export const deleteApplicantProfile = (applicantId, userId) => {
+  return fetch(
+    `/api/applicantProfile?applicantId=${applicantId}&userId=${userId}`,
+    {
+      method: "DELETE",
+      headers: { "Content-Type": "application/json" }
+    }
+  ).then(res => res.json());
+};

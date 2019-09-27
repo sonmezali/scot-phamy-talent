@@ -1,11 +1,15 @@
 const express = require("express");
 const router = express.Router();
 const applicantProfileDb = require("../services/database/applicantProfile");
-const db = require("../services/database/users");
+const { createUser, deleteUser } = require("../services/database/users");
 const {
-  createApplicantProfile
+  createApplicantProfile,
+  deleteApplicantProfile
 } = require("../services/database/applicantProfile");
-const { newApplicantSkills } = require("../services/database/applicantSkills");
+const {
+  newApplicantSkills,
+  deleteSkillsForApplicantProfile
+} = require("../services/database/applicantSkills");
 
 router.get("/", (req, res) => {
   applicantProfileDb
@@ -55,7 +59,7 @@ router.post("/", (req, res) => {
     cvLink,
     rightToWork
   };
-  db.createUser(applicant)
+  createUser(applicant)
     .then(data => {
       const userId = data[0].user_id;
       return {
@@ -80,6 +84,20 @@ router.post("/", (req, res) => {
     })
     .then(data => res.send({ success: true }))
     .catch(err => {});
+});
+router.delete("/", (req, res) => {
+  const { applicantId, userId } = req.query;
+  deleteSkillsForApplicantProfile(applicantId)
+    .then(() => {
+      deleteApplicantProfile(applicantId).then(() => {
+        deleteUser(userId).then(() => {
+          res.status(200).send({ success: true });
+        });
+      });
+    })
+    .catch(err => {
+      res.status(500).send({ err, success: false });
+    });
 });
 
 module.exports = router;

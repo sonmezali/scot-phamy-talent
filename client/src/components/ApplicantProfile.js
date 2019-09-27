@@ -1,17 +1,13 @@
 import React from "react";
+import { Button, Header, Segment, Image, Grid, Icon } from "semantic-ui-react";
 import {
-  Button,
-  Header,
-  Segment,
-  Image,
-  Grid,
-  Icon,
-  Divider
-} from "semantic-ui-react";
-import { getApplicantProfileByUserId } from "../api/applicantProfile";
-import { getLoggedInUserData } from "../utils/storage";
+  getApplicantProfileByUserId,
+  deleteApplicantProfile
+} from "../api/applicantProfile";
+import { getLoggedInUserData, removeUserData } from "../utils/storage";
 import ProfileOptionsButton from "./ProfileOptionsButton";
 import { getSkillsByApplicantId } from "../api/applicants";
+import ModalComponent from "./Modal";
 
 class ApplicantProfile extends React.Component {
   state = {
@@ -21,7 +17,9 @@ class ApplicantProfile extends React.Component {
       null,
     applicantData: {},
     skills: [],
-    isLoading: true
+    isLoading: true,
+    open: false,
+    applicantId: null
   };
 
   componentDidMount() {
@@ -30,11 +28,11 @@ class ApplicantProfile extends React.Component {
   }
   getApplicantData = () => {
     getApplicantProfileByUserId(this.state.userId).then(applicantData => {
-      this.setState({ applicantData: applicantData });
+      this.setState({ applicantData, applicantId: applicantData.applicant_id });
     });
   };
   getApplicantSkills = () => {
-    getSkillsByApplicantId(this.state.userId).then(data => {
+    getSkillsByApplicantId(this.state.applicantId).then(data => {
       const skillsArray = data.map(skill => skill.skill);
       this.setState({
         skills: skillsArray,
@@ -42,15 +40,50 @@ class ApplicantProfile extends React.Component {
       });
     });
   };
-
+  clickToDelete = () => {
+    this.setState({
+      open: true
+    });
+  };
+  handleDelete = () => {
+    console.log("Res", this.state.applicantId);
+    const { applicantId, userId } = this.state;
+    deleteApplicantProfile(applicantId, userId).then(res => {
+      if (res && res.success) {
+        removeUserData();
+        this.setState({
+          open: false
+        });
+        window.location.reload();
+      }
+    });
+  };
+  handleClose = () => {
+    this.setState({
+      open: false
+    });
+  };
   render() {
-    const { applicantData, skills } = this.state;
+    const { applicantData, skills, open } = this.state;
+    const message = "Are you sure that you want to delete your profile ?";
+
     return (
       <div>
         {getLoggedInUserData() &&
           getLoggedInUserData().user.role === "applicant" && (
-            <ProfileOptionsButton deleteOption edit changePassword />
+            <ProfileOptionsButton
+              deleteOption
+              edit
+              changePassword
+              clickToDelete={this.clickToDelete}
+            />
           )}
+        <ModalComponent
+          message={message}
+          open={open}
+          handleClose={this.handleClose}
+          handleDelete={this.handleDelete}
+        />
         <Segment inverted color="blue">
           <Segment inverted color="blue"></Segment>
           <Grid centered>
