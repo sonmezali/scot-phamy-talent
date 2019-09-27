@@ -126,6 +126,7 @@ class OpportunitiesList extends Component {
       opportunitiesList,
       selectedSkills
     });
+    console.log(opportunitiesList);
     return (
       <div>
         <Form>
@@ -203,7 +204,16 @@ class OpportunitiesList extends Component {
                 }
                 onClick={this.handleClickOnOpportunity}
               >
-                <OpportunityCard opportunity={opportunity} />
+                <OpportunityCard
+                  opportunity={opportunity}
+                  cardButtons={
+                    getLoggedInUserData() &&
+                    Number(opportunity.user_id) ===
+                      Number(getLoggedInUserData().user.user_id)
+                      ? true
+                      : false
+                  }
+                />
                 <br></br>
               </Grid.Column>
             ))}
