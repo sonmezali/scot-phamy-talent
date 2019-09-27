@@ -150,6 +150,7 @@ class OpportunitiesList extends Component {
                     header="Location"
                     options={cities}
                     multiple
+                    scrolling
                     onChange={this.handleSelectCity}
                     placeholder="Search city"
                   />
@@ -166,6 +167,7 @@ class OpportunitiesList extends Component {
                     header="SKills"
                     onChange={this.handleSelectSkill}
                     options={skills}
+                    scrolling
                     onClose={this.filteringOpportunitiesBySkills}
                     multiple
                     placeholder="Select skills"
