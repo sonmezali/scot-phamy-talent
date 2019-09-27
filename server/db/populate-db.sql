@@ -84,21 +84,21 @@ VALUES
     ('Edinburgh');
 
 INSERT INTO applicant_profile
-    (name, city, application_status, about, cvLink, right_to_work, user_id)
+    (name, city, application_status, about, cvLink, right_to_work, profile_picture, user_id)
 VALUES
-    ('Irina', 1, 'pending', 'cyf mentor', 'wwwfb', 'no', 1);
+    ('Irina', 1, 'pending', 'cyf mentor', 'wwwfb', 'no','https://react.semantic-ui.com/images/avatar/large/matthew.png', 1);
     INSERT INTO applicant_profile
-    (name, city, application_status, about, cvLink, right_to_work, user_id)
+    (name, city, application_status, about, cvLink, right_to_work, profile_picture, user_id)
 VALUES
-    ('Sana', 2, 'pending', 'Nurse', 'wwwfb', 'no', 2);
+    ('Sana', 2, 'pending', 'Nurse', 'wwwfb', 'no','https://react.semantic-ui.com/images/avatar/large/elliot.jpg', 2);
     INSERT INTO applicant_profile
-    (name, city, application_status, about, cvLink, right_to_work, user_id)
+    (name, city, application_status, about, cvLink, right_to_work, profile_picture, user_id)
 VALUES
-    ('Med', 2, 'approved', 'cyf mentor', 'wwwfb', 'no', 3);
+    ('Med', 2, 'approved', 'cyf mentor', 'wwwfb', 'no',null ,3);
     INSERT INTO applicant_profile
-    (name, city, application_status, about, cvLink, right_to_work, user_id)
+    (name, city, application_status, about, cvLink, right_to_work, profile_picture, user_id)
 VALUES
-    ('Jack', 2, 'pending', 'Full-stack developper', 'wwwfb', 'no', 4);
+    ('Jack', 2, 'pending', 'Full-stack developper', 'wwwfb', 'no','https://react.semantic-ui.com/images/avatar/large/jenny.jpg', 4);
 
 INSERT INTO company_profile
     (name, description, logo_url, location, industry, user_id

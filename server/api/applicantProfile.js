@@ -47,6 +47,7 @@ router.post("/", (req, res) => {
     city,
     skills,
     cvLink,
+    profilePicLink,
     rightToWork
   } = req.body;
 
@@ -59,6 +60,7 @@ router.post("/", (req, res) => {
     city,
     skills,
     cvLink,
+    profilePicLink,
     rightToWork
   };
   createUser(applicant)
@@ -71,6 +73,7 @@ router.post("/", (req, res) => {
         cvLink,
         skills,
         rightToWork,
+        profilePicLink,
         userId
       };
     })

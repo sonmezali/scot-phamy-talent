@@ -23,6 +23,7 @@ export default class EditApplicantProfile extends Component {
         city: this.props.applicantData.cityid,
         skills: [],
         cvLink: this.props.applicantData.cvlink,
+        profilePicLink: this.props.applicantData.profile_picture,
         rightToWork: this.props.applicantData.right_to_work ? "Yes" : "No"
       },
       successServerStatus: false,
@@ -138,6 +139,7 @@ export default class EditApplicantProfile extends Component {
       city,
       skills,
       cvLink,
+      profilePicLink,
       rightToWork
     } = this.state.editedApplicantEntries;
     return (
@@ -206,6 +208,19 @@ export default class EditApplicantProfile extends Component {
                   onChange={this.handleChange}
                 >
                   <Icon name="linkify" color="blue" />
+                  <input />
+                </Form.Field>
+                <Form.Field
+                  control={Input}
+                  label="Profile Picture Link"
+                  placeholder="Profile Picture Link"
+                  iconPosition="left"
+                  name="profilePicLink"
+                  value={profilePicLink}
+                  required
+                  onChange={this.handleChange}
+                >
+                  <Icon name="photo" color="blue" />
                   <input />
                 </Form.Field>
                 <Header as="h4">Do you have the right to work? </Header>
