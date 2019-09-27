@@ -11,6 +11,7 @@ import {
   Button,
   Divider
 } from "semantic-ui-react";
+import { deleteOpportunityAndConnectedSkills } from "../api/opportunities";
 import { getOpportunitiesForList, getSkillsList } from "../api/opportunities";
 import { getSkills } from "../api/skills";
 import { getCities } from "../api/cities";
@@ -30,7 +31,10 @@ class OpportunitiesList extends Component {
     cities: [],
     skills: [],
     selectedSkills: [],
-    askToLogIn: false
+    askToLogIn: false,
+    openDeleteMsg: false,
+    askDeletePermission: false,
+    selectedId: null
   };
   // Get data
   getAllSkills = () => {
@@ -102,11 +106,29 @@ class OpportunitiesList extends Component {
       searchKeyWord: searchKeyWord
     });
   };
+  handleEditOpportunity = () => {
+    return "/company/manage-profile";
+  };
   handleClose = () => {
     this.setState({ askToLogIn: false });
   };
   handleClickOnOpportunity = e => {
     !getLoggedInUserData() && this.setState({ askToLogIn: true });
+  };
+  ConfirmDelete = id => {
+    this.setState({
+      selectedId: id,
+      askDeletePermission: true,
+      openDeleteMsg: true
+    });
+  };
+  handleDeleteOpportunity = id => {
+    deleteOpportunityAndConnectedSkills(id).then(data => {
+      if (data.deleted) {
+        this.setState({ openDeleteMsg: false });
+        return this.getOpportunitiesForCompanyProfileByCompanyId();
+      }
+    });
   };
 
   render() {
@@ -117,7 +139,10 @@ class OpportunitiesList extends Component {
       selectedCity,
       selectedJobType,
       opportunitiesList,
-      selectedSkills
+      selectedSkills,
+      openDeleteMsg,
+      askDeletePermission,
+      selectedId
     } = this.state;
     const filteredOpportunities = filterOpportunities({
       selectedCity,
@@ -126,7 +151,6 @@ class OpportunitiesList extends Component {
       opportunitiesList,
       selectedSkills
     });
-    console.log(opportunitiesList);
     return (
       <div>
         <Form>
@@ -197,11 +221,6 @@ class OpportunitiesList extends Component {
             {filteredOpportunities.map(opportunity => (
               <Grid.Column
                 key={opportunity.opportunity_id}
-                as={Link}
-                to={
-                  getLoggedInUserData() &&
-                  `/opportunities/${opportunity.opportunity_id}`
-                }
                 onClick={this.handleClickOnOpportunity}
               >
                 <OpportunityCard
@@ -213,6 +232,10 @@ class OpportunitiesList extends Component {
                       ? true
                       : false
                   }
+                  ConfirmDelete={this.ConfirmDelete}
+                  handleEditOpportunity={this.handleEditOpportunity(
+                    opportunity.opportunity_id
+                  )}
                 />
                 <br></br>
               </Grid.Column>
@@ -242,6 +265,37 @@ class OpportunitiesList extends Component {
                 as={Link}
                 to="/"
               />
+            </Modal.Actions>
+          </Modal>
+        )}
+        {askDeletePermission && (
+          <Modal
+            open={openDeleteMsg}
+            onClose={this.handleClose}
+            closeIcon
+            basic
+            size="small"
+          >
+            <Header
+              icon="warning sign"
+              color="yellow"
+              content="Are You Sure You Want To Delete Opportunity"
+            />
+            <Modal.Actions>
+              <Button
+                color="green"
+                onClick={() => this.setState({ openDeleteMsg: false })}
+                inverted
+              >
+                No
+              </Button>
+              <Button
+                color="red"
+                inverted
+                onClick={() => this.handleDeleteOpportunity(selectedId)}
+              >
+                <Icon name="remove" /> Delete
+              </Button>
             </Modal.Actions>
           </Modal>
         )}
