@@ -31,12 +31,15 @@ class ApplicantProfile extends React.Component {
   }
   getApplicantData = () => {
     getApplicantProfileByUserId(this.state.userId).then(applicantData => {
-      this.setState({ applicantData, applicantId: applicantData.applicant_id });
+      this.setState({
+        applicantData,
+        applicantId: applicantData && applicantData.applicant_id
+      });
     });
   };
   getApplicantSkills = () => {
     getSkillsByApplicantId(this.state.applicantId).then(data => {
-      const skillsArray = data.map(skill => skill.skill);
+      const skillsArray = data && data.length && data.map(skill => skill.skill);
       this.setState({
         skills: skillsArray,
         isLoading: false
@@ -72,7 +75,7 @@ class ApplicantProfile extends React.Component {
   render() {
     const message = "Are you sure that you want to delete your profile ?";
     const { applicantData, skills, isEditProfile, userId, open } = this.state;
-    return applicantData.application_status === "approved" ? (
+    return applicantData && applicantData.application_status === "approved" ? (
       <div>
         {getLoggedInUserData() &&
           getLoggedInUserData().user.role === "applicant" &&
