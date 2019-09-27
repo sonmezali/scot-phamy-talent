@@ -257,6 +257,7 @@ class ApplicantRegister extends Component {
                   validationMessage="Location Is Not Selected"
                   required
                   value={city}
+                  scrolling
                   options={this.state.citiesData}
                   onChange={this.handleSelectCity}
                 />
@@ -271,7 +272,9 @@ class ApplicantRegister extends Component {
                   validationMessage="Skills Are Not Selected"
                   value={skills}
                   multiple
+                  scrolling
                   selection
+                  search
                   required
                   placeholder="Select Skills"
                 />

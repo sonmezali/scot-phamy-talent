@@ -192,6 +192,7 @@ export default class EditApplicantProfile extends Component {
                   name="skills"
                   value={skills}
                   multiple
+                  search
                   selection
                   placeholder="Select Skills"
                 />

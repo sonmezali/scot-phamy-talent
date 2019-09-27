@@ -292,6 +292,7 @@ class NewOpportunityForm extends Component {
                     placeholder="Expiry date"
                     iconPosition="left"
                     required
+                    search
                     value={date}
                     name="date"
                     onChange={handleChange}
