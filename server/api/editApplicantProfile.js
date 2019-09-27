@@ -10,8 +10,24 @@ const { newApplicantSkills } = require("../services/database/applicantSkills");
 
 router.put("/:id", (req, res) => {
   const { id } = req.params;
-  const { name, about, city, cvLink, skills, rightToWork } = req.body;
-  const updatedData = { id, name, about, city, cvLink, rightToWork };
+  const {
+    name,
+    about,
+    city,
+    cvLink,
+    skills,
+    profilePicLink,
+    rightToWork
+  } = req.body;
+  const updatedData = {
+    id,
+    name,
+    about,
+    city,
+    cvLink,
+    profilePicLink,
+    rightToWork
+  };
   editApplicantProfile(updatedData)
     .then(() => id)
     .then(result => {
