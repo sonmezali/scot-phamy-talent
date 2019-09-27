@@ -28,11 +28,6 @@ INSERT INTO users
 VALUES
     ('company', 'company@cyf.org', 'password');
 
-INSERT INTO cities
-    (city)
-VALUES
-    ('Edinburgh');
-
 INSERT INTO applicant_profile
     (name, city, application_status, about, cvLink, right_to_work, user_id)
 VALUES
