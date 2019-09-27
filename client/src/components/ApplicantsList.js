@@ -145,16 +145,20 @@ export default class ApplicantsList extends React.Component {
               applicantsList,
               selectedSkills,
               selectedCity
-            }).map(applicant => (
-              <Grid.Column
-                key={applicant.applicant_id}
-                as={Link}
-                to={`/applicant-profile/${applicant.applicant_id}`}
-              >
-                <ApplicantsCard {...applicant} />
-                <br></br>
-              </Grid.Column>
-            ))}
+            }).map(
+              applicant =>
+                applicant &&
+                applicant.application_status === "approved" && (
+                  <Grid.Column
+                    key={applicant.applicant_id}
+                    as={Link}
+                    to={`/applicant-profile/${applicant.applicant_id}`}
+                  >
+                    <ApplicantsCard {...applicant} />
+                    <br></br>
+                  </Grid.Column>
+                )
+            )}
           </Grid.Row>
         </Grid>
       </div>

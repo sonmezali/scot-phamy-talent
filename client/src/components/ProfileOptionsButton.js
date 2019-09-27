@@ -7,7 +7,8 @@ export default ({
   changePassword,
   clickToDelete,
   createOpportunity,
-  linkToCreateOpportunity
+  linkToCreateOpportunity,
+  handleClickToEdit
 }) => {
   return (
     <Grid>
@@ -18,7 +19,7 @@ export default ({
             <Dropdown item size="large" icon="options">
               <Dropdown.Menu direction="left">
                 {edit && (
-                  <Dropdown.Item name="Edit">
+                  <Dropdown.Item name="Edit" onClick={handleClickToEdit}>
                     <Icon color="green" name="edit outline"></Icon>
                     Edit
                   </Dropdown.Item>

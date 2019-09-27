@@ -16,6 +16,7 @@ import CompanyRegister from "./CompanyRegister";
 import OpportunityView from "./OpportunityView";
 import ApplicantsList from "./ApplicantsList";
 import { protect } from "../utils/authentication";
+import AdminProfiles from "./AdminProfiles";
 const Routes = () => {
   return (
     <Router>
@@ -52,6 +53,10 @@ const Routes = () => {
         <Route path="/opportunities" exact component={OpportunitiesList} />
         <Route path="/opportunities/:id" component={OpportunityView} />
         <Route path="/applicants-list" component={ApplicantsList} />
+        <Route
+          path="/admin-Profiles"
+          component={protect(AdminProfiles, "moderator")}
+        />
       </Container>
     </Router>
   );

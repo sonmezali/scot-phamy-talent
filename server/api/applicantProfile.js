@@ -1,7 +1,11 @@
 const express = require("express");
 const router = express.Router();
-const applicantProfileDb = require("../services/database/applicantProfile");
 const { createUser, deleteUser } = require("../services/database/users");
+const {
+  getAllApplicantsProfile,
+  getApplicantProfile
+} = require("../services/database/applicantProfile");
+
 const {
   createApplicantProfile,
   deleteApplicantProfile
@@ -12,8 +16,7 @@ const {
 } = require("../services/database/applicantSkills");
 
 router.get("/", (req, res) => {
-  applicantProfileDb
-    .getAllApplicantsProfile()
+  getAllApplicantsProfile()
     .then(data => {
       res.send(data);
     })
@@ -24,8 +27,7 @@ router.get("/", (req, res) => {
 });
 router.get("/:id", (req, res) => {
   const { id } = req.params;
-  applicantProfileDb
-    .getApplicantProfile(id)
+  getApplicantProfile(id)
     .then(data => {
       res.send(data);
     })

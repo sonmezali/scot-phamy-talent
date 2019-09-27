@@ -11,6 +11,7 @@ const getApplicantProfile = id => {
   applicant_profile.name AS applicant_name,
   applicant_profile.about AS about,
   applicant_profile.cvLink,
+  applicant_profile.city AS cityId,
   users.email AS email,
   applicant_profile.application_status,
   applicant_profile.right_to_work,
