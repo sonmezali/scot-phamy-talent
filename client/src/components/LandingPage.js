@@ -49,7 +49,7 @@ export default class landingPage extends React.Component {
         />
         <Grid style={styles.contents} />
         <Header as="h1" style={styles.title}>
-          New Scots got talent
+          <strong>New Scots</strong> <br></br> Got Talent
         </Header>
         <Header style={styles.description}>
           Migrants (including asylum seekers) can create profiles where they
@@ -57,16 +57,25 @@ export default class landingPage extends React.Component {
           Employers can post job opportunities and migrants can "match" with the
           job ads. The focus is on
         </Header>
-        <Grid style={styles.signIn}>
-          <Icon name="signing" />
-          <Menu.Item name="Sign In" as={Link} to="/login">
-            {" "}
-            Sign in
-          </Menu.Item>
+        <Grid style={styles.signIn} as={Link} to="/login">
+          <Grid.Row columns={2}>
+            <Grid.Column width={3}>
+              <Icon name="sign in" />
+            </Grid.Column>
+            <Grid.Column>
+              <Menu.Item name="Sign In"> Sign in</Menu.Item>
+            </Grid.Column>
+          </Grid.Row>
         </Grid>
-        <Grid style={styles.signOut}>
-          <Icon name="signing" />
-          <Menu.Item name="Register" as={Link} to="/main-register" />
+        <Grid style={styles.signOut} as={Link} to="/login">
+          <Grid.Row columns={2}>
+            <Grid.Column width={3}>
+              <Icon name="edit" />
+            </Grid.Column>
+            <Grid.Column>
+              <Menu.Item name="Register" as={Link} to="/main-register" />
+            </Grid.Column>
+          </Grid.Row>
         </Grid>
         <SideBarMenu
           visible={visible}
@@ -82,7 +91,6 @@ export default class landingPage extends React.Component {
 
 const styles = {
   landingPage: {
-    // backgroundImage: `url(${image})`,
     width: "100vw",
     height: "100vh",
     position: "fixed",
@@ -92,7 +100,7 @@ const styles = {
     zIndex: 1
   },
   menu: {
-    fontSize: "40px",
+    fontSize: "25px",
     position: "absolute",
     zIndex: " 3",
     top: "25px",
@@ -111,6 +119,7 @@ const styles = {
   },
   description: {
     color: "#5aaffc",
+    fontSize: "20px",
     textAlign: "center"
   },
   signIn: {
