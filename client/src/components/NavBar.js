@@ -41,66 +41,65 @@ class NavBar extends Component {
     } = this;
     return (
       <React.Fragment>
-        <Menu size="mini" inverted color="blue">
-          <Menu.Item>
-            <Icon
-              size="large"
-              name="list layout"
-              onClick={handleShowClick}
-            ></Icon>
-          </Menu.Item>
-          <Menu.Item position="left">
-            <Menu.Header as="h4">{activeItem}</Menu.Header>
-          </Menu.Item>
-          {getLoggedInUserData() ? (
-            <Menu.Item
-              name="Logout"
-              active={activeItem === "Logout"}
-              onClick={event => {
-                logout(event);
-                handleItemClick(event);
-              }}
-              as={Link}
-              position="right"
-              to="/logout"
-            >
-              <Icon name="log out"></Icon>
-              Logout
+        {
+          <Menu size="mini" inverted color="blue">
+            <Menu.Item>
+              <Icon size="big" name="bars" onClick={handleShowClick} />
             </Menu.Item>
-          ) : (
-            <Dropdown item size="large" icon="user">
-              <Dropdown.Menu direction="left">
-                <Dropdown.Item
-                  name="Sign In"
-                  active={activeItem === "Sign In"}
-                  onClick={handleItemClick}
-                  as={Link}
-                  to="/login"
-                >
-                  <Icon size-="large" name="sign-in"></Icon>
-                  Sign In
-                </Dropdown.Item>
-                <Dropdown.Item
-                  name="Main register"
-                  active={activeItem === "Main register"}
-                  onClick={handleItemClick}
-                  as={Link}
-                  to="/main-register"
-                >
-                  <Icon size-="large" name="signup"></Icon>
-                  Sign up
-                </Dropdown.Item>
-              </Dropdown.Menu>
-            </Dropdown>
-          )}
-          <SideBarMenu
-            visible={visible}
-            handleSidebarHide={handleSidebarHide}
-            activeItem={activeItem}
-            handleItemClick={handleItemClick}
-            logout={logout}
-          />
-        </Menu>
+
+            <Menu.Item position="left">
+              <Menu.Header as="h4">{activeItem}</Menu.Header>
+            </Menu.Item>
+            {getLoggedInUserData() ? (
+              <Menu.Item
+                name="Logout"
+                active={activeItem === "Logout"}
+                onClick={event => {
+                  logout(event);
+                  handleItemClick(event);
+                }}
+                as={Link}
+                position="right"
+                to="/logout"
+              >
+                <Icon name="log out"></Icon>
+                Logout
+              </Menu.Item>
+            ) : (
+              <Dropdown item size="large" icon="user">
+                <Dropdown.Menu direction="left">
+                  <Dropdown.Item
+                    name="Sign In"
+                    active={activeItem === "Sign In"}
+                    onClick={handleItemClick}
+                    as={Link}
+                    to="/login"
+                  >
+                    <Icon size-="large" name="sign-in"></Icon>
+                    Sign In
+                  </Dropdown.Item>
+                  <Dropdown.Item
+                    name="Main register"
+                    active={activeItem === "Main register"}
+                    onClick={handleItemClick}
+                    as={Link}
+                    to="/main-register"
+                  >
+                    <Icon size-="large" name="signup"></Icon>
+                    Sign up
+                  </Dropdown.Item>
+                </Dropdown.Menu>
+              </Dropdown>
+            )}
+            <SideBarMenu
+              visible={visible}
+              handleSidebarHide={handleSidebarHide}
+              activeItem={activeItem}
+              handleItemClick={handleItemClick}
+              logout={logout}
+            />
+          </Menu>
+        }
       </React.Fragment>
     );
   }
