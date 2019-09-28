@@ -51,10 +51,13 @@ const getOpportunitiesForList = () => {
   opportunities.email,
   opportunities.date, 
   opportunities.Type,
-  cities.city AS location
+  cities.city AS location,
+  company_profile.user_id AS user_id
   FROM
     opportunities
     INNER JOIN cities ON opportunities.city = cities.id
+    INNER JOIN company_profile ON opportunities.company_id = company_profile.company_id
+
   `,
       (error, result) => {
         if (error) {

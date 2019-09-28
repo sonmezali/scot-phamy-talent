@@ -1,9 +1,10 @@
 import React, { Component } from "react";
-import { Button, Form, Grid, Header, List, Message } from "semantic-ui-react";
+import { Button, Form, Grid, Header, List } from "semantic-ui-react";
 import { Link } from "react-router-dom";
 import { signApi } from "../api/auth";
 import { getLoggedInUserData, saveLoggedInUserData } from "../utils/storage";
 import MatchingApplicantsAndOpportunities from "./MatchingApplicantsAndOppotunities";
+import ApplicantsList from "./ApplicantsList";
 export default class Login extends Component {
   state = {
     email: "",
@@ -40,6 +41,12 @@ export default class Login extends Component {
         getLoggedInUserData().user.role === "applicant"
       ) {
         return <MatchingApplicantsAndOpportunities />;
+      }
+      if (
+        getLoggedInUserData() &&
+        getLoggedInUserData().user.role === "company"
+      ) {
+        return <ApplicantsList />;
       } else {
         return (
           <Grid
