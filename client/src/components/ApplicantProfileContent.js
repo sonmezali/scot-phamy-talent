@@ -1,5 +1,7 @@
 import React from "react";
 import { Button, Header, Segment, Image, Grid, Icon } from "semantic-ui-react";
+import { getLoggedInUserData } from "../utils/storage";
+import MatchingOpportunitiesAndApplicant from "./MatchingOpportunitiesAndApplicants";
 
 export default ({ skills, applicantData }) => {
   return (
@@ -84,6 +86,10 @@ export default ({ skills, applicantData }) => {
           </a>
         </Segment>
       </Grid>
+      {getLoggedInUserData() &&
+        getLoggedInUserData().user.role === "company" && (
+          <MatchingOpportunitiesAndApplicant skills={skills} />
+        )}
     </div>
   );
 };

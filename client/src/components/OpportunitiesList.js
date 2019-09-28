@@ -203,7 +203,7 @@ class OpportunitiesList extends Component {
                 }
                 onClick={this.handleClickOnOpportunity}
               >
-                <OpportunityCard opportunity={opportunity} />
+                <OpportunityCard date contactPerson opportunity={opportunity} />
                 <br></br>
               </Grid.Column>
             ))}

@@ -134,6 +134,8 @@ class CompanyProfile extends React.Component {
               opportunitiesArray.map(opportunity => (
                 <Grid.Column key={opportunity.opportunity_id}>
                   <OpportunityCard
+                    date
+                    contactPerson
                     opportunity={opportunity}
                     cardButtons={
                       Number(getLoggedInUserData().user.user_id) ===
