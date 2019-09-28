@@ -1,6 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { Menu, Icon, Image } from "semantic-ui-react";
+import { Icon, Image } from "semantic-ui-react";
 import { Grid, Header } from "semantic-ui-react";
 import SideBarMenu from "./SideBar";
 
