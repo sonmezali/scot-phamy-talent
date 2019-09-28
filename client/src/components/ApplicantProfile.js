@@ -26,16 +26,17 @@ class ApplicantProfile extends React.Component {
   };
 
   componentDidMount() {
-    this.getApplicantData();
-    this.getApplicantSkills();
+    this.getApplicantData().then(() => this.getApplicantSkills());
   }
   getApplicantData = () => {
-    getApplicantProfileByUserId(this.state.userId).then(applicantData => {
-      this.setState({
-        applicantData,
-        applicantId: applicantData && applicantData.applicant_id
-      });
-    });
+    return getApplicantProfileByUserId(this.state.userId).then(
+      applicantData => {
+        this.setState({
+          applicantData,
+          applicantId: applicantData && applicantData.applicant_id
+        });
+      }
+    );
   };
   getApplicantSkills = () => {
     getSkillsByApplicantId(this.state.applicantId).then(data => {
@@ -73,8 +74,10 @@ class ApplicantProfile extends React.Component {
     this.setState({ isEditProfile: true });
   };
   render() {
+    // console.log(this.getApplicantSkills());
     const message = "Are you sure that you want to delete your profile ?";
     const { applicantData, skills, isEditProfile, userId, open } = this.state;
+    console.log("2255", skills);
     return applicantData && applicantData.application_status === "approved" ? (
       <div>
         {getLoggedInUserData() &&
