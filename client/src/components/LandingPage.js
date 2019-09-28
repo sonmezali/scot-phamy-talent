@@ -56,7 +56,7 @@ export default class landingPage extends React.Component {
       >
         <Grid.Row>
           <Image
-            floated="topLeft"
+            floated="Left"
             style={{ marginTop: "6px", marginLeft: "15px" }}
             onClick={handleShowClick}
           >
@@ -114,7 +114,7 @@ export default class landingPage extends React.Component {
           as={Link}
           to="/login"
         >
-          <Header color="blue" as="H1">
+          <Header color="blue" as="h1">
             <Header.Content>
               <Icon name="edit" />
               Register
