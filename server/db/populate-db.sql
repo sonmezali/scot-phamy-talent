@@ -1,56 +1,6 @@
 -- Users seed data
--- Note: Do NOT add passwords you use in real life. Passwords are now saved as clear text. This is very bad from security point of view. We will have a task to encrypt the passwords
-
-INSERT INTO cities
-    (city)
-VALUES
-    ('Aberdeen');
-
-INSERT INTO cities
-    (city)
-VALUES
-    ('Dundee');
-
-INSERT INTO cities
-    (city)
-VALUES
-    ('Glasgow');
-
-INSERT INTO cities
-    (city)
-VALUES
-    ('Hamilton');
-
-INSERT INTO cities
-    (city)
-VALUES
-    ('East Kilbride');
-
-INSERT INTO cities
-    (city)
-VALUES
-    ('Ayr');
-
-INSERT INTO cities
-    (city)
-VALUES
-    ('Dumbarton');
-
-INSERT INTO cities
-    (city)
-VALUES
-    ('Bellshill');
-
-INSERT INTO cities
-    (city)
-VALUES
-    ('Barrhead');
-
-INSERT INTO cities
-    (city)
-VALUES
-    ('Motherwell');
-
+-- Note: Do NOT add passwords you use in real life. Passwords are now saved as clear text. 
+-- This is very bad from security point of view. We will have a task to encrypt the passwords
 INSERT INTO users
     (ROLE, email, PASSWORD)
 VALUES
@@ -77,11 +27,6 @@ INSERT INTO users
     (ROLE, email, PASSWORD)
 VALUES
     ('company', 'company@cyf.org', 'password');
-
-INSERT INTO cities
-    (city)
-VALUES
-    ('Edinburgh');
 
 INSERT INTO applicant_profile
     (name, city, application_status, about, cvLink, right_to_work, profile_picture, user_id)
@@ -131,25 +76,6 @@ INSERT INTO opportunities
 VALUES
     ('Volunteer with cyf', 'Five months in voluntary work', 'Phil', '0444445555', 'yan@cyf.com', 5, '2020-01-15', 'Volunteer', 1);
 
-INSERT INTO skills
-    (name)
-VALUES
-    ('JavaScript');
-
-INSERT INTO skills
-    (name)
-VALUES
-    ('Graphic Design');
-
-INSERT INTO skills
-    (name)
-VALUES
-    ('Information Architectur');
-
-INSERT INTO skills
-    (name)
-VALUES
-    ('Mechanical Engineering');
 INSERT INTO opportunity_skills
     (skill_id, opportunity_id)
 VALUES
