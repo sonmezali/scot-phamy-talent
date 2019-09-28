@@ -45,6 +45,21 @@ const getSkillsForApplicantProfile = id => {
     );
   });
 };
+const deleteSkillsForApplicantProfile = id => {
+  return new Promise((resolve, reject) => {
+    pool.query(
+      `DELETE FROM applicant_skills WHERE applicant_id = ${id} `,
+      (error, result) => {
+        if (error) {
+          reject(error);
+        } else {
+          resolve(result.rows);
+        }
+      }
+    );
+  });
+};
+
 const getSkillsForEditApplicantProfile = id => {
   return new Promise((resolve, reject) => {
     pool.query(
@@ -59,6 +74,7 @@ const getSkillsForEditApplicantProfile = id => {
     );
   });
 };
+
 const deleteApplicantSkillsForApplicantByapplicantProfileID = id => {
   return new Promise((resolve, reject) => {
     pool.query(
@@ -75,6 +91,7 @@ const deleteApplicantSkillsForApplicantByapplicantProfileID = id => {
 };
 module.exports = {
   newApplicantSkills,
+  deleteSkillsForApplicantProfile,
   getSkillsForApplicantProfile,
   getSkillsForEditApplicantProfile,
   deleteApplicantSkillsForApplicantByapplicantProfileID

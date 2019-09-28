@@ -60,6 +60,7 @@ CREATE TABLE applicant_profile (
   city INTEGER REFERENCES cities (id),
   cvLink VARCHAR(30),
   right_to_work BOOLEAN,
+  profile_picture TEXT DEFAULT NULL,
   user_id INTEGER REFERENCES users (user_id)
 );
 

@@ -30,6 +30,7 @@ class ApplicantRegister extends Component {
       city: null,
       skills: [],
       cvLink: "",
+      profilePicLink: "",
       rightToWork: null
     },
     formErrors: {},
@@ -142,6 +143,7 @@ class ApplicantRegister extends Component {
         city: null,
         skills: [],
         cvLink: "",
+        profilePicLink: "",
         rightToWork: null
       },
       formErrors: {},
@@ -161,6 +163,7 @@ class ApplicantRegister extends Component {
       city,
       skills,
       cvLink,
+      profilePicLink,
       rightToWork
     } = this.state.applicantEntries;
     const { formErrors } = this.state;
@@ -286,6 +289,19 @@ class ApplicantRegister extends Component {
                   onChange={this.handleChange}
                 >
                   <Icon name="linkify" color="blue" />
+                  <input />
+                </Form.Field>
+                <Form.Field
+                  control={Input}
+                  label="Profile Picture Link"
+                  placeholder="Profile Picture Link"
+                  iconPosition="left"
+                  name="profilePicLink"
+                  value={profilePicLink}
+                  required
+                  onChange={this.handleChange}
+                >
+                  <Icon name="photo" color="blue" />
                   <input />
                 </Form.Field>
                 <Header as="h4">Do you have the right to work? </Header>

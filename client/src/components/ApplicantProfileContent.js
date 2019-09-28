@@ -9,14 +9,16 @@ export default ({ skills, applicantData }) => {
       <Segment inverted color="blue">
         <Segment inverted color="blue"></Segment>
         <Grid centered>
-          <Segment circular centered>
-            <Image
-              src="https://www.bsn.eu/wp-content/uploads/2016/12/user-icon-image-placeholder-300-grey.jpg"
-              size="mini"
-              circular
-              centered
-            />
-          </Segment>
+          <Image
+            src={
+              applicantData.profile_picture
+                ? applicantData.profile_picture
+                : "https://react.semantic-ui.com/images/wireframe/image.png"
+            }
+            size="small"
+            circular
+            centered
+          />
         </Grid>
         <Segment inverted color="blue" padded="very">
           <Grid centered>
