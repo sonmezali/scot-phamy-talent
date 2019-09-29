@@ -109,7 +109,7 @@ export default class ApplicantsList extends React.Component {
     return (
       <div>
         <Form>
-          <Grid columns={2} relaxed="very">
+          <Grid columns={2} stackable>
             <Grid.Column>
               <Header as="h4">
                 <Icon name="check" size="large" color="blue" />
@@ -119,6 +119,7 @@ export default class ApplicantsList extends React.Component {
                     onChange={this.handleSelectSkill}
                     options={skills}
                     multiple
+                    scrolling
                     placeholder="Select skills"
                   />
                 </Header.Content>
@@ -133,6 +134,7 @@ export default class ApplicantsList extends React.Component {
                     onChange={this.handleSelectCity}
                     options={cities}
                     multiple
+                    scrolling
                     placeholder="Select City"
                   />
                 </Header.Content>

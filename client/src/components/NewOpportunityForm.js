@@ -134,6 +134,7 @@ class NewOpportunityForm extends Component {
   clearForm = e => {
     this.setState({
       formEntries: {
+        ...this.state.formEntries,
         name: "",
         description: "",
         contactPerson: "",
@@ -142,13 +143,13 @@ class NewOpportunityForm extends Component {
         city: null,
         date: "",
         type: "",
-        skills: [],
-        company_id: null
+        skills: []
       }
     });
   };
 
   render() {
+    console.log(this.state.formEntries.company_id);
     const {
       name,
       description,
@@ -292,6 +293,7 @@ class NewOpportunityForm extends Component {
                     placeholder="Expiry date"
                     iconPosition="left"
                     required
+                    search
                     value={date}
                     name="date"
                     onChange={handleChange}

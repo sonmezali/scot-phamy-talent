@@ -23,9 +23,6 @@ export default ({
       onHide={handleSidebarHide}
       visible={visible}
       width="thin"
-      style={{
-        top: "39px"
-      }}
     >
       {admin && (
         <Menu.Item
