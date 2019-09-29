@@ -7,7 +7,6 @@ import Login from "./Login";
 import NavBar from "./NavBar";
 import ApplicantRegister from "./ApplicantRegister";
 import NewOpportunityForm from "./NewOpportunityForm";
-import MainRegister from "./MainRegister";
 import ApplicantProfile from "./ApplicantProfile";
 import CompanyProfile from "./CompanyProfile";
 import OpportunitiesList from "./OpportunitiesList";
@@ -45,7 +44,6 @@ const Routes = () => {
           path="/create-opportunity"
           component={protect(NewOpportunityForm, "company")}
         />
-        <Route path="/main-register" component={MainRegister} />
         <Route path="/applicant-register" component={ApplicantRegister} />
         <Route path="/company-register" component={CompanyRegister} />
         <Route path="/opportunities" exact component={OpportunitiesList} />
