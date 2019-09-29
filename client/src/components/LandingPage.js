@@ -1,8 +1,8 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { Icon, Image, Divider } from "semantic-ui-react";
-import { Grid, Header } from "semantic-ui-react";
+import { Icon, Image, Header, Grid, Segment } from "semantic-ui-react";
 import SideBarMenu from "./SideBar";
+// import MainRegister from "./MainRegister";
 
 export default class landingPage extends React.Component {
   state = {
@@ -55,7 +55,7 @@ export default class landingPage extends React.Component {
       >
         <Grid.Row>
           <Image
-            floated="Left"
+            floated="left"
             style={{ marginTop: "6px", marginLeft: "15px" }}
             onClick={handleShowClick}
           >
@@ -72,7 +72,7 @@ export default class landingPage extends React.Component {
         <Grid.Row>
           <Grid.Column style={{ margin: "10px" }}>
             <Image
-              src="https://images.unsplash.com/photo-1501386761578-eac5c94b800a?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=60"
+              src="https://images.unsplash.com/photo-1501386761578-eac5c94b800a?ixlib=rb-1.2.1&ixid=&auto=format&fit=crop&w=500&q=60"
               alt={"Photo by Nicholas Green on Unsplash"}
               centered
               size="large"
@@ -94,43 +94,72 @@ export default class landingPage extends React.Component {
           </Grid.Column>
         </Grid.Row>
 
-        <Grid.Row columns={2} style={{ padding: "35px" }} centered>
-          <Header color="blue" as="h1">
-            <Header.Content>
-              <Icon name="sign in" />
-              Sign In
-            </Header.Content>
-          </Header>
+        <Grid.Row
+          color="blue"
+          centered
+          as={Link}
+          to="/Login"
+          style={{ paddingBottom: 2 }}
+        >
+          <Grid.Column textAlign="center" width="13">
+            <Segment style={{ backgroundColor: "#bce0fd" }}>
+              <Header color="blue" as="h1">
+                <Header.Content>
+                  <Icon name="sign in" />
+                  Sign In
+                </Header.Content>
+              </Header>
+            </Segment>
+          </Grid.Column>
         </Grid.Row>
-        <Grid.Row textAlign="center" celled columns={3}>
+        <Grid.Row
+          textAlign="center"
+          columns={2}
+          color="blue"
+          style={{ paddingTop: 2 }}
+          centered
+        >
           <Grid.Column
             as={Link}
-            width={7}
             to="/company-register"
-            style={{ padding: "20px", backgroundColor: "#bce0fd" }}
+            textAlign="center"
+            width="7"
           >
-            <Header color="blue" as="h3">
-              <Header.Content>
-                <Icon name="building outline" />
-                Company Register
-              </Header.Content>
-            </Header>
-          </Grid.Column>
-          <Grid.Column width={2} style={{ backgroundColor: "white" }}>
-            <Divider vertical>OR</Divider>
+            <Segment
+              style={{
+                padding: "20px",
+                backgroundColor: "#bce0fd",
+                margin: 5
+              }}
+            >
+              <Header color="blue" as="h3">
+                <Header.Content>
+                  <Icon name="building outline" />
+                  Company Register
+                </Header.Content>
+              </Header>
+            </Segment>
           </Grid.Column>
           <Grid.Column
-            width={7}
             as={Link}
-            style={{ padding: "20px", backgroundColor: "#bce0fd" }}
             to="/applicant-register"
+            width="7"
+            textAlign="center"
           >
-            <Header color="blue" as="h3">
-              <Header.Content>
-                <Icon name="user" />
-                Applicant Register
-              </Header.Content>
-            </Header>
+            <Segment
+              style={{
+                padding: "20px",
+                backgroundColor: "#bce0fd",
+                margin: 5
+              }}
+            >
+              <Header color="blue" as="h3">
+                <Header.Content>
+                  <Icon name="user" />
+                  Applicant Register
+                </Header.Content>
+              </Header>
+            </Segment>
           </Grid.Column>
         </Grid.Row>
         <SideBarMenu
