@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Grid, Divider } from "semantic-ui-react";
+import { Grid, Divider, Card } from "semantic-ui-react";
 import { getSkillsList } from "../api/opportunities";
 import { getLoggedInUserData } from "../utils/storage";
 import { CircularProgressbar } from "react-circular-progressbar";
@@ -54,14 +54,18 @@ class MatchingOpportunitiesAndApplicant extends Component {
               ).toFixed(2);
               return (
                 <Grid.Column key={opportunity.opportunity_id}>
-                  <OpportunityCard opportunity={opportunity} />
+                  <Card>
+                    <OpportunityCard opportunity={opportunity} />
 
+                    <br></br>
+                    <CircularProgressbar
+                      strokeWidth
+                      value={percentage}
+                      text={`${percentage}%`}
+                    />
+                  </Card>
                   <br></br>
-                  <CircularProgressbar
-                    strokeWidth
-                    value={percentage}
-                    text={`${percentage}%`}
-                  />
+                  <br></br>
                 </Grid.Column>
               );
             })}
