@@ -11,13 +11,13 @@ import {
   Divider,
   Message
 } from "semantic-ui-react";
-import validateCreateOpportunityForm from "../utils/cerateOpportunityValidation";
-import { getCities } from "../api/cities";
-import { getSkills } from "../api/skills";
-import { createNewOpportunity } from "../api/opportunities";
-import { opportunityType } from "../utils/constants";
-import { getCompanyIdForCompanyRegister } from "../api/companies";
-import { getLoggedInUserData } from "../utils/storage";
+import validateCreateOpportunityForm from "../../utils/cerateOpportunityValidation";
+import { getCities } from "../../api/cities";
+import { getSkills } from "../../api/skills";
+import { createNewOpportunity } from "../../api/opportunities";
+import { opportunityType } from "../../utils/constants";
+import { getCompanyIdForCompanyRegister } from "../../api/companies";
+import { getLoggedInUserData } from "../../utils/storage";
 
 class NewOpportunityForm extends Component {
   state = {

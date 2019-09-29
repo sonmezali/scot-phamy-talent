@@ -2,12 +2,12 @@ import React from "react";
 import {
   getApplicantProfileByUserId,
   deleteApplicantProfile
-} from "../api/applicantProfile";
-import { getLoggedInUserData, removeUserData } from "../utils/storage";
-import ProfileOptionsButton from "./ProfileOptionsButton";
-import ModalComponent from "./Modal";
+} from "../../api/applicantProfile";
+import { getLoggedInUserData, removeUserData } from "../../utils/storage";
+import ProfileOptionsButton from "../GeneralSupComponents/ProfileOptionsButton";
+import ModalComponent from "../GeneralSupComponents/Modal";
 import { Message } from "semantic-ui-react";
-import { getSkillsByApplicantId } from "../api/applicants";
+import { getSkillsByApplicantId } from "../../api/applicants";
 import ApplicantProfileContent from "./ApplicantProfileContent";
 import EditApplicantProfile from "./EditApplicantProfile";
 class ApplicantProfile extends React.Component {
