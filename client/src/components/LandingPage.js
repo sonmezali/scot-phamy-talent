@@ -1,6 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { Icon, Image } from "semantic-ui-react";
+import { Icon, Image, Divider } from "semantic-ui-react";
 import { Grid, Header } from "semantic-ui-react";
 import SideBarMenu from "./SideBar";
 
@@ -45,7 +45,6 @@ export default class landingPage extends React.Component {
     } = this;
     return (
       <Grid
-        stretched
         columns={1}
         style={{
           backgroundColor: "rgb(221, 239, 254)",
@@ -73,8 +72,10 @@ export default class landingPage extends React.Component {
         <Grid.Row>
           <Grid.Column style={{ margin: "10px" }}>
             <Image
-              src="https://trinitychurchvirginia.com/wp-content/uploads/2019/08/people2.jpg"
+              src="https://images.unsplash.com/photo-1501386761578-eac5c94b800a?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=60"
+              alt={"Photo by Nicholas Green on Unsplash"}
               centered
+              size="large"
             ></Image>
           </Grid.Column>
         </Grid.Row>
@@ -93,13 +94,7 @@ export default class landingPage extends React.Component {
           </Grid.Column>
         </Grid.Row>
 
-        <Grid.Row
-          columns={2}
-          style={{ padding: "35px" }}
-          as={Link}
-          to="/login"
-          centered
-        >
+        <Grid.Row columns={2} style={{ padding: "35px" }} centered>
           <Header color="blue" as="h1">
             <Header.Content>
               <Icon name="sign in" />
@@ -107,19 +102,36 @@ export default class landingPage extends React.Component {
             </Header.Content>
           </Header>
         </Grid.Row>
-        <Grid.Row
-          centered
-          columns={2}
-          style={{ padding: "35px", backgroundColor: "#bce0fd" }}
-          as={Link}
-          to="/login"
-        >
-          <Header color="blue" as="h1">
-            <Header.Content>
-              <Icon name="edit" />
-              Register
-            </Header.Content>
-          </Header>
+        <Grid.Row textAlign="center" celled columns={3}>
+          <Grid.Column
+            as={Link}
+            width={7}
+            to="/company-register"
+            style={{ padding: "20px", backgroundColor: "#bce0fd" }}
+          >
+            <Header color="blue" as="h3">
+              <Header.Content>
+                <Icon name="building outline" />
+                Company Register
+              </Header.Content>
+            </Header>
+          </Grid.Column>
+          <Grid.Column width={2} style={{ backgroundColor: "white" }}>
+            <Divider vertical>OR</Divider>
+          </Grid.Column>
+          <Grid.Column
+            width={7}
+            as={Link}
+            style={{ padding: "20px", backgroundColor: "#bce0fd" }}
+            to="/applicant-register"
+          >
+            <Header color="blue" as="h3">
+              <Header.Content>
+                <Icon name="user" />
+                Applicant Register
+              </Header.Content>
+            </Header>
+          </Grid.Column>
         </Grid.Row>
         <SideBarMenu
           visible={visible}
