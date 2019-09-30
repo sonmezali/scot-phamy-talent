@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { Menu, Icon, Dropdown, Responsive } from "semantic-ui-react";
 import { Link } from "react-router-dom";
 import SideBarMenu from "./SideBar";
-import { getLoggedInUserData, removeUserData } from "../utils/storage";
+import { getLoggedInUserData, removeUserData } from "../../utils/storage";
 import MenuItems from "./MenuItems";
 
 class NavBar extends Component {

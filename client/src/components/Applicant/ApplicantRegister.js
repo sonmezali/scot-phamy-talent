@@ -9,15 +9,15 @@ import {
   Modal,
   Button
 } from "semantic-ui-react";
-import { getSkills } from "../api/skills";
-import { getCities } from "../api/cities";
-import { createNewApplicantUserAndProfile } from "../api/applicantProfile";
-import { validateApplicantRegisterForm } from "../utils/formValidation";
+import { getSkills } from "../../api/skills";
+import { getCities } from "../../api/cities";
+import { createNewApplicantUserAndProfile } from "../../api/applicantProfile";
+import { validateApplicantRegisterForm } from "../../utils/formValidation";
 import {
   ValidatedFormInput,
   ValidatedFormDropDown,
   ValidatedFormCheckbox
-} from "./ValidatedFormFields";
+} from "../GeneralSupComponents/ValidatedFormFields";
 class ApplicantRegister extends Component {
   state = {
     applicantEntries: {

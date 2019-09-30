@@ -10,14 +10,14 @@ import {
   Grid,
   Segment
 } from "semantic-ui-react";
-import { getCompanyProfile } from "../api/companyProfile";
+import { getCompanyProfile } from "../../api/companyProfile";
 import {
   getOpportunitiesByCompanyId,
   deleteOpportunityAndConnectedSkills
-} from "../api/opportunities";
-import OpportunityCard from "./OpportunityCard";
-import { getLoggedInUserData } from "../utils/storage";
-import ProfileOptionsButton from "./ProfileOptionsButton";
+} from "../../api/opportunities";
+import OpportunityCard from "../Opportunities/OpportunityCard";
+import { getLoggedInUserData } from "../../utils/storage";
+import ProfileOptionsButton from "../GeneralSupComponents/ProfileOptionsButton";
 
 class CompanyProfile extends React.Component {
   state = {
