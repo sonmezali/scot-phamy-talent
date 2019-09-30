@@ -1,7 +1,6 @@
 import React from "react";
-// import image from "../utils/styles/image/background.svg";
 import { Link } from "react-router-dom";
-import { Menu, Icon } from "semantic-ui-react";
+import { Icon, Image } from "semantic-ui-react";
 import { Grid, Header } from "semantic-ui-react";
 import SideBarMenu from "./SideBar";
 
@@ -38,45 +37,90 @@ export default class landingPage extends React.Component {
 
   render() {
     const { visible, activeItem } = this.state;
-    const { handleItemClick, logout, handleSidebarHide } = this;
-
+    const {
+      handleItemClick,
+      logout,
+      handleSidebarHide,
+      handleShowClick
+    } = this;
     return (
-      <div alt="background" style={styles.landingPage}>
-        <Icon
-          name="align left"
-          style={styles.menu}
-          onClick={this.handleShowClick}
-        />
-        <Grid style={styles.contents} />
-        <Header as="h1" style={styles.title}>
-          <strong>New Scots</strong> <br></br> Got Talent
-        </Header>
-        <Header style={styles.description}>
-          Migrants (including asylum seekers) can create profiles where they
-          list their skills, expertise and which jobs they are qualified to do.
-          Employers can post job opportunities and migrants can "match" with the
-          job ads. The focus is on
-        </Header>
-        <Grid style={styles.signIn} as={Link} to="/login">
-          <Grid.Row columns={2}>
-            <Grid.Column width={3}>
+      <Grid
+        stretched
+        columns={1}
+        style={{
+          backgroundColor: "rgb(221, 239, 254)",
+          position: "absolute",
+          left: "0",
+          top: "0"
+        }}
+      >
+        <Grid.Row>
+          <Image
+            floated="Left"
+            style={{ marginTop: "6px", marginLeft: "15px" }}
+            onClick={handleShowClick}
+          >
+            <Icon name="bars" size="big" color="blue"></Icon>
+          </Image>
+        </Grid.Row>
+        <Grid.Row style={{ backgroundColor: "white" }}>
+          <Grid.Column>
+            <Header as="h1" fontSize="30" color="blue" textAlign="center">
+              <strong>New Scots Got</strong> <br></br> Talent{" "}
+            </Header>
+          </Grid.Column>
+        </Grid.Row>
+        <Grid.Row>
+          <Grid.Column style={{ margin: "10px" }}>
+            <Image
+              src="https://trinitychurchvirginia.com/wp-content/uploads/2019/08/people2.jpg"
+              centered
+            ></Image>
+          </Grid.Column>
+        </Grid.Row>
+        <Grid.Row style={{ backgroundColor: "white" }}>
+          <Grid.Column>
+            <Header
+              color="blue"
+              style={{ backgroundColor: "white" }}
+              textAlign="center"
+            >
+              Migrants <em>(including asylum seekers)</em> can create profiles
+              where they list their skills, expertise and which jobs they are
+              qualified to do. Employers can post job opportunities and migrants
+              can "match" with the job ads. The focus is on
+            </Header>
+          </Grid.Column>
+        </Grid.Row>
+
+        <Grid.Row
+          columns={2}
+          style={{ padding: "35px" }}
+          as={Link}
+          to="/login"
+          centered
+        >
+          <Header color="blue" as="h1">
+            <Header.Content>
               <Icon name="sign in" />
-            </Grid.Column>
-            <Grid.Column>
-              <Menu.Item name="Sign In"> Sign in</Menu.Item>
-            </Grid.Column>
-          </Grid.Row>
-        </Grid>
-        <Grid style={styles.signOut} as={Link} to="/login">
-          <Grid.Row columns={2}>
-            <Grid.Column width={3}>
+              Sign In
+            </Header.Content>
+          </Header>
+        </Grid.Row>
+        <Grid.Row
+          centered
+          columns={2}
+          style={{ padding: "35px", backgroundColor: "#bce0fd" }}
+          as={Link}
+          to="/login"
+        >
+          <Header color="blue" as="h1">
+            <Header.Content>
               <Icon name="edit" />
-            </Grid.Column>
-            <Grid.Column>
-              <Menu.Item name="Register" as={Link} to="/main-register" />
-            </Grid.Column>
-          </Grid.Row>
-        </Grid>
+              Register
+            </Header.Content>
+          </Header>
+        </Grid.Row>
         <SideBarMenu
           visible={visible}
           handleSidebarHide={handleSidebarHide}
@@ -84,58 +128,7 @@ export default class landingPage extends React.Component {
           handleItemClick={handleItemClick}
           logout={logout}
         />
-      </div>
+      </Grid>
     );
   }
 }
-
-const styles = {
-  landingPage: {
-    width: "100vw",
-    height: "100vh",
-    position: "fixed",
-    display: " grid",
-    top: 0,
-    left: 0,
-    zIndex: 1
-  },
-  menu: {
-    fontSize: "25px",
-    position: "absolute",
-    zIndex: " 3",
-    top: "25px",
-    color: "#2699fb"
-  },
-  contents: {
-    padding: "30px",
-    background: "#ddeffe",
-    paddingTop: "60px",
-    paddingBottom: "0"
-  },
-  title: {
-    fontSize: "48px",
-    textAlign: "center",
-    color: "#2699fb"
-  },
-  description: {
-    color: "#5aaffc",
-    fontSize: "20px",
-    textAlign: "center"
-  },
-  signIn: {
-    justifyContent: "center",
-    display: "flex",
-    fontSize: "40px",
-    alignItems: "center",
-    padding: "30px",
-    background: "#f1f9ff"
-  },
-  signOut: {
-    justifyContent: "center",
-    display: "flex",
-    fontSize: "40px",
-    alignItems: "center",
-    padding: "30px",
-    background: "#bce0fd"
-  }
-};
