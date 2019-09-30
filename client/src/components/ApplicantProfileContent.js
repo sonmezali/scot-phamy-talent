@@ -32,7 +32,7 @@ export default ({ skills, applicantData }) => {
       <Grid left stackable columns={2}>
         <Grid.Column>
           <Header as="h3">
-            <Icon name="briefcase" size="mini" color="white" />
+            <Icon name="briefcase" size="mini" />
             About: {applicantData && applicantData.about}
           </Header>
           <br></br>

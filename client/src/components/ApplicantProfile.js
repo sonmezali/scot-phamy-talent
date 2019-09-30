@@ -1,5 +1,4 @@
 import React from "react";
-import { Button, Header, Segment, Image, Grid, Icon } from "semantic-ui-react";
 import {
   getApplicantProfileByUserId,
   deleteApplicantProfile
@@ -53,7 +52,6 @@ class ApplicantProfile extends React.Component {
     });
   };
   handleDelete = () => {
-    console.log("Res", this.state.applicantId);
     const { applicantId, userId } = this.state;
     deleteApplicantProfile(applicantId, userId).then(res => {
       if (res && res.success) {
@@ -77,7 +75,6 @@ class ApplicantProfile extends React.Component {
     // console.log(this.getApplicantSkills());
     const message = "Are you sure that you want to delete your profile ?";
     const { applicantData, skills, isEditProfile, userId, open } = this.state;
-    console.log("2255", skills);
     return applicantData && applicantData.application_status === "approved" ? (
       <div>
         {getLoggedInUserData() &&

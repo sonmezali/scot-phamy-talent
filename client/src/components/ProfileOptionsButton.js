@@ -12,7 +12,7 @@ export default ({
 }) => {
   return (
     <Grid>
-      <Grid.Column floated="right" width={5}>
+      <Grid.Column floated="right" width={6} style={{ marginBottom: "5px" }}>
         <Header>
           Option{" "}
           <Header.Content>
