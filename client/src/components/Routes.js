@@ -3,20 +3,19 @@ import "semantic-ui-css/semantic.min.css";
 import { Container } from "semantic-ui-react";
 import { BrowserRouter as Router, Route } from "react-router-dom";
 import Home from "./Home";
-import About from "./About";
 import Login from "./Login";
-import NavBar from "./NavBar";
-import ApplicantRegister from "./ApplicantRegister";
-import NewOpportunityForm from "./NewOpportunityForm";
+import NavBar from "./NavBarAndSideBar/NavBar";
+import ApplicantRegister from "./Applicant/ApplicantRegister";
+import NewOpportunityForm from "./Opportunities/NewOpportunityForm";
 import MainRegister from "./MainRegister";
-import ApplicantProfile from "./ApplicantProfile";
-import CompanyProfile from "./CompanyProfile";
-import OpportunitiesList from "./OpportunitiesList";
-import CompanyRegister from "./CompanyRegister";
-import OpportunityView from "./OpportunityView";
-import ApplicantsList from "./ApplicantsList";
+import ApplicantProfile from "./Applicant/ApplicantProfile";
+import CompanyProfile from "./Company/CompanyProfile";
+import OpportunitiesList from "./Opportunities/OpportunitiesList";
+import CompanyRegister from "./Company/CompanyRegister";
+import OpportunityView from "./Opportunities/OpportunityView";
+import ApplicantsList from "./Applicant/ApplicantsList";
 import { protect } from "../utils/authentication";
-import AdminProfiles from "./AdminProfiles";
+import AdminProfiles from "./Admin/AdminProfiles";
 const Routes = () => {
   return (
     <Router>
@@ -32,7 +31,6 @@ const Routes = () => {
           path="/company-profile/:id"
           component={protect(CompanyProfile)}
         />
-        <Route path="/about" component={About} />
         <Route path="/login" component={Login} />
         <Route
           path="/applicant-profile"

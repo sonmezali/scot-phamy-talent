@@ -1,15 +1,15 @@
 import React from "react";
-import { getAllApplicants, getSkillsByApplicantId } from "../api/applicants";
+import { getAllApplicants, getSkillsByApplicantId } from "../../api/applicants";
 import { Link } from "react-router-dom";
 import ApplicantsCard from "./ApplicantsCard";
-import { getSkills } from "../api/skills";
-import { getCities } from "../api/cities";
+import { getSkills } from "../../api/skills";
+import { getCities } from "../../api/cities";
 import { Grid, Header, Dropdown, Form, Icon } from "semantic-ui-react";
 import {
   filterBySkills,
   filterByCity,
   filteredByCityAndSkills
-} from "../utils/filterOpportunities";
+} from "../../utils/filterOpportunities";
 const filteredApplicantsList = ({
   applicantsList,
   selectedSkills,

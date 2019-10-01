@@ -9,15 +9,15 @@ import {
   Grid,
   Header
 } from "semantic-ui-react";
-import { getCities } from "../api/cities";
+import { getCities } from "../../api/cities";
 
-import { validateCompanyRegisterForm } from "../utils/formValidation";
-import { companyRegister } from "../api/companies";
-import { industryList } from "../utils/constants";
+import { validateCompanyRegisterForm } from "../../utils/formValidation";
+import { companyRegister } from "../../api/companies";
+import { industryList } from "../../utils/constants";
 import {
   ValidatedFormInput,
   ValidatedFormDropDown
-} from "./ValidatedFormFields";
+} from "../GeneralSupComponents/ValidatedFormFields";
 
 class CompanyRegister extends Component {
   state = {

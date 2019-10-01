@@ -1,8 +1,8 @@
 import React, { Component } from "react";
-import { getAllApplicants } from "../api/applicants";
+import { getAllApplicants } from "../../api/applicants";
 import { Grid, Modal, Button } from "semantic-ui-react";
-import ApplicantsCard from "./ApplicantsCard";
-import { approveApplicantProfile } from "../api/adminProfile";
+import ApplicantsCard from "../Applicant/ApplicantsCard";
+import { approveApplicantProfile } from "../../api/adminProfile";
 
 class AdminProfiles extends Component {
   state = { applicantsList: [], approveMessage: false, openMessage: false };

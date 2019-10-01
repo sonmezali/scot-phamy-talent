@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import { signApi } from "../api/auth";
 import { getLoggedInUserData, saveLoggedInUserData } from "../utils/storage";
 import MatchingApplicantsAndOpportunities from "./MatchingApplicantsAndOppotunities";
-import ApplicantsList from "./ApplicantsList";
+import ApplicantsList from "./Applicant/ApplicantsList";
 export default class Login extends Component {
   state = {
     email: "",

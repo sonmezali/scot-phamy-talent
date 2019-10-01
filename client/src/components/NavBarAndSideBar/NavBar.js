@@ -1,8 +1,9 @@
 import React, { Component } from "react";
-import { Menu, Icon, Dropdown } from "semantic-ui-react";
+import { Menu, Icon, Dropdown, Responsive } from "semantic-ui-react";
 import { Link } from "react-router-dom";
 import SideBarMenu from "./SideBar";
-import { getLoggedInUserData, removeUserData } from "../utils/storage";
+import { getLoggedInUserData, removeUserData } from "../../utils/storage";
+import MenuItems from "./MenuItems";
 
 class NavBar extends Component {
   state = {
@@ -40,34 +41,47 @@ class NavBar extends Component {
       handleSidebarHide
     } = this;
     return (
-      <React.Fragment>
-        <Menu size="mini" inverted color="blue">
-          <Menu.Item>
-            <Icon
-              size="large"
-              name="list layout"
-              onClick={handleShowClick}
-            ></Icon>
-          </Menu.Item>
+      <Menu
+        inverted
+        color="blue"
+        size="mini"
+        borderless
+        style={{ borderRadius: 0 }}
+      >
+        <Responsive as={Menu} inverted color="blue" minWidth={1000}>
+          <MenuItems
+            visible={visible}
+            handleSidebarHide={handleSidebarHide}
+            activeItem={activeItem}
+            handleItemClick={handleItemClick}
+            logout={logout}
+          />
+        </Responsive>
+        <Responsive maxWidth={999}>
           <Menu.Item position="left">
-            <Menu.Header as="h4">{activeItem}</Menu.Header>
+            <Icon size="big" name="bars" onClick={handleShowClick} />
           </Menu.Item>
-          {getLoggedInUserData() ? (
-            <Menu.Item
-              name="Logout"
-              active={activeItem === "Logout"}
-              onClick={event => {
-                logout(event);
-                handleItemClick(event);
-              }}
-              as={Link}
-              position="right"
-              to="/logout"
-            >
-              <Icon name="log out"></Icon>
-              Logout
-            </Menu.Item>
-          ) : (
+        </Responsive>
+        <Menu.Item position="left">
+          <Menu.Header as="h4">{activeItem}</Menu.Header>
+        </Menu.Item>
+        {getLoggedInUserData() ? (
+          <Menu.Item
+            position="right"
+            name="Logout"
+            active={activeItem === "Logout"}
+            onClick={event => {
+              logout(event);
+              handleItemClick(event);
+            }}
+            as={Link}
+            to="/logout"
+          >
+            <Icon name="log out"></Icon>
+            Logout
+          </Menu.Item>
+        ) : (
+          <Menu.Menu position="right">
             <Dropdown item size="large" icon="user">
               <Dropdown.Menu direction="left">
                 <Dropdown.Item
@@ -92,16 +106,16 @@ class NavBar extends Component {
                 </Dropdown.Item>
               </Dropdown.Menu>
             </Dropdown>
-          )}
-          <SideBarMenu
-            visible={visible}
-            handleSidebarHide={handleSidebarHide}
-            activeItem={activeItem}
-            handleItemClick={handleItemClick}
-            logout={logout}
-          />
-        </Menu>
-      </React.Fragment>
+          </Menu.Menu>
+        )}
+        <SideBarMenu
+          visible={visible}
+          handleSidebarHide={handleSidebarHide}
+          activeItem={activeItem}
+          handleItemClick={handleItemClick}
+          logout={logout}
+        />
+      </Menu>
     );
   }
 }

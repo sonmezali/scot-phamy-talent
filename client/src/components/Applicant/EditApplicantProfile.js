@@ -9,10 +9,10 @@ import {
   Modal
 } from "semantic-ui-react";
 import React, { Component } from "react";
-import { getSkills } from "../api/skills";
-import { getCities } from "../api/cities";
-import { updateApplicantProfile } from "../api/editApplicantProfile";
-import { getSkillsForEditApplicantProfile } from "../api/editApplicantProfile";
+import { getSkills } from "../../api/skills";
+import { getCities } from "../../api/cities";
+import { updateApplicantProfile } from "../../api/editApplicantProfile";
+import { getSkillsForEditApplicantProfile } from "../../api/editApplicantProfile";
 export default class EditApplicantProfile extends Component {
   constructor(props) {
     super(props);
