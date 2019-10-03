@@ -1,5 +1,5 @@
 import React from "react";
-import { getLoggedInUserData } from "../utils/storage";
+import { getLoggedInUserData } from "../../utils/storage";
 import { Menu, Icon } from "semantic-ui-react";
 import { Link } from "react-router-dom";
 

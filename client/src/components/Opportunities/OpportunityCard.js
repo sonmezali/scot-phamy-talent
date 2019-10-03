@@ -1,7 +1,7 @@
 import React from "react";
 import { Icon, Card, Button } from "semantic-ui-react";
 import { Link } from "react-router-dom";
-import { getLoggedInUserData } from "../utils/storage";
+import { getLoggedInUserData } from "../../utils/storage";
 import moment from "moment";
 
 export default ({

@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { getOpportunityById, getSkillsList } from "../api/opportunities";
+import { getOpportunityById, getSkillsList } from "../../api/opportunities";
 import {
   Header,
   Grid,
@@ -14,9 +14,9 @@ import {
 } from "semantic-ui-react";
 import moment from "moment";
 import { Link } from "react-router-dom";
-import { getLoggedInUserData } from "../utils/storage";
-import { deleteOpportunityAndConnectedSkills } from "../api/opportunities";
-import ProfileOptionsButton from "./ProfileOptionsButton";
+import { getLoggedInUserData } from "../../utils/storage";
+import { deleteOpportunityAndConnectedSkills } from "../../api/opportunities";
+import ProfileOptionsButton from "../GeneralSupComponents/ProfileOptionsButton";
 
 export default class OpportunityView extends Component {
   state = {
