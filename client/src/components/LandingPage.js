@@ -1,8 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { Icon, Image, Header, Grid, Segment } from "semantic-ui-react";
-import SideBarMenu from "./SideBar";
-// import MainRegister from "./MainRegister";
+import SideBarMenu from "./NavBarAndSideBar/SideBar";
 
 export default class landingPage extends React.Component {
   state = {
@@ -28,30 +27,19 @@ export default class landingPage extends React.Component {
       };
     });
 
-  //logOut function
-  logout = event => {
-    event.preventDefault();
-    localStorage.removeItem("token");
-    document.location.reload();
-  };
-
   render() {
     const { visible, activeItem } = this.state;
-    const {
-      handleItemClick,
-      logout,
-      handleSidebarHide,
-      handleShowClick
-    } = this;
+    const { handleItemClick, handleSidebarHide, handleShowClick } = this;
     return (
       <Grid
         columns={1}
         style={{
-          backgroundColor: "rgb(221, 239, 254)",
+          backgroundImage: `url(https://i.imgur.com/oweEPFR.png)`,
           position: "absolute",
           left: "0",
           top: "0"
         }}
+        className="landing-page"
       >
         <Grid.Row>
           <Image
@@ -62,8 +50,8 @@ export default class landingPage extends React.Component {
             <Icon name="bars" size="big" color="blue"></Icon>
           </Image>
         </Grid.Row>
-        <Grid.Row style={{ backgroundColor: "white" }}>
-          <Grid.Column>
+        <Grid.Row>
+          <Grid.Column centered>
             <Header as="h1" fontSize="30" color="blue" textAlign="center">
               <strong>New Scots Got</strong> <br></br> Talent{" "}
             </Header>
@@ -72,20 +60,16 @@ export default class landingPage extends React.Component {
         <Grid.Row>
           <Grid.Column style={{ margin: "10px" }}>
             <Image
-              src="https://images.unsplash.com/photo-1501386761578-eac5c94b800a?ixlib=rb-1.2.1&ixid=&auto=format&fit=crop&w=500&q=60"
+              src="https://i.imgur.com/jgkgOIC.jpg"
               alt={"Photo by Nicholas Green on Unsplash"}
               centered
               size="large"
             ></Image>
           </Grid.Column>
         </Grid.Row>
-        <Grid.Row style={{ backgroundColor: "white" }}>
+        <Grid.Row>
           <Grid.Column>
-            <Header
-              color="blue"
-              style={{ backgroundColor: "white" }}
-              textAlign="center"
-            >
+            <Header color="blue" textAlign="center">
               Migrants <em>(including asylum seekers)</em> can create profiles
               where they list their skills, expertise and which jobs they are
               qualified to do. Employers can post job opportunities and migrants
@@ -93,73 +77,62 @@ export default class landingPage extends React.Component {
             </Header>
           </Grid.Column>
         </Grid.Row>
-
         <Grid.Row
-          color="blue"
-          centered
-          as={Link}
-          to="/Login"
-          style={{ paddingBottom: 2 }}
-        >
-          <Grid.Column textAlign="center" width="13">
-            <Segment style={{ backgroundColor: "#bce0fd" }}>
-              <Header color="blue" as="h1">
-                <Header.Content>
-                  <Icon name="sign in" />
-                  Sign In
-                </Header.Content>
-              </Header>
-            </Segment>
-          </Grid.Column>
-        </Grid.Row>
-        <Grid.Row
-          textAlign="center"
           columns={2}
-          color="blue"
-          style={{ paddingTop: 2 }}
+          as={Link}
+          to="/login"
           centered
+          style={{
+            backgroundColor: "rgb(232, 246, 248)",
+            margin: 2,
+            padding: "35px"
+          }}
         >
+          <Header color="blue" as="h1">
+            <Header.Content>
+              <Icon name="sign in" />
+              SIGN IN
+            </Header.Content>
+          </Header>
+        </Grid.Row>
+        <Grid.Row centered columns={3} as={Link} to="/company-register">
           <Grid.Column
-            as={Link}
-            to="/company-register"
             textAlign="center"
-            width="7"
+            width={7}
+            style={{
+              backgroundColor: "#bce0fd",
+              padding: "25px",
+              margin: 1
+            }}
           >
-            <Segment
-              style={{
-                padding: "20px",
-                backgroundColor: "#bce0fd",
-                margin: 5
-              }}
-            >
-              <Header color="blue" as="h3">
-                <Header.Content>
-                  <Icon name="building outline" />
-                  Company Register
-                </Header.Content>
-              </Header>
-            </Segment>
+            <Header color="blue" as="h2">
+              <Header.Content>
+                <Icon name="building outline" />
+                REGISTER AS COMPANY
+              </Header.Content>
+            </Header>
           </Grid.Column>
+          <Grid.Column
+            width={1}
+            style={{ padding: 0, margin: 0 }}
+          ></Grid.Column>
           <Grid.Column
             as={Link}
             to="/applicant-register"
-            width="7"
             textAlign="center"
+            width={7}
+            style={{
+              padding: "25px",
+              backgroundColor: "#bce0fd",
+              margin: 1
+            }}
           >
-            <Segment
-              style={{
-                padding: "20px",
-                backgroundColor: "#bce0fd",
-                margin: 5
-              }}
-            >
-              <Header color="blue" as="h3">
-                <Header.Content>
-                  <Icon name="user" />
-                  Applicant Register
-                </Header.Content>
-              </Header>
-            </Segment>
+            <Header color="blue" as="h2">
+              <Header.Content>
+                <Icon name="user" />
+                REGISTER AS APPLICANT
+              </Header.Content>
+            </Header>
           </Grid.Column>
         </Grid.Row>
         <SideBarMenu
@@ -167,7 +140,12 @@ export default class landingPage extends React.Component {
           handleSidebarHide={handleSidebarHide}
           activeItem={activeItem}
           handleItemClick={handleItemClick}
-          logout={logout}
+        />
+        <SideBarMenu
+          visible={visible}
+          handleSidebarHide={handleSidebarHide}
+          activeItem={activeItem}
+          handleItemClick={handleItemClick}
         />
       </Grid>
     );
