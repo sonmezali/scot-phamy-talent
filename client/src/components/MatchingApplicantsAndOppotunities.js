@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Card } from "semantic-ui-react";
+import { Card, Grid } from "semantic-ui-react";
 import { Link } from "react-router-dom";
 import { getOpportunitiesForList, getSkillsList } from "../api/opportunities";
 import { getSkillsByApplicantId } from "../api/applicants";
@@ -47,57 +47,82 @@ class MatchingApplicantsAndOppotunities extends Component {
     this.getApplicantSkills();
     this.getOpportunities();
   }
+  compare = (a, b) => {
+    const genreA = Number(a.percentage);
+    const genreB = Number(b.percentage);
+
+    let comparison = 0;
+    if (genreA < genreB) {
+      comparison = 1;
+    } else if (genreA > genreB) {
+      comparison = -1;
+    }
+    return comparison;
+  };
 
   render() {
-    console.log("applicantSkills", this.state.applicantSkills);
-    console.log("opportunitiesList", this.state.opportunitiesList);
+    const matchingOpportunities = this.state.opportunitiesList
+      .map(opportunity => {
+        const matching = opportunity.skills.filter(skill => {
+          const matchingSkills = this.state.applicantSkills.includes(skill);
+          return matchingSkills;
+        }).length;
+        const percentage = (
+          (matching / opportunity.skills.length) *
+          100
+        ).toFixed(0);
+        return { ...opportunity, percentage };
+      })
+      .sort(this.compare);
 
+    console.log("=>>>>", matchingOpportunities);
     return (
-      <div>
-        {this.state.opportunitiesList.map(opportunity => {
-          const matching = opportunity.skills.filter(skill => {
-            const matchingSkills = this.state.applicantSkills.includes(skill);
-            return matchingSkills;
-          }).length;
-          const percentage = (
-            (matching / opportunity.skills.length) *
-            100
-          ).toFixed(2);
-          return (
-            <Card
-              key={opportunity.opportunity_id}
-              as={Link}
-              to={
-                getLoggedInUserData() &&
-                `/opportunities/${opportunity.opportunity_id}`
-              }
-            >
-              <Card.Content>
-                <Card.Header>{opportunity.opportunity_title}</Card.Header>
-                <Card.Description>{opportunity.description}</Card.Description>
-                <CircularProgressbarWithChildren
-                  strokeWidth
-                  value={percentage}
-                  text={`${percentage}%`}
-                  styles={buildStyles({
-                    strokeLinecap: "butt"
-                  })}
+      <Grid stackable>
+        <Grid.Row columns={3}>
+          {matchingOpportunities.map(opportunity => {
+            return (
+              <Grid.Column>
+                {" "}
+                <Card
+                  color={opportunity.percentage > 66 ? "green" : "red"}
+                  key={opportunity.opportunity_id}
+                  as={Link}
+                  to={
+                    getLoggedInUserData() &&
+                    `/opportunities/${opportunity.opportunity_id}`
+                  }
                 >
-                  {percentage > 60 ? (
-                    <img
-                      style={{ width: 50, marginTop: -180 }}
+                  <Card.Content>
+                    <Card.Header textAlign="center">
+                      {opportunity.opportunity_title}
+                    </Card.Header>
+                    <Card.Description>
+                      {opportunity.description}
+                    </Card.Description>
+                    <Card.Content textAlign="right" style={{ width: "100px" }}>
+                      <CircularProgressbarWithChildren
+                        value={opportunity.percentage}
+                        text={`${opportunity.percentage}%`}
+                      >
+                        {/* {percentage > 60 ? (
+                      <img
+                      style={{ wid }}
                       src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRePtynQytlAevO-zkIk1hJHVWGr0LmbNhm7MSbUIz63g3puHya"
                       alt="cherry"
-                    />
-                  ) : null}
+                      />
+                    ) : null} */}
 
-                  <div style={{ fontSize: 12, marginTop: -5 }}></div>
-                </CircularProgressbarWithChildren>
-              </Card.Content>
-            </Card>
-          );
-        })}
-      </div>
+                        <div style={{ fontSize: 12, marginTop: -5 }}></div>
+                      </CircularProgressbarWithChildren>
+                    </Card.Content>
+                  </Card.Content>
+                </Card>
+                <br />;
+              </Grid.Column>
+            );
+          })}
+        </Grid.Row>
+      </Grid>
     );
   }
 }
