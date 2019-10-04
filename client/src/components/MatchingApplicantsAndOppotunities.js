@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Card, Grid } from "semantic-ui-react";
+import { Card, Grid, Image } from "semantic-ui-react";
 import { Link } from "react-router-dom";
 import { getOpportunitiesForList, getSkillsList } from "../api/opportunities";
 import { getSkillsByApplicantId } from "../api/applicants";
@@ -75,7 +75,6 @@ class MatchingApplicantsAndOppotunities extends Component {
       })
       .sort(this.compare);
 
-    console.log("=>>>>", matchingOpportunities);
     return (
       <Grid stackable>
         <Grid.Row columns={3}>
@@ -104,14 +103,14 @@ class MatchingApplicantsAndOppotunities extends Component {
                         value={opportunity.percentage}
                         text={`${opportunity.percentage}%`}
                       >
-                        {/* {percentage > 60 ? (
-                      <img
-                      style={{ wid }}
-                      src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRePtynQytlAevO-zkIk1hJHVWGr0LmbNhm7MSbUIz63g3puHya"
-                      alt="cherry"
-                      />
-                    ) : null} */}
-
+                        {/* {opportunity.percentage > 60 ? (
+                          <Image
+                            size="tiny"
+                            floated="right"
+                            src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRePtynQytlAevO-zkIk1hJHVWGr0LmbNhm7MSbUIz63g3puHya"
+                            style={{ width: "10" }}
+                          ></Image>
+                        ) : null} */}
                         <div style={{ fontSize: 12, marginTop: -5 }}></div>
                       </CircularProgressbarWithChildren>
                     </Card.Content>
