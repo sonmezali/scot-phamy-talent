@@ -2,7 +2,7 @@ import React from "react";
 import LandingPage from "./LandingPage";
 import { getLoggedInUserData } from "../utils/storage";
 import MatchingApplicantsAndOppotunities from "./MatchingApplicantsAndOppotunities";
-import ApplicantsList from "./ApplicantsList";
+import ApplicantsList from "../components/Applicant/ApplicantsList";
 
 export default () =>
   getLoggedInUserData() && getLoggedInUserData().user.role === "applicant" ? (
