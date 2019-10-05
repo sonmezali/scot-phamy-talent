@@ -7,7 +7,6 @@ import Login from "./Login";
 import NavBar from "./NavBarAndSideBar/NavBar";
 import ApplicantRegister from "./Applicant/ApplicantRegister";
 import NewOpportunityForm from "./Opportunities/NewOpportunityForm";
-import MainRegister from "./MainRegister";
 import ApplicantProfile from "./Applicant/ApplicantProfile";
 import CompanyProfile from "./Company/CompanyProfile";
 import OpportunitiesList from "./Opportunities/OpportunitiesList";
@@ -16,6 +15,7 @@ import OpportunityView from "./Opportunities/OpportunityView";
 import ApplicantsList from "./Applicant/ApplicantsList";
 import { protect } from "../utils/authentication";
 import AdminProfiles from "./Admin/AdminProfiles";
+
 const Routes = () => {
   return (
     <Router>
@@ -45,7 +45,6 @@ const Routes = () => {
           path="/create-opportunity"
           component={protect(NewOpportunityForm, "company")}
         />
-        <Route path="/main-register" component={MainRegister} />
         <Route path="/applicant-register" component={ApplicantRegister} />
         <Route path="/company-register" component={CompanyRegister} />
         <Route path="/opportunities" exact component={OpportunitiesList} />

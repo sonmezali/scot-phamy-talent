@@ -1,7 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { Icon, Image } from "semantic-ui-react";
-import { Grid, Header } from "semantic-ui-react";
+import { Icon, Image, Header, Grid } from "semantic-ui-react";
 import SideBarMenu from "./NavBarAndSideBar/SideBar";
 
 export default class landingPage extends React.Component {
@@ -28,43 +27,31 @@ export default class landingPage extends React.Component {
       };
     });
 
-  //logOut function
-  logout = event => {
-    event.preventDefault();
-    localStorage.removeItem("token");
-    document.location.reload();
-  };
-
   render() {
     const { visible, activeItem } = this.state;
-    const {
-      handleItemClick,
-      logout,
-      handleSidebarHide,
-      handleShowClick
-    } = this;
+    const { handleItemClick, handleSidebarHide, handleShowClick } = this;
     return (
       <Grid
-        stretched
         columns={1}
         style={{
-          backgroundColor: "rgb(221, 239, 254)",
+          backgroundImage: `url(https://i.imgur.com/oweEPFR.png)`,
           position: "absolute",
           left: "0",
           top: "0"
         }}
+        className="landing-page"
       >
         <Grid.Row>
           <Image
-            floated="Left"
+            floated="left"
             style={{ marginTop: "6px", marginLeft: "15px" }}
             onClick={handleShowClick}
           >
             <Icon name="bars" size="big" color="blue"></Icon>
           </Image>
         </Grid.Row>
-        <Grid.Row style={{ backgroundColor: "white" }}>
-          <Grid.Column>
+        <Grid.Row>
+          <Grid.Column centered>
             <Header as="h1" fontSize="30" color="blue" textAlign="center">
               <strong>New Scots Got</strong> <br></br> Talent{" "}
             </Header>
@@ -73,60 +60,94 @@ export default class landingPage extends React.Component {
         <Grid.Row>
           <Grid.Column style={{ margin: "10px" }}>
             <Image
-              src="https://trinitychurchvirginia.com/wp-content/uploads/2019/08/people2.jpg"
+              src="https://i.imgur.com/jgkgOIC.jpg"
+              alt={"Photo by Nicholas Green on Unsplash"}
               centered
+              size="large"
             ></Image>
           </Grid.Column>
         </Grid.Row>
-        <Grid.Row style={{ backgroundColor: "white" }}>
+        <Grid.Row>
           <Grid.Column>
-            <Header
-              color="blue"
-              style={{ backgroundColor: "white" }}
-              textAlign="center"
-            >
+            <Header color="blue" textAlign="center">
               Migrants <em>(including asylum seekers)</em> can create profiles
               where they list their skills, expertise and which jobs they are
               qualified to do. Employers can post job opportunities and migrants
-              can "match" with the job ads. The focus is on
+              can "match" with the job ads. The focus is on highlighting the
+              wasted talents of people who can't work in line with campaigns
+              like #lifttheban
             </Header>
           </Grid.Column>
         </Grid.Row>
-
         <Grid.Row
           columns={2}
-          style={{ padding: "35px" }}
           as={Link}
           to="/login"
           centered
+          style={{
+            backgroundColor: "rgb(232, 246, 248)",
+            margin: 2,
+            padding: "35px"
+          }}
         >
           <Header color="blue" as="h1">
             <Header.Content>
               <Icon name="sign in" />
-              Sign In
+              SIGN IN
             </Header.Content>
           </Header>
         </Grid.Row>
-        <Grid.Row
-          centered
-          columns={2}
-          style={{ padding: "35px", backgroundColor: "#bce0fd" }}
-          as={Link}
-          to="/login"
-        >
-          <Header color="blue" as="h1">
-            <Header.Content>
-              <Icon name="edit" />
-              Register
-            </Header.Content>
-          </Header>
+        <Grid.Row centered columns={3} as={Link} to="/company-register">
+          <Grid.Column
+            textAlign="center"
+            width={7}
+            style={{
+              backgroundColor: "#bce0fd",
+              padding: "25px",
+              margin: 1
+            }}
+          >
+            <Header color="blue" as="h2">
+              <Header.Content>
+                <Icon name="building outline" />
+                REGISTER AS COMPANY
+              </Header.Content>
+            </Header>
+          </Grid.Column>
+          <Grid.Column
+            width={1}
+            style={{ padding: 0, margin: 0 }}
+          ></Grid.Column>
+          <Grid.Column
+            as={Link}
+            to="/applicant-register"
+            textAlign="center"
+            width={7}
+            style={{
+              padding: "25px",
+              backgroundColor: "#bce0fd",
+              margin: 1
+            }}
+          >
+            <Header color="blue" as="h2">
+              <Header.Content>
+                <Icon name="user" />
+                REGISTER AS APPLICANT
+              </Header.Content>
+            </Header>
+          </Grid.Column>
         </Grid.Row>
         <SideBarMenu
           visible={visible}
           handleSidebarHide={handleSidebarHide}
           activeItem={activeItem}
           handleItemClick={handleItemClick}
-          logout={logout}
+        />
+        <SideBarMenu
+          visible={visible}
+          handleSidebarHide={handleSidebarHide}
+          activeItem={activeItem}
+          handleItemClick={handleItemClick}
         />
       </Grid>
     );

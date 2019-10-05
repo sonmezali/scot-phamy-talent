@@ -44,9 +44,7 @@ class NewOpportunityForm extends Component {
   getCompanyId = () => {
     const id = getLoggedInUserData().user.user_id;
     getCompanyIdForCompanyRegister(id).then(res => {
-      console.log(res);
-      const companyId = res[0].company_id;
-      console.log(companyId);
+      const companyId = res && res.length && res[0].company_id;
       this.setState({
         formEntries: { company_id: companyId }
       });
