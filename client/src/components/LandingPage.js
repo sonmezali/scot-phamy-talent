@@ -1,6 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { Icon, Image, Header, Grid, Segment } from "semantic-ui-react";
+import { Icon, Image, Header, Grid } from "semantic-ui-react";
 import SideBarMenu from "./NavBarAndSideBar/SideBar";
 
 export default class landingPage extends React.Component {
@@ -73,7 +73,9 @@ export default class landingPage extends React.Component {
               Migrants <em>(including asylum seekers)</em> can create profiles
               where they list their skills, expertise and which jobs they are
               qualified to do. Employers can post job opportunities and migrants
-              can "match" with the job ads. The focus is on
+              can "match" with the job ads. The focus is on highlighting the
+              wasted talents of people who can't work in line with campaigns
+              like #lifttheban
             </Header>
           </Grid.Column>
         </Grid.Row>
