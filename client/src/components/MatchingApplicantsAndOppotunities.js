@@ -83,6 +83,7 @@ class MatchingApplicantsAndOppotunities extends Component {
               <Grid.Column>
                 {" "}
                 <Card
+                  fluid
                   color={opportunity.percentage > 66 ? "green" : "red"}
                   key={opportunity.opportunity_id}
                   as={Link}
@@ -103,20 +104,12 @@ class MatchingApplicantsAndOppotunities extends Component {
                         value={opportunity.percentage}
                         text={`${opportunity.percentage}%`}
                       >
-                        {/* {opportunity.percentage > 60 ? (
-                          <Image
-                            size="tiny"
-                            floated="right"
-                            src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRePtynQytlAevO-zkIk1hJHVWGr0LmbNhm7MSbUIz63g3puHya"
-                            style={{ width: "10" }}
-                          ></Image>
-                        ) : null} */}
                         <div style={{ fontSize: 12, marginTop: -5 }}></div>
                       </CircularProgressbarWithChildren>
                     </Card.Content>
                   </Card.Content>
                 </Card>
-                <br />;
+                <br />
               </Grid.Column>
             );
           })}
