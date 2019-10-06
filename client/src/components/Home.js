@@ -4,11 +4,17 @@ import { getLoggedInUserData } from "../utils/storage";
 import MatchingApplicantsAndOppotunities from "./MatchingApplicantsAndOppotunities";
 import ApplicantsList from "../components/Applicant/ApplicantsList";
 
-export default () =>
-  getLoggedInUserData() && getLoggedInUserData().user.role === "applicant" ? (
-    <MatchingApplicantsAndOppotunities />
-  ) : getLoggedInUserData() && getLoggedInUserData().user.role === "company" ? (
-    <ApplicantsList />
-  ) : (
-    <LandingPage />
-  );
+const renderComponent = () => {
+  if (
+    getLoggedInUserData() &&
+    getLoggedInUserData().user.role === "applicant"
+  ) {
+    return <MatchingApplicantsAndOppotunities />;
+  }
+  if (getLoggedInUserData() && getLoggedInUserData().user.role === "company") {
+    return <ApplicantsList />;
+  }
+  return <LandingPage />;
+};
+
+export default () => renderComponent();
