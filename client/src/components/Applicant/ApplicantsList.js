@@ -68,20 +68,21 @@ export default class ApplicantsList extends React.Component {
     this.getAllCities();
     this.getAllSkills();
     getAllApplicants().then(res => {
-      res.map(applicant => {
-        return getSkillsByApplicantId(applicant.applicant_id).then(
-          skillsData => {
-            const skills =
-              skillsData && skillsData.map(result => result && result.skill);
-            this.setState({
-              applicantsList: [
-                ...this.state.applicantsList,
-                { skills, ...applicant, location: applicant.city }
-              ]
-            });
-          }
-        );
-      });
+      res &&
+        res.map(applicant => {
+          return getSkillsByApplicantId(applicant.applicant_id).then(
+            skillsData => {
+              const skills =
+                skillsData && skillsData.map(result => result && result.skill);
+              this.setState({
+                applicantsList: [
+                  ...this.state.applicantsList,
+                  { skills, ...applicant, location: applicant.city }
+                ]
+              });
+            }
+          );
+        });
     });
   }
   handleSelectSkill = (e, data) => {
