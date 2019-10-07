@@ -1,9 +1,9 @@
 import React, { Component } from "react";
 import { Card, Grid } from "semantic-ui-react";
 import { Link } from "react-router-dom";
-import { getOpportunitiesForList, getSkillsList } from "../api/opportunities";
-import { getSkillsByApplicantId } from "../api/applicants";
-import { getLoggedInUserData } from "../utils/storage";
+import { getOpportunitiesForList, getSkillsList } from "../../api/opportunities";
+import { getSkillsByApplicantId } from "../../api/applicants";
+import { getLoggedInUserData } from "../../utils/storage";
 import { CircularProgressbarWithChildren } from "react-circular-progressbar";
 import "react-circular-progressbar/dist/styles.css";
 

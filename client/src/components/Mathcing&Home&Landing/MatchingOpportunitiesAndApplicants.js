@@ -1,11 +1,11 @@
 import React, { Component } from "react";
 import { Grid, Divider, Card } from "semantic-ui-react";
-import { getSkillsList } from "../api/opportunities";
-import { getLoggedInUserData } from "../utils/storage";
+import { getSkillsList } from "../../api/opportunities";
+import { getLoggedInUserData } from "../../utils/storage";
 import { CircularProgressbar } from "react-circular-progressbar";
 import "react-circular-progressbar/dist/styles.css";
-import OpportunityCard from "../components/Opportunities/OpportunityCard";
-import { getOpportunitiesByCompanyId } from "../api/opportunities";
+import OpportunityCard from "../Opportunities/OpportunityCard";
+import { getOpportunitiesByCompanyId } from "../../api/opportunities";
 
 class MatchingOpportunitiesAndApplicant extends Component {
   state = {

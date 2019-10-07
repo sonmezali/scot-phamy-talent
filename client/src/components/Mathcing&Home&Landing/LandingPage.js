@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { Icon, Image, Header, Grid } from "semantic-ui-react";
-import SideBarMenu from "./NavBarAndSideBar/SideBar";
+import SideBarMenu from "../NavBarAndSideBar/SideBar";
 
 export default class landingPage extends React.Component {
   state = {
