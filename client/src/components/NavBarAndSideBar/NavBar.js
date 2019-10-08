@@ -63,7 +63,7 @@ class NavBar extends Component {
           </Menu.Item>
         </Responsive>
         <Menu.Item position="left">
-          <Menu.Header as="h4">{activeItem}</Menu.Header>
+          <Menu.Header as="h4">New Scoot Got Talent </Menu.Header>
         </Menu.Item>
         {getLoggedInUserData() ? (
           <Menu.Item
