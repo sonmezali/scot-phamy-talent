@@ -2,7 +2,7 @@ import React from "react";
 import "semantic-ui-css/semantic.min.css";
 import { Container } from "semantic-ui-react";
 import { BrowserRouter as Router, Route } from "react-router-dom";
-// import Home from "./Mathcing&Home&Landing/LandingPage";
+import Home from "./Matching&Home&Landing/LandingPage";
 import Login from "./Login";
 import NavBar from "./NavBarAndSideBar/NavBar";
 import ApplicantRegister from "./Applicant/ApplicantRegister";

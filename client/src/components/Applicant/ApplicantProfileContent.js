@@ -1,7 +1,7 @@
 import React from "react";
 import { Button, Header, Segment, Image, Grid, Icon } from "semantic-ui-react";
 import { getLoggedInUserData } from "../../utils/storage";
-import MatchingOpportunitiesAndApplicant from "../MatchingOpportunitiesAndApplicants";
+import MatchingOpportunitiesAndApplicant from "../Matching&Home&Landing/MatchingOpportunitiesAndApplicants";
 
 export default ({ skills, applicantData }) => {
   return (
