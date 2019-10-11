@@ -3,6 +3,7 @@ import LandingPage from "./LandingPage";
 import { getLoggedInUserData } from "../../utils/storage";
 import MatchingApplicantsAndOppotunities from "./MatchingApplicantsAndOppotunities";
 import ApplicantsList from "../Applicant/ApplicantsList";
+import AdminProfiles from "../Admin/AdminProfiles";
 
 const renderComponent = () => {
   if (
@@ -14,7 +15,11 @@ const renderComponent = () => {
   if (getLoggedInUserData() && getLoggedInUserData().user.role === "company") {
     return <ApplicantsList />;
   }
-  return <LandingPage />;
+  if (getLoggedInUserData() && getLoggedInUserData().user.role === "admin") {
+    return <AdminProfiles />;
+  } else {
+    return <LandingPage />;
+  }
 };
 
 export default () => renderComponent();
