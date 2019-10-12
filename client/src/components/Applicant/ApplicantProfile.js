@@ -27,13 +27,12 @@ class ApplicantProfile extends React.Component {
     isEditProfile: false,
     opportunitiesList: []
   };
-  getOverAllPercentageOfMatchingForApplicant = percentage => {
-    console.log(percentage);
-  };
   componentDidMount() {
     this.getApplicantData()
       .then(() => this.getApplicantSkills())
-      .then(this.getOpportunitiesForCompanyProfileByCompanyId());
+      .then(() => {
+        this.getOpportunitiesForCompanyProfileByCompanyId();
+      });
   }
   getApplicantData = () => {
     return getApplicantProfileByUserId(this.state.userId).then(
@@ -56,7 +55,7 @@ class ApplicantProfile extends React.Component {
   };
   getOpportunitiesForCompanyProfileByCompanyId = () => {
     const userId = getLoggedInUserData() && getLoggedInUserData().user.user_id; // will get company id from company login
-    return getOpportunitiesByCompanyId(userId).then(data =>
+    return getOpportunitiesByCompanyId(userId).then(data => {
       data.forEach(opportunity => {
         getSkillsList(opportunity.opportunity_id).then(data => {
           const skills = data && data.map(result => result && result.skill);
@@ -66,6 +65,7 @@ class ApplicantProfile extends React.Component {
             return matchingSkills;
           }).length;
           const percentage = ((matching / skills.length) * 100).toFixed(0);
+
           this.setState({
             opportunitiesList: [
               ...this.state.opportunitiesList,
@@ -73,8 +73,8 @@ class ApplicantProfile extends React.Component {
             ]
           });
         });
-      })
-    );
+      });
+    });
   };
 
   clickToDelete = () => {

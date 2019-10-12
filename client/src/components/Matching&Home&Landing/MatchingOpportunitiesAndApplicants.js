@@ -22,12 +22,11 @@ export default ({ opportunitiesList }) => {
       <Grid.Row columns={3} stretched>
         {opportunitiesList.sort(compare).map(opportunity => {
           return (
-            <Grid.Column>
+            <Grid.Column key={opportunity.opportunity_id}>
               {" "}
               <Card
                 fluid
                 color={opportunity.percentage > 60 ? "green" : "red"}
-                key={opportunity.opportunity_id}
                 as={Link}
                 to={
                   getLoggedInUserData() &&
@@ -42,6 +41,7 @@ export default ({ opportunitiesList }) => {
                   <br />
                   <Card.Content style={{ width: "100px" }}>
                     <CircularProgressbarWithChildren
+                      key={opportunity.opportunity_id}
                       value={opportunity.percentage}
                       text={`${opportunity.percentage}%`}
                     >

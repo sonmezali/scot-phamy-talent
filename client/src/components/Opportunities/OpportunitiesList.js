@@ -12,7 +12,10 @@ import {
   Divider
 } from "semantic-ui-react";
 import { deleteOpportunityAndConnectedSkills } from "../../api/opportunities";
-import { getOpportunitiesForList, getSkillsList } from "../../api/opportunities";
+import {
+  getOpportunitiesForList,
+  getSkillsList
+} from "../../api/opportunities";
 import { getSkills } from "../../api/skills";
 import { getCities } from "../../api/cities";
 import OpportunityTypeFilters from "./OpportunityTypeFilters";
@@ -226,6 +229,8 @@ class OpportunitiesList extends Component {
                 onClick={this.handleClickOnOpportunity}
               >
                 <OpportunityCard
+                  contactPerson
+                  date
                   opportunity={opportunity}
                   cardButtons={
                     getLoggedInUserData() &&

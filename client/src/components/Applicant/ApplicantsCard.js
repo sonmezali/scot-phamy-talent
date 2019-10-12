@@ -1,12 +1,13 @@
 import React from "react";
-import { Card, Icon, Divider, Button } from "semantic-ui-react";
+import { Card, Icon, Divider, Button, Progress } from "semantic-ui-react";
 
 export default ({
   applicant_name,
   city,
   skills,
   adminOptions,
-  handleApprove
+  handleApprove,
+  overAllPercentage
 }) => (
   <Card centered raised color="blue">
     <Card.Content>
@@ -31,6 +32,12 @@ export default ({
               </Card.Content>
             ))}
         </Card.Content>
+      )}
+      <br />
+      {overAllPercentage && (
+        <Progress color="green" percent={overAllPercentage} progress>
+          OverAll Matching
+        </Progress>
       )}
       {adminOptions && (
         <Card.Content extra>

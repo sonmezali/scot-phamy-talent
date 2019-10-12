@@ -29,7 +29,7 @@ class NavBar extends Component {
   logout = event => {
     event.preventDefault();
     removeUserData();
-    document.location.reload();
+    document.location.href = "/";
   };
 
   render() {

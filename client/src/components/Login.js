@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import { signApi } from "../api/auth";
 import { getLoggedInUserData, saveLoggedInUserData } from "../utils/storage";
 import MatchingApplicantsAndOpportunities from "./Matching&Home&Landing/MatchingApplicantsAndOppotunities";
+import AdminProfiles from "./Admin/AdminProfiles";
 import ApplicantsList from "./Applicant/ApplicantsList";
 export default class Login extends Component {
   state = {
@@ -47,6 +48,12 @@ export default class Login extends Component {
         getLoggedInUserData().user.role === "company"
       ) {
         return <ApplicantsList />;
+      }
+      if (
+        getLoggedInUserData() &&
+        getLoggedInUserData().user.role === "admin"
+      ) {
+        return <AdminProfiles />;
       } else {
         return (
           <Grid
