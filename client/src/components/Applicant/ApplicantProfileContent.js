@@ -1,9 +1,14 @@
 import React from "react";
 import { Button, Header, Segment, Image, Grid, Icon } from "semantic-ui-react";
 import { getLoggedInUserData } from "../../utils/storage";
-import MatchingOpportunitiesAndApplicant from "../MatchingOpportunitiesAndApplicants";
+import MatchingOpportunitiesAndApplicant from "../Matching&Home&Landing/MatchingOpportunitiesAndApplicants";
 
-export default ({ skills, applicantData }) => {
+export default ({
+  skills,
+  applicantData,
+  getOverAllPercentageOfMatchingForApplicant,
+  opportunitiesList
+}) => {
   return (
     <div>
       <Segment inverted color="blue">
@@ -90,7 +95,13 @@ export default ({ skills, applicantData }) => {
       </Grid>
       {getLoggedInUserData() &&
         getLoggedInUserData().user.role === "company" && (
-          <MatchingOpportunitiesAndApplicant skills={skills} />
+          <MatchingOpportunitiesAndApplicant
+            skills={skills}
+            opportunitiesList={opportunitiesList}
+            getOverAllPercentageOfMatchingForApplicant={
+              getOverAllPercentageOfMatchingForApplicant
+            }
+          />
         )}
     </div>
   );
