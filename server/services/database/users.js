@@ -67,10 +67,27 @@ const deleteUser = id => {
     });
   });
 };
+
+const editPassword = ({ userId, newPassword }) => {
+  return new Promise((resolve, reject) => {
+    pool.query(
+      "UPDATE users SET  PASSWORD=$1 WHERE user_id=$2",
+      [newPassword, userId],
+      (error, result) => {
+        if (error) {
+          reject(error);
+        } else {
+          resolve(result.rows);
+        }
+      }
+    );
+  });
+};
 module.exports = {
   deleteUser,
   getUserByEmail,
   createUser,
   getUserById,
-  getAllUsers
+  getAllUsers,
+  editPassword
 };
