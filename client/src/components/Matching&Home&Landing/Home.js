@@ -15,11 +15,15 @@ const renderComponent = () => {
   if (getLoggedInUserData() && getLoggedInUserData().user.role === "company") {
     return <ApplicantsList />;
   }
-  if (getLoggedInUserData() && getLoggedInUserData().user.role === "admin") {
+  if (
+    getLoggedInUserData() &&
+    getLoggedInUserData().user.role === "moderator"
+  ) {
     return <AdminProfiles />;
-  } else {
-    return <LandingPage />;
   }
+  return <LandingPage />;
 };
 
-export default () => renderComponent();
+export default () => {
+  return <React.Fragment>{renderComponent()}</React.Fragment>;
+};
