@@ -8,8 +8,9 @@ export default ({ skills, applicantData, opportunitiesList }) => {
     <div>
       <Segment inverted color="blue">
         <Segment inverted color="blue"></Segment>
-        <Grid centered>
+        <Grid centered style={{ hight: "25px" }}>
           <Image
+            className="set-image-width-and-height"
             src={
               applicantData.profile_picture
                 ? applicantData.profile_picture
