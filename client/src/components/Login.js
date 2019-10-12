@@ -26,7 +26,7 @@ export default class Login extends Component {
     signApi(this.state.email, this.state.password)
       .then(userData => {
         saveLoggedInUserData(userData);
-        document.location.reload();
+        document.location.href = "/";
       })
       .catch(err => {
         this.setState({ error: true });
