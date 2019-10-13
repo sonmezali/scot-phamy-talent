@@ -72,7 +72,7 @@ const deleteUser = id => {
   });
 };
 
-const editPassword = ({ userId, newPassword }) => {
+const editPassword = (userId, newPassword) => {
   return new Promise((resolve, reject) => {
     pool.query(
       "UPDATE users SET  PASSWORD=$1 WHERE user_id=$2",
