@@ -51,7 +51,7 @@ export default class landingPage extends React.Component {
           </Image>
         </Grid.Row>
         <Grid.Row>
-          <Grid.Column centered>
+          <Grid.Column>
             <Header as="h1" fontSize="30" color="blue" textAlign="center">
               <strong>New Scots Got</strong> <br></br> Talent{" "}
             </Header>
@@ -97,8 +97,10 @@ export default class landingPage extends React.Component {
             </Header.Content>
           </Header>
         </Grid.Row>
-        <Grid.Row centered columns={3} as={Link} to="/company-register">
+        <Grid.Row centered columns={3}>
           <Grid.Column
+            as={Link}
+            to="/company-register"
             textAlign="center"
             width={7}
             style={{
