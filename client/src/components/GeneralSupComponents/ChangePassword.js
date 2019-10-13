@@ -104,7 +104,6 @@ export default class ChangePassword extends Component {
       successServerStatus,
       openSubmitStatusMsg
     } = this.state;
-    console.log(this.state);
     const { handleChange, handleSubmit, handleCloseSuccess } = this;
     return (
       <Grid centered>
