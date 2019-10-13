@@ -34,7 +34,7 @@ router.get("/:userId", (req, res) => {
 
 router.put("/change-password", (req, res) => {
   const { userId, newPassword } = req.body;
-  editPassword({ userId, newPassword })
+  editPassword( userId, newPassword )
     .then(data => res.send(data))
     .catch(err => {
       res.status(500);
