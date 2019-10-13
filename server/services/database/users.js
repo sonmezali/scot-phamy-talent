@@ -48,12 +48,16 @@ const createUser = ({ role, email, password }) => {
 
 const getUserById = id => {
   return new Promise((resolve, reject) => {
-    pool.query("SELECT * FROM users where id = $1", [id], (error, result) => {
-      if (error) {
-        return reject(error);
+    pool.query(
+      "SELECT * FROM users WHERE user_id = $1",
+      [id],
+      (error, result) => {
+        if (error) {
+          return reject(error);
+        }
+        resolve(result.rows[0]);
       }
-      resolve(result.rows[0]);
-    });
+    );
   });
 };
 const deleteUser = id => {
