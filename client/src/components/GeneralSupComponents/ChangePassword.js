@@ -86,7 +86,7 @@ export default class ChangePassword extends Component {
           this.setState({ openSubmitStatusMsg: true });
         } else {
           return this.setState({
-            successServerStatus: false,
+            successServerStatus: true,
             openSubmitStatusMsg: true
           });
         }
@@ -104,6 +104,7 @@ export default class ChangePassword extends Component {
       successServerStatus,
       openSubmitStatusMsg
     } = this.state;
+    console.log(this.state);
     const { handleChange, handleSubmit, handleCloseSuccess } = this;
     return (
       <Grid centered>
