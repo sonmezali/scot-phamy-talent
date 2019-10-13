@@ -85,4 +85,35 @@ const validateCompanyRegisterForm = form => {
   };
 };
 
-export { validateApplicantRegisterForm, validateCompanyRegisterForm };
+const validateChangePasswordForm = form => {
+  const { password, confirmPassword, city, industry } = form;
+  const passwordLength = validatePasswordLength(password);
+  const passwordIsMatching = validatePasswordMatching(
+    password,
+    confirmPassword
+  );
+  const passwordContainUppercase = validatePasswordContainUppercase(password);
+  const passwordContainLowerCase = validatePasswordContainLowercase(password);
+  const passwordContainNumber = validatePasswordContainNumber(password);
+  const cityIsSelected = validateSelectedCity(city);
+  const industryIsSelected = validateSelectedIndustry(industry);
+  const validPassword =
+    !!passwordLength &&
+    !!passwordContainUppercase &&
+    !!passwordContainLowerCase &&
+    !!passwordContainNumber;
+  const validConfirmPassword = !!passwordIsMatching;
+
+  const valid = !!validPassword && !!validConfirmPassword;
+  return {
+    validPassword,
+    validConfirmPassword,
+    valid
+  };
+};
+
+export {
+  validateApplicantRegisterForm,
+  validateCompanyRegisterForm,
+  validateChangePasswordForm
+};
