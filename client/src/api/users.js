@@ -1,4 +1,5 @@
-export const changePassword = ({ userId, newPassword }) => {
+// change PAssword Function
+export const changePassword = (userId, newPassword) => {
   return fetch("/api/users/change-password", {
     method: "PUT",
     body: JSON.stringify({ userId, newPassword }),
@@ -7,6 +8,7 @@ export const changePassword = ({ userId, newPassword }) => {
     }
   }).then(res => res.json());
 };
+
 export const getUserById = id => {
   return fetch(`/api/users/${id}`).then(res => res.json());
 };
