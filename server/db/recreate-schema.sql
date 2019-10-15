@@ -83,7 +83,8 @@ CREATE TABLE company_profile (
   location INTEGER REFERENCES cities (id),
   industry industry_type,
   logo_url TEXT DEFAULT NULL,
-  user_id INTEGER REFERENCES users (user_id)
+  user_id INTEGER REFERENCES users (user_id) ON
+DELETE CASCADE
 );
 
 CREATE TYPE opportunity_type AS ENUM (
@@ -107,11 +108,13 @@ CREATE TABLE opportunities (
   TYPE opportunity_type,
   opp_status status_type DEFAULT 'pending',
   company_id INTEGER REFERENCES company_profile (company_id)
+  ON DELETE CASCADE
 );
 
 CREATE TABLE opportunity_skills (
   skill_id INTEGER REFERENCES skills (skill_id),
-  opportunity_id INTEGER REFERENCES opportunities (opportunity_id)
+  opportunity_id INTEGER REFERENCES opportunities (opportunity_id) ON
+DELETE CASCADE
 );
 
 CREATE TABLE applicant_skills (
