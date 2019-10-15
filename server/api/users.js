@@ -3,7 +3,8 @@ const router = express.Router();
 const {
   getAllUsers,
   editPassword,
-  getUserById
+  getUserById,
+  deleteUser
 } = require("../services/database/users");
 
 /**
@@ -20,7 +21,7 @@ router.get("/", (req, res) => {
     });
 });
 
-router.get("/:userId", (req, res) => {
+router.get("/:userId([0-9]+)", (req, res) => {
   const { userId } = req.params;
   getUserById(userId)
     .then(data => {
@@ -34,8 +35,16 @@ router.get("/:userId", (req, res) => {
 
 router.put("/change-password", (req, res) => {
   const { userId, newPassword } = req.body;
-  editPassword( userId, newPassword )
+  editPassword(userId, newPassword)
     .then(data => res.send(data))
+    .catch(err => {
+      res.status(500);
+    });
+});
+router.delete("/delete-user/:userId([0-9]+)", (req, res) => {
+  const { userId } = req.params;
+  deleteUser(userId)
+    .then(data => res.send({ userDeleted: true }))
     .catch(err => {
       res.status(500);
     });
