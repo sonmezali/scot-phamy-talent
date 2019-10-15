@@ -1,25 +1,16 @@
 import React from "react";
 
-import {
-  Divider,
-  Button,
-  Header,
-  Modal,
-  Image,
-  Icon,
-  Grid,
-  Segment
-} from "semantic-ui-react";
+import { Button, Header, Modal, Icon } from "semantic-ui-react";
 import { getCompanyProfile } from "../../api/companyProfile";
 import {
   getOpportunitiesByCompanyId,
   deleteOpportunityAndConnectedSkills
 } from "../../api/opportunities";
-import OpportunityCard from "../Opportunities/OpportunityCard";
 import { getLoggedInUserData, removeUserData } from "../../utils/storage";
 import ProfileOptionsButton from "../GeneralSupComponents/ProfileOptionsButton";
 import { deleteUser } from "../../api/users";
-
+import CompanyProfileContent from "./CompanyProfileContent";
+import EditCompanyProfile from "./EditCompanyProfile";
 class CompanyProfile extends React.Component {
   state = {
     userId:
@@ -28,10 +19,12 @@ class CompanyProfile extends React.Component {
       null,
     companyData: {},
     opportunitiesArray: [],
-    openDeleteMsg: false,
+    openDeleteProfileMsg: false,
+    openDeleteOpportunityMsg: false,
     askDeleteOpportunityPermission: false,
     askDeleteProfilePermission: false,
-    selectedId: null
+    selectedId: null,
+    isEditCompanyProfile: false
   };
 
   getOpportunitiesForCompanyProfileByCompanyId = () => {
@@ -63,19 +56,19 @@ class CompanyProfile extends React.Component {
     this.setState({
       selectedId: id,
       askDeleteOpportunityPermission: true,
-      openDeleteMsg: true
+      openDeleteOpportunityMsg: true
     });
   };
   confirmDeleteProfile = () => {
     this.setState({
       askDeleteProfilePermission: true,
-      openDeleteMsg: true
+      openDeleteProfileMsg: true
     });
   };
   handleDeleteOpportunity = id => {
     deleteOpportunityAndConnectedSkills(id).then(data => {
       if (data.deleted) {
-        this.setState({ openDeleteMsg: false });
+        this.setState({ openDeleteOpportunityMsg: false });
         return this.getOpportunitiesForCompanyProfileByCompanyId();
       }
     });
@@ -87,10 +80,13 @@ class CompanyProfile extends React.Component {
   handleDeleteCompanyProfile = id => {
     deleteUser(id).then(res => {
       if (res) {
-        this.setState({ openDeleteMsg: false });
+        this.setState({ openDeleteProfileMsg: false });
         return this.logout();
       }
     });
+  };
+  handleClickToEdit = () => {
+    this.setState({ isEditCompanyProfile: true });
   };
 
   render() {
@@ -98,10 +94,12 @@ class CompanyProfile extends React.Component {
       companyData,
       opportunitiesArray,
       userId,
-      openDeleteMsg,
+      openDeleteProfileMsg,
+      openDeleteOpportunityMsg,
       askDeleteOpportunityPermission,
       askDeleteProfilePermission,
-      selectedId
+      selectedId,
+      isEditCompanyProfile
     } = this.state;
     if (userId === null || !userId) {
       return null;
@@ -117,68 +115,22 @@ class CompanyProfile extends React.Component {
               createOpportunity
               linkToCreateOpportunity={"/create-opportunity"}
               clickToDelete={this.confirmDeleteProfile}
+              handleClickToEdit={this.handleClickToEdit}
             />
           )}
-        <Segment style={{ background: "#bce0fd" }}>
-          <Image
-            centered
-            size="tiny"
-            src={
-              companyData && companyData.logo_url
-                ? companyData.logo_url
-                : "https://react.semantic-ui.com/images/wireframe/square-image.png"
-            }
-            alt="Company Logo"
+        {isEditCompanyProfile ? (
+          <EditCompanyProfile companyData={companyData}></EditCompanyProfile>
+        ) : (
+          <CompanyProfileContent
+            companyData={companyData}
+            opportunitiesArray={opportunitiesArray}
+            userId={userId}
+            confirmDeleteOpportunity={this.confirmDeleteOpportunity}
           />
-          <Header textAlign="center" as="h3">
-            {companyData && companyData.company_name}
-          </Header>
-          <Header textAlign="center" as="h3">
-            Location: {companyData && companyData.location}
-          </Header>
-        </Segment>
-        <Segment centered basic>
-          <a href={`mailto: ${companyData && companyData.email}`}>
-            <Button primary size="large">
-              Contact
-            </Button>
-          </a>
-        </Segment>
-        <Segment>
-          <Header as="h3">About Company</Header>
-
-          <p>{companyData && companyData.company_description}</p>
-        </Segment>
-        <Grid stackable>
-          <Grid.Row columns={3} stretched>
-            {opportunitiesArray &&
-              opportunitiesArray.map(opportunity => (
-                <Grid.Column key={opportunity.opportunity_id}>
-                  <OpportunityCard
-                    date
-                    contactPerson
-                    opportunity={opportunity}
-                    cardButtons={
-                      Number(getLoggedInUserData().user.user_id) ===
-                      Number(userId)
-                        ? true
-                        : false
-                    }
-                    ConfirmDelete={this.confirmDeleteOpportunity}
-                    handleEditOpportunity={this.handleEditOpportunity(
-                      opportunity.opportunity_id
-                    )}
-                  />
-
-                  <br></br>
-                </Grid.Column>
-              ))}
-            <Divider></Divider>
-          </Grid.Row>
-        </Grid>
+        )}
         {askDeleteOpportunityPermission && (
           <Modal
-            open={openDeleteMsg}
+            open={openDeleteOpportunityMsg}
             onClose={this.handleClose}
             closeIcon
             basic
@@ -192,7 +144,9 @@ class CompanyProfile extends React.Component {
             <Modal.Actions>
               <Button
                 color="green"
-                onClick={() => this.setState({ openDeleteMsg: false })}
+                onClick={() =>
+                  this.setState({ openDeleteOpportunityMsg: false })
+                }
                 inverted
               >
                 No
@@ -209,8 +163,8 @@ class CompanyProfile extends React.Component {
         )}
         {askDeleteProfilePermission && (
           <Modal
-            open={openDeleteMsg}
-            onClose={this.handleClose}
+            open={openDeleteProfileMsg}
+            onClose={() => this.setState({ openDeleteProfileMsg: false })}
             closeIcon
             basic
             size="small"
@@ -224,7 +178,7 @@ class CompanyProfile extends React.Component {
             <Modal.Actions>
               <Button
                 color="green"
-                onClick={() => this.setState({ openDeleteMsg: false })}
+                onClick={() => this.setState({ openDeleteProfileMsg: false })}
                 inverted
               >
                 No
