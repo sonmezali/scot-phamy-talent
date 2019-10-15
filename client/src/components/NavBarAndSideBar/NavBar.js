@@ -65,7 +65,7 @@ class NavBar extends Component {
         <Menu.Item position="left" onClick={() => window.history.back()}>
           <Icon name="arrow circle left" size="big"></Icon>
         </Menu.Item>
-        <Menu.Item centered>
+        <Menu.Item>
           <Menu.Header as="h4">New Scots Got Talent </Menu.Header>
         </Menu.Item>
         {getLoggedInUserData() ? (
