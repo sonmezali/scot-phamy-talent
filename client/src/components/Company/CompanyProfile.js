@@ -106,27 +106,29 @@ class CompanyProfile extends React.Component {
     }
     return (
       <React.Fragment>
-        {getLoggedInUserData() &&
-          getLoggedInUserData().user.role === "company" && (
-            <ProfileOptionsButton
-              changePassword
-              deleteOption
-              edit
-              createOpportunity
-              linkToCreateOpportunity={"/create-opportunity"}
-              clickToDelete={this.confirmDeleteProfile}
-              handleClickToEdit={this.handleClickToEdit}
-            />
-          )}
         {isEditCompanyProfile ? (
           <EditCompanyProfile companyData={companyData}></EditCompanyProfile>
         ) : (
-          <CompanyProfileContent
-            companyData={companyData}
-            opportunitiesArray={opportunitiesArray}
-            userId={userId}
-            confirmDeleteOpportunity={this.confirmDeleteOpportunity}
-          />
+          <React.Fragment>
+            {getLoggedInUserData() &&
+              getLoggedInUserData().user.role === "company" && (
+                <ProfileOptionsButton
+                  changePassword
+                  deleteOption
+                  edit
+                  createOpportunity
+                  linkToCreateOpportunity={"/create-opportunity"}
+                  clickToDelete={this.confirmDeleteProfile}
+                  handleClickToEdit={this.handleClickToEdit}
+                />
+              )}
+            <CompanyProfileContent
+              companyData={companyData}
+              opportunitiesArray={opportunitiesArray}
+              userId={userId}
+              confirmDeleteOpportunity={this.confirmDeleteOpportunity}
+            />
+          </React.Fragment>
         )}
         {askDeleteOpportunityPermission && (
           <Modal

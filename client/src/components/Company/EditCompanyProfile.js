@@ -105,7 +105,7 @@ class EditCompanyProfile extends Component {
             <Grid.Row>
               <Grid.Column>
                 <Header as="h1" textAlign="center">
-                  Create New Company
+                  Edit Company Profile
                 </Header>
               </Grid.Column>
             </Grid.Row>
