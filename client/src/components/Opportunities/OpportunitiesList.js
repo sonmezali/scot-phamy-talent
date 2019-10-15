@@ -129,7 +129,7 @@ class OpportunitiesList extends Component {
     deleteOpportunityAndConnectedSkills(id).then(data => {
       if (data.deleted) {
         this.setState({ openDeleteMsg: false });
-        return this.getOpportunitiesForCompanyProfileByCompanyId();
+        window.location.reload();
       }
     });
   };
