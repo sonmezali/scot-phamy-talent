@@ -9,19 +9,44 @@ VALUES
 INSERT INTO users
     (ROLE, email, PASSWORD)
 VALUES
-    ('applicant', 'applicant1@cyf.org', 'password');
+    ('applicant', 'youssef@cyf.org', 'password');
     INSERT INTO users
     (ROLE, email, PASSWORD)
 VALUES
-    ('applicant', 'applicant2@cyf.org', 'password');
+    ('applicant', 'alisonmez@cyf.org', 'password');
     INSERT INTO users
     (ROLE, email, PASSWORD)
 VALUES
-    ('applicant', 'applicant3@cyf.org', 'password');
+    ('applicant', 'meriem3@cyf.org', 'password');
     INSERT INTO users
     (ROLE, email, PASSWORD)
 VALUES
-    ('applicant', 'applicant4@cyf.org', 'password');
+    ('applicant', 'havvarslan@cyf.org', 'password');
+    INSERT INTO users
+    (ROLE, email, PASSWORD)
+VALUES
+    ('applicant', 'philezemonya@cyf.org', 'password');
+    INSERT INTO users
+    (ROLE, email, PASSWORD)
+VALUES
+    ('applicant', 'luciana@cyf.org', 'password');
+    INSERT INTO users
+    (ROLE, email, PASSWORD)
+VALUES
+    ('applicant', 'jermain@cyf.org', 'password');
+    INSERT INTO users
+    (ROLE, email, PASSWORD)
+VALUES
+    ('applicant', 'franklampard@cyf.org', 'password');
+    INSERT INTO users
+    (ROLE, email, PASSWORD)
+VALUES
+    ('applicant', 'stevengerrand@cyf.org', 'password');
+    INSERT INTO users
+    (ROLE, email, PASSWORD)
+VALUES
+    ('applicant', 'harrykane@cyf.org', 'password');
+
 
 INSERT INTO users
     (ROLE, email, PASSWORD)
