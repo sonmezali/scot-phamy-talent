@@ -31,13 +31,17 @@ export default ({
                   </Dropdown.Item>
                 )}
                 {changePassword && (
-                  <Dropdown.Item name="ChangePassword">
+                  <Dropdown.Item
+                    name="Change Password"
+                    as={Link}
+                    to={"/change-password"}
+                  >
                     <Icon name="lock" color="blue" /> Change Password
                   </Dropdown.Item>
                 )}
                 {createOpportunity && (
                   <Dropdown.Item
-                    name="ChangePassword"
+                    name="Create Opportunity"
                     as={Link}
                     to={linkToCreateOpportunity}
                   >

@@ -16,8 +16,9 @@ import {
   deleteOpportunityAndConnectedSkills
 } from "../../api/opportunities";
 import OpportunityCard from "../Opportunities/OpportunityCard";
-import { getLoggedInUserData } from "../../utils/storage";
+import { getLoggedInUserData, removeUserData } from "../../utils/storage";
 import ProfileOptionsButton from "../GeneralSupComponents/ProfileOptionsButton";
+import { deleteUser } from "../../api/users";
 
 class CompanyProfile extends React.Component {
   state = {
@@ -28,7 +29,8 @@ class CompanyProfile extends React.Component {
     companyData: {},
     opportunitiesArray: [],
     openDeleteMsg: false,
-    askDeletePermission: false,
+    askDeleteOpportunityPermission: false,
+    askDeleteProfilePermission: false,
     selectedId: null
   };
 
@@ -57,10 +59,16 @@ class CompanyProfile extends React.Component {
     return "/company/manage-profile";
   };
 
-  ConfirmDelete = id => {
+  confirmDeleteOpportunity = id => {
     this.setState({
       selectedId: id,
-      askDeletePermission: true,
+      askDeleteOpportunityPermission: true,
+      openDeleteMsg: true
+    });
+  };
+  confirmDeleteProfile = () => {
+    this.setState({
+      askDeleteProfilePermission: true,
       openDeleteMsg: true
     });
   };
@@ -72,6 +80,18 @@ class CompanyProfile extends React.Component {
       }
     });
   };
+  logout = () => {
+    removeUserData();
+    document.location.href = "/";
+  };
+  handleDeleteCompanyProfile = id => {
+    deleteUser(id).then(res => {
+      if (res) {
+        this.setState({ openDeleteMsg: false });
+        return this.logout();
+      }
+    });
+  };
 
   render() {
     const {
@@ -79,7 +99,8 @@ class CompanyProfile extends React.Component {
       opportunitiesArray,
       userId,
       openDeleteMsg,
-      askDeletePermission,
+      askDeleteOpportunityPermission,
+      askDeleteProfilePermission,
       selectedId
     } = this.state;
     if (userId === null || !userId) {
@@ -95,6 +116,7 @@ class CompanyProfile extends React.Component {
               edit
               createOpportunity
               linkToCreateOpportunity={"/create-opportunity"}
+              clickToDelete={this.confirmDeleteProfile}
             />
           )}
         <Segment style={{ background: "#bce0fd" }}>
@@ -115,7 +137,6 @@ class CompanyProfile extends React.Component {
             Location: {companyData && companyData.location}
           </Header>
         </Segment>
-
         <Segment centered basic>
           <a href={`mailto: ${companyData && companyData.email}`}>
             <Button primary size="large">
@@ -143,7 +164,7 @@ class CompanyProfile extends React.Component {
                         ? true
                         : false
                     }
-                    ConfirmDelete={this.ConfirmDelete}
+                    ConfirmDelete={this.confirmDeleteOpportunity}
                     handleEditOpportunity={this.handleEditOpportunity(
                       opportunity.opportunity_id
                     )}
@@ -155,7 +176,7 @@ class CompanyProfile extends React.Component {
             <Divider></Divider>
           </Grid.Row>
         </Grid>
-        {askDeletePermission && (
+        {askDeleteOpportunityPermission && (
           <Modal
             open={openDeleteMsg}
             onClose={this.handleClose}
@@ -180,6 +201,38 @@ class CompanyProfile extends React.Component {
                 color="red"
                 inverted
                 onClick={() => this.handleDeleteOpportunity(selectedId)}
+              >
+                <Icon name="remove" /> Delete
+              </Button>
+            </Modal.Actions>
+          </Modal>
+        )}
+        {askDeleteProfilePermission && (
+          <Modal
+            open={openDeleteMsg}
+            onClose={this.handleClose}
+            closeIcon
+            basic
+            size="small"
+          >
+            <Header
+              icon="warning sign"
+              color="yellow"
+              content="Are You Sure You Want To Delete The Company Profile"
+            />
+            <p>You will Delete the user also will not be able to login again</p>
+            <Modal.Actions>
+              <Button
+                color="green"
+                onClick={() => this.setState({ openDeleteMsg: false })}
+                inverted
+              >
+                No
+              </Button>
+              <Button
+                color="red"
+                inverted
+                onClick={() => this.handleDeleteCompanyProfile(userId)}
               >
                 <Icon name="remove" /> Delete
               </Button>

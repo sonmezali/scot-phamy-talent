@@ -15,6 +15,7 @@ import OpportunityView from "./Opportunities/OpportunityView";
 import ApplicantsList from "./Applicant/ApplicantsList";
 import { protect } from "../utils/authentication";
 import AdminProfiles from "./Admin/AdminProfiles";
+import ChangePassword from "./GeneralSupComponents/ChangePassword";
 
 const Routes = () => {
   return (
@@ -54,6 +55,7 @@ const Routes = () => {
           path="/admin-Profiles"
           component={protect(AdminProfiles, "moderator")}
         />
+        <Route path="/change-password" component={protect(ChangePassword)} />
       </Container>
     </Router>
   );

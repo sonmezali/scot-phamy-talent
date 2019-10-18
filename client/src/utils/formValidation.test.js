@@ -1,6 +1,7 @@
 import {
   validateApplicantRegisterForm,
-  validateCompanyRegisterForm
+  validateCompanyRegisterForm,
+  validateChangePasswordForm
 } from "./formValidation";
 describe("form to be valid", () => {
   it("should be 8 characters length", () => {
@@ -191,5 +192,60 @@ describe("form to be valid", () => {
     expect(result.validConfirmPassword).toEqual(true);
     expect(result.cityIsSelected).toEqual(true);
     expect(result.industryIsSelected).toEqual(true);
+  });
+});
+// CHange Password Validation  Test
+describe("form to be valid", () => {
+  it("should be 8 characters length", () => {
+    const formData = {
+      password: ""
+    };
+
+    const result = validateChangePasswordForm(formData);
+    expect(result.valid).toEqual(false);
+    expect(result.validPassword).toEqual(false);
+  });
+
+  it("should fail if Password NotMatching", () => {
+    const formData = {
+      password: "abcdefghij"
+    };
+
+    const result = validateChangePasswordForm(formData);
+    expect(result.valid).toEqual(false);
+    expect(result.validPassword).toEqual(false);
+  });
+
+  it(`should fail if there is capital letter and matching password 
+  and length is 8 characters But there is no LowerCase letter `, () => {
+    const formData = {
+      password: "ABCDEFGHIJ"
+    };
+
+    const result = validateChangePasswordForm(formData);
+    expect(result.valid).toEqual(false);
+    expect(result.validPassword).toEqual(false);
+  });
+
+  it("should not pass if Length & match & uppercase & Lowercase & but no number", () => {
+    const formData = {
+      password: "abcdEfghj"
+    };
+
+    const result = validateChangePasswordForm(formData);
+    expect(result.valid).toEqual(false);
+    expect(result.validPassword).toEqual(false);
+  });
+
+  it("should not pass length & match & lowercase & uppercase & number but no city selected ", () => {
+    const formData = {
+      password: "abcdEfghj1",
+      confirmPassword: "abcdEfghj1"
+    };
+
+    const result = validateChangePasswordForm(formData);
+    expect(result.valid).toEqual(true);
+    expect(result.validPassword).toEqual(true);
+    expect(result.validConfirmPassword).toEqual(true);
   });
 });

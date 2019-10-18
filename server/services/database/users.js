@@ -48,12 +48,16 @@ const createUser = ({ role, email, password }) => {
 
 const getUserById = id => {
   return new Promise((resolve, reject) => {
-    pool.query("SELECT * FROM users where id = $1", [id], (error, result) => {
-      if (error) {
-        return reject(error);
+    pool.query(
+      "SELECT * FROM users WHERE user_id = $1",
+      [id],
+      (error, result) => {
+        if (error) {
+          return reject(error);
+        }
+        resolve(result.rows[0]);
       }
-      resolve(result.rows[0]);
-    });
+    );
   });
 };
 const deleteUser = id => {
@@ -67,10 +71,27 @@ const deleteUser = id => {
     });
   });
 };
+
+const editPassword = (userId, newPassword) => {
+  return new Promise((resolve, reject) => {
+    pool.query(
+      "UPDATE users SET  PASSWORD=$1 WHERE user_id=$2",
+      [newPassword, userId],
+      (error, result) => {
+        if (error) {
+          reject(error);
+        } else {
+          resolve(result.rows);
+        }
+      }
+    );
+  });
+};
 module.exports = {
   deleteUser,
   getUserByEmail,
   createUser,
   getUserById,
-  getAllUsers
+  getAllUsers,
+  editPassword
 };

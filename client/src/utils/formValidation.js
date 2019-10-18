@@ -1,4 +1,9 @@
-const validatePasswordLength = password => password.length > 8;
+const validOldPassword = (password, currentPassword) =>
+  password === currentPassword;
+const validEmail = (email, currentEmail) => email === currentEmail;
+
+const validatePasswordLength = password =>
+  password.length && password.length > 8;
 
 const validatePasswordMatching = (password, confirmPassword) =>
   password === confirmPassword;
@@ -85,4 +90,51 @@ const validateCompanyRegisterForm = form => {
   };
 };
 
-export { validateApplicantRegisterForm, validateCompanyRegisterForm };
+const validateChangePasswordForm = (form, currentValues) => {
+  const { email, oldPassword, newPassword, confirmNewPassword } = form;
+  const { currentPassword, currentEmail } = currentValues;
+  const validOldPasswordCurrent = validOldPassword(
+    oldPassword,
+    currentPassword
+  );
+  const validCurrentEmail = validEmail(email, currentEmail);
+  const passwordLength = validatePasswordLength(newPassword);
+  const passwordIsMatching = validatePasswordMatching(
+    newPassword,
+    confirmNewPassword
+  );
+  const passwordContainUppercase = validatePasswordContainUppercase(
+    newPassword
+  );
+  const passwordContainLowerCase = validatePasswordContainLowercase(
+    newPassword
+  );
+  const passwordContainNumber = validatePasswordContainNumber(newPassword);
+  const validPassword =
+    !!passwordLength &&
+    !!passwordContainUppercase &&
+    !!passwordContainLowerCase &&
+    !!passwordContainNumber;
+  const validConfirmPassword = !!passwordIsMatching;
+
+  const valid =
+    !!validPassword &&
+    !!validConfirmPassword &&
+    !!validOldPasswordCurrent &&
+    !!validCurrentEmail;
+  return {
+    validPassword,
+    validConfirmPassword,
+    validOldPasswordCurrent,
+    validCurrentEmail,
+    valid
+  };
+};
+
+export {
+  validateApplicantRegisterForm,
+  validateCompanyRegisterForm,
+  validateChangePasswordForm,
+  validOldPassword,
+  validEmail
+};
