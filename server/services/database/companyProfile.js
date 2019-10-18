@@ -7,10 +7,12 @@ const getCompanyProfile = (id) => {
     pool.query(
       `SELECT
   users.email,
+  company_profile.company_id,
   company_profile.name AS company_Name,
   company_profile.description AS company_Description,
   company_profile.industry,
   company_profile.logo_url,
+  company_profile.location AS cityid,
   cities.city AS location,
   company_profile.user_id
    FROM
@@ -31,4 +33,18 @@ const getCompanyProfile = (id) => {
   });
 };
 
-module.exports = { getCompanyProfile };
+const editCompanyProfile = ({ name, description, city, logo_url, id }) => {
+  return new Promise((resolve, reject) => {
+    pool.query(
+      `UPDATE company_profile SET name=$1, description=$2,location=$3,logo_url=$4  WHERE company_id=${id}`,
+      [name, description, city, logo_url],
+      (error, result) => {
+        if (error) {
+          return reject(error);
+        }
+        resolve(result.rows);
+      },
+    );
+  });
+};
+module.exports = { getCompanyProfile, editCompanyProfile };
