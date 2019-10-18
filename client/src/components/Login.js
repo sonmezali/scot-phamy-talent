@@ -63,7 +63,7 @@ export default class Login extends Component {
           >
             <Grid.Column>
               <Header as="h2" color="blue" textAlign="center">
-                Login to your account
+                Log In Your Account
               </Header>
               <Form onSubmit={handleSubmit} size="large">
                 <p align="left">Email</p>
@@ -97,7 +97,7 @@ export default class Login extends Component {
                   fluid
                   size="large"
                 >
-                  Login
+                  Log In
                 </Button>
                 {error ? <div>Wrong Info. Try Again</div> : null}
               </Form>
