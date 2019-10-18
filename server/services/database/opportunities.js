@@ -10,7 +10,7 @@ const createOpportunity = ({
   city,
   date,
   type,
-  company_id
+  company_id,
 }) => {
   return new Promise((resolve, reject) => {
     pool.query(
@@ -27,14 +27,14 @@ const createOpportunity = ({
         city,
         date,
         type,
-        company_id
+        company_id,
       ],
       (error, result) => {
         if (error) {
           return reject(error);
         }
         resolve(result.rows);
-      }
+      },
     );
   });
 };
@@ -48,6 +48,7 @@ const getOpportunitiesForList = () => {
   opportunities.contact_person, 
   opportunities.description,
   opportunities.telephone,
+  opportunities.city AS cityid,
   opportunities.email,
   opportunities.date, 
   opportunities.Type,
@@ -65,11 +66,11 @@ const getOpportunitiesForList = () => {
         } else {
           resolve(result.rows);
         }
-      }
+      },
     );
   });
 };
-const getOpportunityById = id => {
+const getOpportunityById = (id) => {
   return new Promise((resolve, reject) => {
     pool.query(
       `SELECT
@@ -80,6 +81,7 @@ const getOpportunityById = id => {
   opportunities.telephone,
   opportunities.email,
   opportunities.date, 
+   opportunities.city AS cityid,
   opportunities.Type,
   cities.city AS location,
   company_profile.name As company_name,
@@ -98,11 +100,11 @@ const getOpportunityById = id => {
         } else {
           resolve(result.rows);
         }
-      }
+      },
     );
   });
 };
-const getOpportunitiesForCompanyProfileByCompanyId = id => {
+const getOpportunitiesForCompanyProfileByCompanyId = (id) => {
   return new Promise((resolve, reject) => {
     pool.query(
       `SELECT 
@@ -122,11 +124,11 @@ const getOpportunitiesForCompanyProfileByCompanyId = id => {
         } else {
           resolve(result.rows);
         }
-      }
+      },
     );
   });
 };
-const deleteOpportunityByCompany = id => {
+const deleteOpportunityByCompany = (id) => {
   return new Promise((resolve, reject) => {
     pool.query(
       `DELETE FROM opportunities WHERE opportunity_id = ${id}`,
@@ -136,7 +138,32 @@ const deleteOpportunityByCompany = id => {
         } else {
           resolve(result.row);
         }
-      }
+      },
+    );
+  });
+};
+
+const editOpportunity = ({
+  id,
+  name,
+  description,
+  contactPerson,
+  telephone,
+  email,
+  city,
+  date,
+  type,
+}) => {
+  return new Promise((resolve, reject) => {
+    pool.query(
+      `UPDATE opportunities SET name=$1 ,description=$2 ,contact_person=$3,telephone=$4 ,email=$5 ,city=$6,date=$7,type=$8  WHERE opportunity_id=${id}`,
+      [name, description, contactPerson, telephone, email, city, date, type],
+      (error, result) => {
+        if (error) {
+          return reject(error);
+        }
+        resolve(result.rows);
+      },
     );
   });
 };
@@ -146,5 +173,6 @@ module.exports = {
   getOpportunitiesForList,
   getOpportunityById,
   getOpportunitiesForCompanyProfileByCompanyId,
-  deleteOpportunityByCompany
+  deleteOpportunityByCompany,
+  editOpportunity,
 };

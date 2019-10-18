@@ -24,3 +24,13 @@ export const deleteOpportunityAndConnectedSkills = id => {
     method: "DELETE"
   }).then(res => res.json());
 };
+
+export const updateOpportunity = (id, updatedEntries) => {
+  return fetch(`/api/opportunities/${id}`, {
+    method: "PUT",
+    body: JSON.stringify(updatedEntries),
+    headers: {
+      "Content-Type": "application/json"
+    }
+  }).then(res => res.json());
+};
