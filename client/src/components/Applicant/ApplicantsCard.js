@@ -36,7 +36,7 @@ export default ({
       <br />
       {overAllPercentage && (
         <Progress color="green" percent={overAllPercentage} progress>
-          OverAll Matching
+          Overall Matching
         </Progress>
       )}
       {adminOptions && (
