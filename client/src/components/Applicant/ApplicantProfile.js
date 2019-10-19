@@ -10,6 +10,9 @@ import { Message } from "semantic-ui-react";
 import { getSkillsByApplicantId } from "../../api/applicants";
 import ApplicantProfileContent from "./ApplicantProfileContent";
 import EditApplicantProfile from "./EditApplicantProfile";
+import { getSkillsList } from "../../api/opportunities";
+import { getOpportunitiesByCompanyId } from "../../api/opportunities";
+
 class ApplicantProfile extends React.Component {
   state = {
     userId:
@@ -21,11 +24,15 @@ class ApplicantProfile extends React.Component {
     isLoading: true,
     open: false,
     applicantId: null,
-    isEditProfile: false
+    isEditProfile: false,
+    opportunitiesList: []
   };
-
   componentDidMount() {
-    this.getApplicantData().then(() => this.getApplicantSkills());
+    this.getApplicantData()
+      .then(() => this.getApplicantSkills())
+      .then(() => {
+        this.getOpportunitiesForCompanyProfileByCompanyId();
+      });
   }
   getApplicantData = () => {
     return getApplicantProfileByUserId(this.state.userId).then(
@@ -38,7 +45,7 @@ class ApplicantProfile extends React.Component {
     );
   };
   getApplicantSkills = () => {
-    getSkillsByApplicantId(this.state.applicantId).then(data => {
+    return getSkillsByApplicantId(this.state.applicantId).then(data => {
       const skillsArray = data && data.length && data.map(skill => skill.skill);
       this.setState({
         skills: skillsArray,
@@ -46,11 +53,36 @@ class ApplicantProfile extends React.Component {
       });
     });
   };
+  getOpportunitiesForCompanyProfileByCompanyId = () => {
+    const userId = getLoggedInUserData() && getLoggedInUserData().user.user_id; // will get company id from company login
+    return getOpportunitiesByCompanyId(userId).then(data => {
+      data.forEach(opportunity => {
+        getSkillsList(opportunity.opportunity_id).then(data => {
+          const skills = data && data.map(result => result && result.skill);
+          const matching = skills.filter(skill => {
+            const matchingSkills =
+              this.state.skills && this.state.skills.includes(skill);
+            return matchingSkills;
+          }).length;
+          const percentage = ((matching / skills.length) * 100).toFixed(0);
+
+          this.setState({
+            opportunitiesList: [
+              ...this.state.opportunitiesList,
+              { ...opportunity, skills, percentage }
+            ]
+          });
+        });
+      });
+    });
+  };
+
   clickToDelete = () => {
     this.setState({
       open: true
     });
   };
+
   handleDelete = () => {
     const { applicantId, userId } = this.state;
     deleteApplicantProfile(applicantId, userId).then(res => {
@@ -71,8 +103,15 @@ class ApplicantProfile extends React.Component {
   handleClickToEdit = () => {
     this.setState({ isEditProfile: true });
   };
+  getOverAllPercentageOfMatchingForApplicant = () => {
+    return (
+      this.state.opportunitiesList
+        .map(opportunity => Number(opportunity.percentage))
+        .reduce((accumulator, currentValue) => accumulator + currentValue, 0) /
+      this.state.opportunitiesList.length
+    );
+  };
   render() {
-    // console.log(this.getApplicantSkills());
     const message = "Are you sure that you want to delete your profile ?";
     const { applicantData, skills, isEditProfile, userId, open } = this.state;
     return applicantData && applicantData.application_status === "approved" ? (
@@ -99,6 +138,7 @@ class ApplicantProfile extends React.Component {
           <EditApplicantProfile applicantData={applicantData} />
         ) : (
           <ApplicantProfileContent
+            opportunitiesList={this.state.opportunitiesList}
             applicantData={applicantData}
             skills={skills}
           />

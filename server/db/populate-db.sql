@@ -13,11 +13,11 @@ VALUES
     INSERT INTO users
     (ROLE, email, PASSWORD)
 VALUES
-    ('applicant', 'alisonmez@cyf.org', 'password');
+    ('applicant', 'meriem@cyf.org', 'password');
     INSERT INTO users
     (ROLE, email, PASSWORD)
 VALUES
-    ('applicant', 'meriem3@cyf.org', 'password');
+    ('applicant', 'ali@cyf.org', 'password');
     INSERT INTO users
     (ROLE, email, PASSWORD)
 VALUES
@@ -26,28 +26,6 @@ VALUES
     (ROLE, email, PASSWORD)
 VALUES
     ('applicant', 'philezemonya@cyf.org', 'password');
-    INSERT INTO users
-    (ROLE, email, PASSWORD)
-VALUES
-    ('applicant', 'luciana@cyf.org', 'password');
-    INSERT INTO users
-    (ROLE, email, PASSWORD)
-VALUES
-    ('applicant', 'jermain@cyf.org', 'password');
-    INSERT INTO users
-    (ROLE, email, PASSWORD)
-VALUES
-    ('applicant', 'franklampard@cyf.org', 'password');
-    INSERT INTO users
-    (ROLE, email, PASSWORD)
-VALUES
-    ('applicant', 'stevengerrand@cyf.org', 'password');
-    INSERT INTO users
-    (ROLE, email, PASSWORD)
-VALUES
-    ('applicant', 'harrykane@cyf.org', 'password');
-
-
 INSERT INTO users
     (ROLE, email, PASSWORD)
 VALUES
@@ -56,19 +34,23 @@ VALUES
 INSERT INTO applicant_profile
     (name, city, application_status, about, cvLink, right_to_work, profile_picture, user_id)
 VALUES
-    ('Irina', 1, 'pending', 'cyf mentor', 'wwwfb', 'no','https://react.semantic-ui.com/images/avatar/large/matthew.png', 1);
+    ('Youssef', 1, 'pending', 'cyf mentor', 'www.googledoc.com', 'no','https://react.semantic-ui.com/images/avatar/large/matthew.png', 1);
     INSERT INTO applicant_profile
     (name, city, application_status, about, cvLink, right_to_work, profile_picture, user_id)
 VALUES
-    ('Sana', 2, 'pending', 'Nurse', 'wwwfb', 'no','https://react.semantic-ui.com/images/avatar/large/elliot.jpg', 2);
+    ('Meriem', 2, 'pending', 'Nurse', 'www.googledoc.com', 'no','https://react.semantic-ui.com/images/avatar/large/elliot.jpg', 2);
     INSERT INTO applicant_profile
     (name, city, application_status, about, cvLink, right_to_work, profile_picture, user_id)
 VALUES
-    ('Med', 2, 'approved', 'cyf mentor', 'wwwfb', 'no',null ,3);
+    ('Ali', 2, 'approved', 'cyf mentor', 'www.googledoc.com', 'no',null ,3);
     INSERT INTO applicant_profile
     (name, city, application_status, about, cvLink, right_to_work, profile_picture, user_id)
 VALUES
-    ('Jack', 2, 'pending', 'Full-stack developper', 'wwwfb', 'no','https://react.semantic-ui.com/images/avatar/large/jenny.jpg', 4);
+    ('Havva', 2, 'pending', 'Full-stack developper', 'www.googledoc.com', 'no','https://react.semantic-ui.com/images/avatar/large/jenny.jpg', 4);
+    INSERT INTO applicant_profile
+    (name, city, application_status, about, cvLink, right_to_work, profile_picture, user_id)
+VALUES
+    ('Philizemonya', 2, 'pending', 'Full-stack developper', 'www.googledoc.com', 'no','https://react.semantic-ui.com/images/avatar/large/jenny.jpg', 4);
 
 INSERT INTO company_profile
     (name, description, logo_url, location, industry, user_id

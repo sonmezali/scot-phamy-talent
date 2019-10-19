@@ -10,6 +10,10 @@ import {
   filterByCity,
   filteredByCityAndSkills
 } from "../../utils/filterOpportunities";
+import { getLoggedInUserData } from "../../utils/storage";
+import { getOpportunitiesByCompanyId } from "../../api/opportunities";
+import { getSkillsList } from "../../api/opportunities";
+
 const filteredApplicantsList = ({
   applicantsList,
   selectedSkills,
@@ -38,7 +42,8 @@ export default class ApplicantsList extends React.Component {
     skills: [],
     selectedSkills: [],
     selectedCity: [],
-    cities: []
+    cities: [],
+    opportunitiesList: []
   };
   getAllSkills = () => {
     getSkills().then(response => {
@@ -64,9 +69,24 @@ export default class ApplicantsList extends React.Component {
       });
     });
   };
-  componentDidMount() {
-    this.getAllCities();
-    this.getAllSkills();
+  getOpportunitiesForCompanyProfileByCompanyId = () => {
+    const userId = getLoggedInUserData() && getLoggedInUserData().user.user_id; // will get company id from company login
+    return getOpportunitiesByCompanyId(userId).then(data =>
+      data.forEach(opportunity => {
+        getSkillsList(opportunity.opportunity_id).then(data => {
+          const skills = data && data.map(result => result && result.skill);
+
+          this.setState({
+            opportunitiesList: [
+              ...this.state.opportunitiesList,
+              { ...opportunity, skills }
+            ]
+          });
+        });
+      })
+    );
+  };
+  getAllApplicants = () => {
     getAllApplicants().then(res => {
       res &&
         res.map(applicant => {
@@ -77,13 +97,23 @@ export default class ApplicantsList extends React.Component {
               this.setState({
                 applicantsList: [
                   ...this.state.applicantsList,
-                  { skills, ...applicant, location: applicant.city }
+                  {
+                    skills,
+                    ...applicant,
+                    location: applicant.city
+                  }
                 ]
               });
             }
           );
         });
     });
+  };
+  componentDidMount() {
+    this.getAllCities();
+    this.getAllSkills();
+    this.getAllApplicants();
+    this.getOpportunitiesForCompanyProfileByCompanyId();
   }
   handleSelectSkill = (e, data) => {
     const selectedSkill = data.value;
@@ -97,6 +127,7 @@ export default class ApplicantsList extends React.Component {
       selectedCity: city
     });
   };
+
   render() {
     const {
       selectedSkills,
@@ -148,8 +179,27 @@ export default class ApplicantsList extends React.Component {
               applicantsList,
               selectedSkills,
               selectedCity
-            }).map(
-              applicant =>
+            }).map(applicant => {
+              const applicantSkills = applicant.skills;
+              const opportunities = this.state.opportunitiesList;
+              const matchingPercentage = opportunities.map(opportunity => {
+                const matchingSkills = opportunity.skills.filter(skill => {
+                  const x = applicantSkills.filter(applicantSkill => {
+                    if (applicantSkill.includes(skill)) {
+                      return applicantSkill;
+                    }
+                  });
+                  return x.length && x.length;
+                });
+                const percentage =
+                  (matchingSkills.length / opportunity.skills.length) * 100;
+                return Number(percentage.toFixed(2));
+              });
+              const overAllPercentage = (
+                matchingPercentage.reduce((a, b) => a + b, 0) /
+                opportunities.length
+              ).toFixed(0);
+              return (
                 applicant &&
                 applicant.application_status === "approved" && (
                   <Grid.Column
@@ -157,11 +207,15 @@ export default class ApplicantsList extends React.Component {
                     as={Link}
                     to={`/applicant-profile/${applicant.applicant_id}`}
                   >
-                    <ApplicantsCard {...applicant} />
+                    <ApplicantsCard
+                      {...applicant}
+                      overAllPercentage={overAllPercentage}
+                    />
                     <br></br>
                   </Grid.Column>
                 )
-            )}
+              );
+            })}
           </Grid.Row>
         </Grid>
       </div>
