@@ -23,6 +23,7 @@ import { filterOpportunities } from "../../utils/filterOpportunities";
 import OpportunityCard from "./OpportunityCard";
 import { Link } from "react-router-dom";
 import { getLoggedInUserData } from "../../utils/storage";
+import EditOpportunity from "./EditOpportunity";
 
 class OpportunitiesList extends Component {
   state = {
@@ -30,14 +31,15 @@ class OpportunitiesList extends Component {
     searchKeyWord: "",
     selectedJobType: "",
     opportunitiesList: [],
-    selectedOpportunity: "",
+    selectedOpportunity: [],
     cities: [],
     skills: [],
     selectedSkills: [],
     askToLogIn: false,
     openDeleteMsg: false,
     askDeletePermission: false,
-    selectedId: null
+    selectedId: null,
+    isEditProfile: false
   };
   // Get data
   getAllSkills = () => {
@@ -71,10 +73,12 @@ class OpportunitiesList extends Component {
       data.forEach(opportunity => {
         getSkillsList(opportunity.opportunity_id).then(data => {
           const skills = data && data.map(result => result && result.skill);
+          const skillsIdArray = data.map(skill => skill.skillsid);
+
           this.setState({
             opportunitiesList: [
               ...this.state.opportunitiesList,
-              { ...opportunity, skills }
+              { ...opportunity, skills, skillsId: skillsIdArray }
             ]
           });
         });
@@ -109,8 +113,12 @@ class OpportunitiesList extends Component {
       searchKeyWord: searchKeyWord
     });
   };
-  handleEditOpportunity = () => {
-    return "/company/manage-profile";
+  handleEditOpportunity = (id, opportunity) => {
+    this.setState({
+      selectedId: id,
+      isEditProfile: true,
+      selectedOpportunity: opportunity
+    });
   };
   handleClose = () => {
     this.setState({ askToLogIn: false });
@@ -144,8 +152,10 @@ class OpportunitiesList extends Component {
       opportunitiesList,
       selectedSkills,
       openDeleteMsg,
+      selectedOpportunity,
       askDeletePermission,
-      selectedId
+      selectedId,
+      isEditProfile
     } = this.state;
     const filteredOpportunities = filterOpportunities({
       selectedCity,
@@ -154,157 +164,171 @@ class OpportunitiesList extends Component {
       opportunitiesList,
       selectedSkills
     });
+
     return (
       <div>
-        <Form>
-          <Input
-            fluid
-            style={{ color: "rgb(22, 135, 219)" }}
-            placeholder="What are you looking for ?"
-            value={searchKeyWord}
-            name="search"
-            icon="search"
-            onChange={this.handleChangeSearchKeyWord}
+        {isEditProfile ? (
+          <EditOpportunity
+            opportunity={selectedOpportunity}
+            opportunityId={selectedId}
           />
-          <br />
-          <Grid stackable columns={2}>
-            <Grid.Column>
-              <Header as="h4">
-                <Icon name="map marker alternate" size="large" color="blue" />
-                <Header.Content>
-                  Location{" "}
-                  <Dropdown
-                    inline
-                    header="Location"
-                    options={cities}
-                    multiple
-                    scrolling
-                    onChange={this.handleSelectCity}
-                    placeholder="Search city"
-                  />
-                </Header.Content>
-              </Header>
-            </Grid.Column>
-            <Grid.Column>
-              <Header as="h4">
-                <Icon name="check" size="large" color="blue" />
-                <Header.Content>
-                  Skills{" "}
-                  <Dropdown
-                    inline
-                    header="SKills"
-                    onChange={this.handleSelectSkill}
-                    options={skills}
-                    scrolling
-                    onClose={this.filteringOpportunitiesBySkills}
-                    multiple
-                    placeholder="Select skills"
-                  />
-                </Header.Content>
-              </Header>
-            </Grid.Column>
-          </Grid>
-        </Form>
-        <Header textAlign="left">Job Type</Header>
-
-        <OpportunityTypeFilters
-          handelSelectJobType={this.handelSelectJobType}
-          selectedJobType={selectedJobType}
-        />
-        <Divider />
-        <br />
-        {!filteredOpportunities.length ? (
-          <Message negative>
-            <Message.Header>
-              No matching opportunities to display.
-            </Message.Header>
-            <p> Please change your search criteria and try again</p>
-          </Message>
-        ) : null}
-        <Grid stackable>
-          <Grid.Row columns={3} stretched>
-            {filteredOpportunities.map(opportunity => (
-              <Grid.Column
-                key={opportunity.opportunity_id}
-                onClick={this.handleClickOnOpportunity}
-              >
-                <OpportunityCard
-                  contactPerson
-                  date
-                  opportunity={opportunity}
-                  cardButtons={
-                    getLoggedInUserData() &&
-                    Number(opportunity.user_id) ===
-                      Number(getLoggedInUserData().user.user_id)
-                      ? true
-                      : false
-                  }
-                  ConfirmDelete={this.ConfirmDelete}
-                  handleEditOpportunity={this.handleEditOpportunity(
-                    opportunity.opportunity_id
-                  )}
-                />
-                <br></br>
-              </Grid.Column>
-            ))}
-            <Divider></Divider>
-          </Grid.Row>
-        </Grid>
-        {this.state.askToLogIn && (
-          <Modal
-            open={this.state.askToLogIn}
-            onClose={this.handleClose}
-            closeIcon
-            basic
-            size="small"
-          >
-            <Modal.Header>
-              {" "}
-              Log In First to View the opportunity Details{" "}
-            </Modal.Header>
-            <Modal.Actions>
-              <Button
-                color="blue"
-                icon="sign in"
-                labelPosition="right"
-                content="Sign In"
-                onClick={this.handleClose}
-                as={Link}
-                to="/"
+        ) : (
+          <React.Fragment>
+            <Form>
+              <Input
+                fluid
+                style={{ color: "rgb(22, 135, 219)" }}
+                placeholder="What are you looking for ?"
+                value={searchKeyWord}
+                name="search"
+                icon="search"
+                onChange={this.handleChangeSearchKeyWord}
               />
-            </Modal.Actions>
-          </Modal>
-        )}
-        {askDeletePermission && (
-          <Modal
-            open={openDeleteMsg}
-            onClose={this.handleClose}
-            closeIcon
-            basic
-            size="small"
-          >
-            <Header
-              icon="warning sign"
-              color="yellow"
-              content="Are You Sure You Want To Delete Opportunity"
+              <br />
+              <Grid stackable columns={2}>
+                <Grid.Column>
+                  <Header as="h4">
+                    <Icon
+                      name="map marker alternate"
+                      size="large"
+                      color="blue"
+                    />
+                    <Header.Content>
+                      Location{" "}
+                      <Dropdown
+                        inline
+                        header="Location"
+                        options={cities}
+                        multiple
+                        scrolling
+                        onChange={this.handleSelectCity}
+                        placeholder="Search city"
+                      />
+                    </Header.Content>
+                  </Header>
+                </Grid.Column>
+                <Grid.Column>
+                  <Header as="h4">
+                    <Icon name="check" size="large" color="blue" />
+                    <Header.Content>
+                      Skills{" "}
+                      <Dropdown
+                        inline
+                        header="SKills"
+                        onChange={this.handleSelectSkill}
+                        options={skills}
+                        scrolling
+                        onClose={this.filteringOpportunitiesBySkills}
+                        multiple
+                        placeholder="Select skills"
+                      />
+                    </Header.Content>
+                  </Header>
+                </Grid.Column>
+              </Grid>
+            </Form>
+            <Header textAlign="left">Job Type</Header>
+
+            <OpportunityTypeFilters
+              handelSelectJobType={this.handelSelectJobType}
+              selectedJobType={selectedJobType}
             />
-            <Modal.Actions>
-              <Button
-                color="green"
-                onClick={() => this.setState({ openDeleteMsg: false })}
-                inverted
+            <Divider />
+            <br />
+            {!filteredOpportunities.length ? (
+              <Message negative>
+                <Message.Header>
+                  No matching opportunities to display.
+                </Message.Header>
+                <p> Please change your search criteria and try again</p>
+              </Message>
+            ) : null}
+            <Grid stackable>
+              <Grid.Row columns={3} stretched>
+                {filteredOpportunities.map(opportunity => {
+                  return (
+                    <Grid.Column
+                      key={opportunity.opportunity_id}
+                      onClick={this.handleClickOnOpportunity}
+                    >
+                      <OpportunityCard
+                        contactPerson
+                        date
+                        opportunity={opportunity}
+                        cardButtons={
+                          getLoggedInUserData() &&
+                          Number(opportunity.user_id) ===
+                            Number(getLoggedInUserData().user.user_id)
+                            ? true
+                            : false
+                        }
+                        ConfirmDelete={this.ConfirmDelete}
+                        handleEditOpportunity={this.handleEditOpportunity}
+                      />
+                      <br></br>
+                    </Grid.Column>
+                  );
+                })}
+                <Divider></Divider>
+              </Grid.Row>
+            </Grid>
+            {this.state.askToLogIn && (
+              <Modal
+                open={this.state.askToLogIn}
+                onClose={this.handleClose}
+                closeIcon
+                basic
+                size="small"
               >
-                No
-              </Button>
-              <Button
-                color="red"
-                inverted
-                onClick={() => this.handleDeleteOpportunity(selectedId)}
+                <Modal.Header>
+                  {" "}
+                  Log In First to View the opportunity Details{" "}
+                </Modal.Header>
+                <Modal.Actions>
+                  <Button
+                    color="blue"
+                    icon="sign in"
+                    labelPosition="right"
+                    content="Sign In"
+                    onClick={this.handleClose}
+                    as={Link}
+                    to="/"
+                  />
+                </Modal.Actions>
+              </Modal>
+            )}
+            {askDeletePermission && (
+              <Modal
+                open={openDeleteMsg}
+                onClose={this.handleClose}
+                closeIcon
+                basic
+                size="small"
               >
-                <Icon name="remove" /> Delete
-              </Button>
-            </Modal.Actions>
-          </Modal>
+                <Header
+                  icon="warning sign"
+                  color="yellow"
+                  content="Are You Sure You Want To Delete Opportunity"
+                />
+                <Modal.Actions>
+                  <Button
+                    color="green"
+                    onClick={() => this.setState({ openDeleteMsg: false })}
+                    inverted
+                  >
+                    No
+                  </Button>
+                  <Button
+                    color="red"
+                    inverted
+                    onClick={() => this.handleDeleteOpportunity(selectedId)}
+                  >
+                    <Icon name="remove" /> Delete
+                  </Button>
+                </Modal.Actions>
+              </Modal>
+            )}
+          </React.Fragment>
         )}
       </div>
     );

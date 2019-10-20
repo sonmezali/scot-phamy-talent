@@ -39,8 +39,7 @@ export default class OpportunityView extends Component {
   getSkills = () => {
     getSkillsList(this.state.opportunityId).then(data => {
       const skillsArray = data.map(skill => skill.skill);
-      const skillsIdArray = data.map(skill => skill.skill_id);
-
+      const skillsIdArray = data.map(skill => skill.skillsid);
       this.setState({
         opportunity: {
           ...this.state.opportunity,
