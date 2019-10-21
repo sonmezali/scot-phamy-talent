@@ -26,6 +26,7 @@ const getSkillsForOpportunitiesList = id => {
   return new Promise((resolve, reject) => {
     pool.query(
       `SELECT
+    skills.skill_id AS skillsId,
     skills.name AS skill
   FROM 
     skills

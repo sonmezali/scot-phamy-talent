@@ -51,7 +51,13 @@ export default ({
     {cardButtons && (
       <Card.Content extra>
         <div className="ui two buttons">
-          <Button basic color="green" onClick={handleEditOpportunity}>
+          <Button
+            basic
+            color="green"
+            onClick={() =>
+              handleEditOpportunity(opportunity.opportunity_id, opportunity)
+            }
+          >
             Edit
           </Button>
           <Button

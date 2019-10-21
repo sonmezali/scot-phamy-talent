@@ -11,6 +11,8 @@ import ProfileOptionsButton from "../GeneralSupComponents/ProfileOptionsButton";
 import { deleteUser } from "../../api/users";
 import CompanyProfileContent from "./CompanyProfileContent";
 import EditCompanyProfile from "./EditCompanyProfile";
+import EditOpportunity from "../Opportunities/EditOpportunity";
+
 class CompanyProfile extends React.Component {
   state = {
     userId:
@@ -24,7 +26,8 @@ class CompanyProfile extends React.Component {
     askDeleteOpportunityPermission: false,
     askDeleteProfilePermission: false,
     selectedId: null,
-    isEditCompanyProfile: false
+    isEditCompanyProfile: false,
+    isEditProfile: false
   };
 
   getOpportunitiesForCompanyProfileByCompanyId = () => {
@@ -48,8 +51,13 @@ class CompanyProfile extends React.Component {
     this.getOpportunitiesForCompanyProfileByCompanyId();
   }
   // Handlers
-  handleEditOpportunity = () => {
-    return "/company/manage-profile";
+
+  handleEditOpportunity = (id, opportunity) => {
+    this.setState({
+      selectedId: id,
+      isEditProfile: true,
+      selectedOpportunity: opportunity
+    });
   };
 
   confirmDeleteOpportunity = id => {
@@ -99,103 +107,121 @@ class CompanyProfile extends React.Component {
       askDeleteOpportunityPermission,
       askDeleteProfilePermission,
       selectedId,
-      isEditCompanyProfile
+      isEditCompanyProfile,
+      isEditProfile,
+      selectedOpportunity
     } = this.state;
     if (userId === null || !userId) {
       return null;
     }
     return (
-      <React.Fragment>
-        {isEditCompanyProfile ? (
-          <EditCompanyProfile companyData={companyData}></EditCompanyProfile>
+      <div>
+        {isEditProfile ? (
+          <EditOpportunity
+            opportunity={selectedOpportunity}
+            opportunityId={selectedId}
+          />
         ) : (
           <React.Fragment>
-            {getLoggedInUserData() &&
-              getLoggedInUserData().user.role === "company" && (
-                <ProfileOptionsButton
-                  changePassword
-                  deleteOption
-                  edit
-                  createOpportunity
-                  linkToCreateOpportunity={"/create-opportunity"}
-                  clickToDelete={this.confirmDeleteProfile}
-                  handleClickToEdit={this.handleClickToEdit}
+            {isEditCompanyProfile ? (
+              <EditCompanyProfile
+                companyData={companyData}
+              ></EditCompanyProfile>
+            ) : (
+              <React.Fragment>
+                {getLoggedInUserData() &&
+                  getLoggedInUserData().user.role === "company" && (
+                    <ProfileOptionsButton
+                      changePassword
+                      deleteOption
+                      edit
+                      createOpportunity
+                      linkToCreateOpportunity={"/create-opportunity"}
+                      clickToDelete={this.confirmDeleteProfile}
+                      handleClickToEdit={this.handleClickToEdit}
+                    />
+                  )}
+                <CompanyProfileContent
+                  companyData={companyData}
+                  opportunitiesArray={opportunitiesArray}
+                  userId={userId}
+                  confirmDeleteOpportunity={this.confirmDeleteOpportunity}
+                  handleEditOpportunity={this.handleEditOpportunity}
                 />
-              )}
-            <CompanyProfileContent
-              companyData={companyData}
-              opportunitiesArray={opportunitiesArray}
-              userId={userId}
-              confirmDeleteOpportunity={this.confirmDeleteOpportunity}
-            />
+              </React.Fragment>
+            )}
+            {askDeleteOpportunityPermission && (
+              <Modal
+                open={openDeleteOpportunityMsg}
+                onClose={this.handleClose}
+                closeIcon
+                basic
+                size="small"
+              >
+                <Header
+                  icon="warning sign"
+                  color="yellow"
+                  content="Are You Sure You Want To Delete Opportunity"
+                />
+                <Modal.Actions>
+                  <Button
+                    color="green"
+                    onClick={() =>
+                      this.setState({ openDeleteOpportunityMsg: false })
+                    }
+                    inverted
+                  >
+                    No
+                  </Button>
+                  <Button
+                    color="red"
+                    inverted
+                    onClick={() => this.handleDeleteOpportunity(selectedId)}
+                  >
+                    <Icon name="remove" /> Delete
+                  </Button>
+                </Modal.Actions>
+              </Modal>
+            )}
+            {askDeleteProfilePermission && (
+              <Modal
+                open={openDeleteProfileMsg}
+                onClose={() => this.setState({ openDeleteProfileMsg: false })}
+                closeIcon
+                basic
+                size="small"
+              >
+                <Header
+                  icon="warning sign"
+                  color="yellow"
+                  content="Are You Sure You Want To Delete The Company Profile"
+                />
+                <p>
+                  You will Delete the user also will not be able to login again
+                </p>
+                <Modal.Actions>
+                  <Button
+                    color="green"
+                    onClick={() =>
+                      this.setState({ openDeleteProfileMsg: false })
+                    }
+                    inverted
+                  >
+                    No
+                  </Button>
+                  <Button
+                    color="red"
+                    inverted
+                    onClick={() => this.handleDeleteCompanyProfile(userId)}
+                  >
+                    <Icon name="remove" /> Delete
+                  </Button>
+                </Modal.Actions>
+              </Modal>
+            )}
           </React.Fragment>
         )}
-        {askDeleteOpportunityPermission && (
-          <Modal
-            open={openDeleteOpportunityMsg}
-            onClose={this.handleClose}
-            closeIcon
-            basic
-            size="small"
-          >
-            <Header
-              icon="warning sign"
-              color="yellow"
-              content="Are You Sure You Want To Delete Opportunity"
-            />
-            <Modal.Actions>
-              <Button
-                color="green"
-                onClick={() =>
-                  this.setState({ openDeleteOpportunityMsg: false })
-                }
-                inverted
-              >
-                No
-              </Button>
-              <Button
-                color="red"
-                inverted
-                onClick={() => this.handleDeleteOpportunity(selectedId)}
-              >
-                <Icon name="remove" /> Delete
-              </Button>
-            </Modal.Actions>
-          </Modal>
-        )}
-        {askDeleteProfilePermission && (
-          <Modal
-            open={openDeleteProfileMsg}
-            onClose={() => this.setState({ openDeleteProfileMsg: false })}
-            closeIcon
-            basic
-            size="small"
-          >
-            <Header
-              icon="warning sign"
-              color="yellow"
-              content="Are You Sure You Want To Delete The Company Profile"
-            />
-            <p>You will Delete the user also will not be able to login again</p>
-            <Modal.Actions>
-              <Button
-                color="green"
-                onClick={() => this.setState({ openDeleteProfileMsg: false })}
-                inverted
-              >
-                No
-              </Button>
-              <Button
-                color="red"
-                inverted
-                onClick={() => this.handleDeleteCompanyProfile(userId)}
-              >
-                <Icon name="remove" /> Delete
-              </Button>
-            </Modal.Actions>
-          </Modal>
-        )}
-      </React.Fragment>
+      </div>
     );
   }
 }

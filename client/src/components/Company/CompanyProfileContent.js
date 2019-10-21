@@ -64,6 +64,7 @@ export default ({
                       ? true
                       : false
                   }
+                  handleEditOpportunity={handleEditOpportunity}
                   ConfirmDelete={confirmDeleteOpportunity}
                 />
 
